@@ -1,6 +1,6 @@
 # ViaWay
 
-Plataforma de planejamento de viagens da Axellion, com foco em organizacao ponta a ponta da viagem:
+Plataforma de planejamento de viagens da [Axellion](https://axellion.com.br/), com foco em organizacao ponta a ponta da viagem:
 roteiro, lugares, cotacoes, gastos, checklist, automacoes com IA e modelo Freemium (Free vs Pro).
 
 Este README descreve a estrutura alvo do projeto, o estado atual e o processo recomendado para evolucao profissional sem pular etapas.
@@ -118,4 +118,4 @@ Cada entrega deve cumprir, no minimo:
 
 ---
 
-ViaWay - Axellion
+ViaWay - [Axellion](https://axellion.com.br/)
