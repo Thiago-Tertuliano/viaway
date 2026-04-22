@@ -561,4 +561,4 @@ Componentes obrigatórios:
 ---
 
 *ViaWay | Documento de Produto v1.0*
-*Desenvolvido pela Axellion*
+*Desenvolvido pela [Axellion](https://axellion.com.br/)*
