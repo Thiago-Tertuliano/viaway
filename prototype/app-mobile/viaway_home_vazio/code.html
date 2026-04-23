@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ViaWay - Empty State</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#eae7e9",
+                        "secondary-fixed": "#f2e0c2",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#1b1b1d",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "inverse-surface": "#303032",
+                        "surface-container": "#f0edef",
+                        "on-secondary-container": "#6e6149",
+                        "on-tertiary-container": "#98805d",
+                        "inverse-on-surface": "#f3f0f2",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#fcf8fa",
+                        "surface-dim": "#dcd9db",
+                        "background": "#fcf8fa",
+                        "surface-tint": "#565e74",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "tertiary-container": "#271901",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#231a08",
+                        "error": "#ba1a1a",
+                        "primary-container": "#131b2e",
+                        "on-surface-variant": "#45464d",
+                        "on-primary-container": "#7c839b",
+                        "secondary-fixed-dim": "#d5c5a7",
+                        "outline-variant": "#c6c6cd",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "primary": "#000000",
+                        "surface-container-highest": "#e4e2e4",
+                        "secondary": "#695d45",
+                        "on-tertiary-fixed": "#271901",
+                        "surface-variant": "#e4e2e4",
+                        "surface-container-low": "#f6f3f5",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-primary-fixed": "#131b2e",
+                        "on-secondary-fixed-variant": "#51452f",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#efdebf",
+                        "inverse-primary": "#bec6e0",
+                        "outline": "#76777d",
+                        "on-surface": "#1b1b1d",
+                        "primary-fixed": "#dae2fd",
+                        "on-primary": "#ffffff",
+                        "surface": "#fcf8fa",
+                        "tertiary-fixed": "#fcdeb5",
+                        "tertiary": "#000000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "margin-mobile": "20px",
+                        "xl": "32px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "xxl": "48px",
+                        "gutter-mobile": "12px"
+                    },
+                    "fontFamily": {
+                        "h1": ["Plus Jakarta Sans"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "h3": ["Plus Jakarta Sans"],
+                        "button": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h1": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "h3": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "button": ["16px", { "lineHeight": "1", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col antialiased">
+<!-- TopAppBar -->
+<header class="bg-[#F8FAFC] dark:bg-slate-950 font-['Plus_Jakarta_Sans'] font-bold text-lg tracking-tight docked full-width top-0 border-b border-[#E2D1B3] dark:border-slate-800 shadow-none flex justify-between items-center w-full px-5 h-16 sticky z-40">
+<button aria-label="Menu" class="text-[#0F172A] dark:text-slate-50 hover:opacity-80 transition-opacity flex items-center justify-center p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-container">
+<span class="material-symbols-outlined text-2xl">menu</span>
+</button>
+<h1 class="text-2xl font-extrabold text-[#0F172A] dark:text-slate-50 tracking-tighter">ViaWay</h1>
+<button aria-label="User profile" class="text-[#0F172A] dark:text-slate-50 hover:opacity-80 transition-opacity flex items-center justify-center rounded-full overflow-hidden w-8 h-8 focus:outline-none focus:ring-2 focus:ring-primary-container">
+<img alt="User profile avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3BBkEydUDxTvRswt09IGNUjQMByq7cgD317xGHn_dud8hZJS30KFlHUaa9mDle1Dpi2akQN2q222x6Cpa12hbXC6dMoyx7P0ts11qR_SYrdhgxDDx-uxblpXuS2niy5HhxS5mtYWepRAOfTr_tpaOANloPKdWQYq8g7vUatcasr3SsG1eupde4z358GmSHobXgeJvN2aZHFL98ys5oH_E15sUukNRPI3r184jIt7dMTUSK4MSm_X59jnpp5tvhNscEZjpCJk9X9w"/>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col justify-center items-center px-margin-mobile pb-[100px] pt-lg">
+<!-- Empty State Container -->
+<div class="max-w-md w-full flex flex-col items-center text-center space-y-lg bg-surface-container-lowest rounded-xl p-xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] border border-surface-container-high">
+<!-- Illustration -->
+<div class="relative w-48 h-48 mb-md rounded-full bg-surface-container-low flex items-center justify-center overflow-hidden">
+<img alt="Empty Suitcase Illustration" class="w-full h-full object-cover opacity-80 mix-blend-multiply" data-alt="minimalist flat lay of a vintage leather suitcase open with a map and compass inside, soft lighting, pastel background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUHnlJIG09D7Z3HHFYouZJ4IhR1WZGMBAdLnvXeiFKSkYJGTO581ykmhCIrFQfhXoeyuVmxfot_4dAnQI6tAvtO_sMnL9cn-QKrdnYdFSo3S8RLU_n7emHVza57UJKV9F7xQPBDjL2J4JHVPGXyaa5Zv9-J7zkFMmdAvy4rYACcaoC4qL6x13AnYTTFlWHvPZvqUy44KOmkfjb6x0g0zkXQYgJLt5SC4yBlqwxkFZlOXRT5dfWksft7T0NPkLPHYzeYTsW3vFKntI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/50 to-transparent"></div>
+</div>
+<!-- Typography -->
+<div class="space-y-sm">
+<h2 class="font-h2 text-h2 text-on-surface">Ainda não tem planos?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[280px] mx-auto">
+                    Comece a planejar sua próxima aventura agora mesmo.
+                </p>
+</div>
+<!-- Call to Action -->
+<button class="w-full bg-primary-container text-on-primary font-button text-button py-md px-lg rounded-full hover:opacity-90 transition-opacity active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-container flex items-center justify-center space-x-sm shadow-sm mt-md">
+<span class="material-symbols-outlined text-lg">add</span>
+<span>Criar Minha Primeira Viagem</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden bg-white dark:bg-slate-900 font-['Plus_Jakarta_Sans'] text-[10px] font-semibold uppercase tracking-widest fixed bottom-0 w-full rounded-t-none border-t border-[#E2D1B3] dark:border-slate-800 shadow-[0px_8px_30px_rgba(15,23,42,0.1)] fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe px-6">
+<!-- Active Item: Home -->
+<button aria-current="page" aria-label="home" class="flex flex-col items-center justify-center text-[#0F172A] dark:text-slate-50 scale-110 transition-all hover:text-[#0F172A] dark:hover:text-slate-200 focus:outline-none">
+<span class="material-symbols-outlined text-2xl mb-1" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="sr-only">home</span>
+</button>
+<!-- Inactive Item: Explore -->
+<button aria-label="explore" class="flex flex-col items-center justify-center text-[#E2D1B3] dark:text-slate-600 hover:text-[#0F172A] dark:hover:text-slate-200 transition-colors focus:outline-none">
+<span class="material-symbols-outlined text-2xl mb-1">explore</span>
+<span class="sr-only">explore</span>
+</button>
+<!-- Inactive Item: Person -->
+<button aria-label="person" class="flex flex-col items-center justify-center text-[#E2D1B3] dark:text-slate-600 hover:text-[#0F172A] dark:hover:text-slate-200 transition-colors focus:outline-none">
+<span class="material-symbols-outlined text-2xl mb-1">person</span>
+<span class="sr-only">person</span>
+</button>
+</nav>
+<!-- Web Navigation (hidden on mobile, shown on md+) -->
+<nav class="hidden md:flex fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-surface border-r border-surface-container-high flex-col py-lg px-md z-30">
+<ul class="space-y-sm">
+<li>
+<a class="flex items-center space-x-md px-md py-sm bg-surface-container-high rounded-lg text-on-surface font-button text-button transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span>Home</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-md px-md py-sm hover:bg-surface-container rounded-lg text-on-surface-variant font-button text-button transition-colors" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span>Explore</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-md px-md py-sm hover:bg-surface-container rounded-lg text-on-surface-variant font-button text-button transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span>Profile</span>
+</a>
+</li>
+</ul>
+</nav>
+</body></html>

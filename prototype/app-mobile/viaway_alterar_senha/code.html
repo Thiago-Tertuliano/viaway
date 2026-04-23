@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Alterar Senha - ViaWay</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f6f3f5",
+                        "tertiary": "#000000",
+                        "secondary": "#695d45",
+                        "on-surface-variant": "#45464d",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#d5c5a7",
+                        "primary-container": "#131b2e",
+                        "on-secondary-fixed": "#231a08",
+                        "on-secondary-container": "#6e6149",
+                        "on-primary-container": "#7c839b",
+                        "tertiary-container": "#271901",
+                        "surface-tint": "#565e74",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "on-secondary-fixed-variant": "#51452f",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#dae2fd",
+                        "on-surface": "#1b1b1d",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "inverse-on-surface": "#f3f0f2",
+                        "background": "#fcf8fa",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#fcf8fa",
+                        "surface": "#fcf8fa",
+                        "on-tertiary-container": "#98805d",
+                        "surface-container-high": "#eae7e9",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#c6c6cd",
+                        "on-background": "#1b1b1d",
+                        "inverse-surface": "#303032",
+                        "surface-dim": "#dcd9db",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#bec6e0",
+                        "primary-fixed-dim": "#bec6e0",
+                        "outline": "#76777d",
+                        "on-tertiary-fixed": "#271901",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#000000",
+                        "surface-container-highest": "#e4e2e4",
+                        "error": "#ba1a1a",
+                        "surface-container": "#f0edef",
+                        "secondary-container": "#efdebf",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "secondary-fixed": "#f2e0c2",
+                        "tertiary-fixed": "#fcdeb5",
+                        "on-primary-fixed": "#131b2e",
+                        "surface-variant": "#e4e2e4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xxl": "48px",
+                        "gutter-mobile": "12px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "margin-mobile": "20px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "button": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "h3": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "h1": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "h2": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "button": ["16px", {"lineHeight": "1", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                        "h3": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[#F8FAFC] text-[#0F172A] min-h-screen flex flex-col font-body-md text-body-md antialiased selection:bg-[#E2D1B3] selection:text-[#0F172A]">
+<!-- TopAppBar -->
+<header class="docked full-width top-0 border-b border-[#E2D1B3] shadow-none flex items-center justify-between px-5 h-16 w-full bg-[#F8FAFC] z-50 sticky">
+<button aria-label="Voltar" class="text-[#0F172A] hover:opacity-70 transition-opacity active:scale-95 transition-transform flex items-center justify-center p-2 -ml-2 rounded-full focus:outline-none focus:ring-2 focus:ring-[#E2D1B3]">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold text-[#0F172A] font-['Plus_Jakarta_Sans'] font-semibold tracking-tight absolute left-1/2 transform -translate-x-1/2">
+            Alterar Senha
+        </h1>
+<div class="w-10"></div> <!-- Spacer to center title -->
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col px-margin-mobile pt-lg pb-xxl max-w-md mx-auto w-full">
+<!-- Intro Text -->
+<p class="text-body-md font-body-md text-on-surface-variant mb-xl leading-relaxed">
+            Para sua segurança, escolha uma senha forte e que você não use em outros serviços.
+        </p>
+<!-- Form -->
+<form class="flex flex-col gap-lg flex-grow">
+<!-- Input: Senha Atual -->
+<div class="flex flex-col gap-sm relative">
+<label class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider" for="current-password">Senha Atual</label>
+<div class="relative flex items-center">
+<input class="w-full bg-transparent border-0 border-b border-outline-variant py-sm px-0 focus:ring-0 focus:border-[#0F172A] text-body-lg font-body-lg text-on-surface transition-colors pb-sm placeholder-outline" id="current-password" name="current-password" placeholder="••••••••" required="" type="password"/>
+<button aria-label="Mostrar senha" class="absolute right-0 text-outline hover:text-on-surface transition-colors p-sm focus:outline-none" type="button">
+<span class="material-symbols-outlined" data-icon="visibility_off">visibility_off</span>
+</button>
+</div>
+</div>
+<!-- Input: Nova Senha -->
+<div class="flex flex-col gap-sm relative mt-sm">
+<label class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider" for="new-password">Nova Senha</label>
+<div class="relative flex items-center">
+<input class="w-full bg-transparent border-0 border-b border-outline-variant py-sm px-0 focus:ring-0 focus:border-[#0F172A] text-body-lg font-body-lg text-on-surface transition-colors pb-sm placeholder-outline" id="new-password" name="new-password" placeholder="••••••••" required="" type="password"/>
+<button aria-label="Mostrar senha" class="absolute right-0 text-outline hover:text-on-surface transition-colors p-sm focus:outline-none" type="button">
+<span class="material-symbols-outlined" data-icon="visibility_off">visibility_off</span>
+</button>
+</div>
+</div>
+<!-- Input: Confirmar Nova Senha -->
+<div class="flex flex-col gap-sm relative">
+<label class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider" for="confirm-password">Confirmar Nova Senha</label>
+<div class="relative flex items-center">
+<input class="w-full bg-transparent border-0 border-b border-outline-variant py-sm px-0 focus:ring-0 focus:border-[#0F172A] text-body-lg font-body-lg text-on-surface transition-colors pb-sm placeholder-outline" id="confirm-password" name="confirm-password" placeholder="••••••••" required="" type="password"/>
+<button aria-label="Mostrar senha" class="absolute right-0 text-outline hover:text-on-surface transition-colors p-sm focus:outline-none" type="button">
+<span class="material-symbols-outlined" data-icon="visibility_off">visibility_off</span>
+</button>
+</div>
+</div>
+<!-- Password Tips -->
+<div class="mt-md bg-white rounded-xl p-md shadow-[0px_4px_20px_rgba(15,23,42,0.05)] border border-[#E2D1B3]/20">
+<h3 class="text-label-md font-label-md text-[#0F172A] mb-sm uppercase tracking-wider">Dicas de senha forte</h3>
+<ul class="flex flex-col gap-xs">
+<li class="flex items-center gap-sm text-body-sm font-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-outline" data-icon="check_circle">check_circle</span>
+                        Mínimo de 8 caracteres
+                    </li>
+<li class="flex items-center gap-sm text-body-sm font-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-outline" data-icon="check_circle">check_circle</span>
+                        Incluir números e símbolos
+                    </li>
+</ul>
+</div>
+<div class="flex-grow"></div> <!-- Spacer to push button down if needed -->
+<!-- Action Button -->
+<div class="mt-xl pt-lg">
+<button class="w-full bg-[#0F172A] text-white py-[16px] px-lg rounded-full text-button font-button hover:bg-opacity-90 active:scale-[0.98] transition-all duration-200 shadow-[0px_8px_30px_rgba(15,23,42,0.1)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0F172A] focus:ring-offset-[#F8FAFC]" type="submit">
+                    Atualizar Senha
+                </button>
+</div>
+</form>
+</main>
+</body></html>

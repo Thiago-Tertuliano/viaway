@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ViaWay - Feedback</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#d5c5a7",
+                    "primary-container": "#131b2e",
+                    "tertiary": "#000000",
+                    "surface-container-low": "#f6f3f5",
+                    "secondary": "#695d45",
+                    "on-surface-variant": "#45464d",
+                    "on-secondary-fixed-variant": "#51452f",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#1b1b1d",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed-dim": "#dec29a",
+                    "primary-fixed": "#dae2fd",
+                    "on-primary-container": "#7c839b",
+                    "on-secondary-fixed": "#231a08",
+                    "on-secondary-container": "#6e6149",
+                    "tertiary-container": "#271901",
+                    "surface-tint": "#565e74",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "outline-variant": "#c6c6cd",
+                    "on-background": "#1b1b1d",
+                    "surface-container-high": "#eae7e9",
+                    "on-primary": "#ffffff",
+                    "primary-fixed-dim": "#bec6e0",
+                    "inverse-surface": "#303032",
+                    "surface-dim": "#dcd9db",
+                    "on-error": "#ffffff",
+                    "inverse-primary": "#bec6e0",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-on-surface": "#f3f0f2",
+                    "background": "#fcf8fa",
+                    "surface": "#fcf8fa",
+                    "on-tertiary-container": "#98805d",
+                    "surface-bright": "#fcf8fa",
+                    "secondary-fixed": "#f2e0c2",
+                    "on-tertiary-fixed-variant": "#574425",
+                    "surface-variant": "#e4e2e4",
+                    "tertiary-fixed": "#fcdeb5",
+                    "on-primary-fixed": "#131b2e",
+                    "outline": "#76777d",
+                    "on-tertiary-fixed": "#271901",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#e4e2e4",
+                    "error": "#ba1a1a",
+                    "surface-container": "#f0edef",
+                    "secondary-container": "#efdebf",
+                    "primary": "#000000"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "xxl": "48px",
+                    "gutter-mobile": "12px",
+                    "sm": "8px",
+                    "xs": "4px",
+                    "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "h1": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "h2": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "button": [
+                            "Inter"
+                    ],
+                    "body-sm": [
+                            "Inter"
+                    ],
+                    "h3": [
+                            "Plus Jakarta Sans"
+                    ]
+            },
+            "fontSize": {
+                    "label-md": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "h1": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "h2": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.3",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "button": [
+                            "16px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-sm": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "h3": [
+                            "20px",
+                            {
+                                    "lineHeight": "1.4",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopAppBar -->
+<header class="bg-[#F8FAFC] dark:bg-slate-950 docked full-width top-0 sticky border-b border-[#E2D1B3] dark:border-slate-800 flat no shadows z-40">
+<div class="flex items-center justify-between px-5 h-16 w-full max-w-screen-xl mx-auto">
+<button aria-label="Go back" class="text-[#0F172A] dark:text-slate-100 hover:opacity-80 transition-opacity active:scale-95 duration-150 flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="text-[#0F172A] dark:text-slate-100 font-['Plus_Jakarta_Sans'] text-lg font-bold tracking-tight">Help Us Improve</h1>
+<div class="w-6 h-6"></div> <!-- Spacer for centering -->
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-screen-md mx-auto px-margin-mobile py-xl flex flex-col">
+<!-- Headers -->
+<div class="mb-xl text-center md:text-left">
+<h2 class="font-h1 text-h1 text-primary mb-md">Como podemos melhorar?</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Sentimos muito em te ver partir. Conte para nós o motivo do cancelamento para podermos evoluir.</p>
+</div>
+<!-- Feedback Form Container (Bento/Card Style) -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] p-lg md:p-xl border border-surface-variant mb-xl flex-grow">
+<form action="#" class="flex flex-col h-full" method="POST">
+<fieldset class="mb-lg">
+<legend class="font-h3 text-h3 text-primary mb-md sr-only">Motivos de cancelamento</legend>
+<div class="flex flex-col gap-sm">
+<!-- Option 1 -->
+<label class="relative flex items-center p-md rounded-lg border border-surface-variant cursor-pointer hover:bg-surface-container-low transition-colors group has-[:checked]:bg-surface-container has-[:checked]:border-outline">
+<input class="peer sr-only" name="cancel_reason" type="radio" value="expensive"/>
+<div class="w-5 h-5 rounded-full border border-outline mr-md flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-all">
+<span class="material-symbols-outlined text-[14px] text-on-primary opacity-0 peer-checked:opacity-100 transition-opacity" data-icon="check" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface">Muito caro</span>
+</label>
+<!-- Option 2 -->
+<label class="relative flex items-center p-md rounded-lg border border-surface-variant cursor-pointer hover:bg-surface-container-low transition-colors group has-[:checked]:bg-surface-container has-[:checked]:border-outline">
+<input class="peer sr-only" name="cancel_reason" type="radio" value="not_using"/>
+<div class="w-5 h-5 rounded-full border border-outline mr-md flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-all">
+<span class="material-symbols-outlined text-[14px] text-on-primary opacity-0 peer-checked:opacity-100 transition-opacity" data-icon="check" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface">Não uso o suficiente</span>
+</label>
+<!-- Option 3 -->
+<label class="relative flex items-center p-md rounded-lg border border-surface-variant cursor-pointer hover:bg-surface-container-low transition-colors group has-[:checked]:bg-surface-container has-[:checked]:border-outline">
+<input class="peer sr-only" name="cancel_reason" type="radio" value="missing_features"/>
+<div class="w-5 h-5 rounded-full border border-outline mr-md flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-all">
+<span class="material-symbols-outlined text-[14px] text-on-primary opacity-0 peer-checked:opacity-100 transition-opacity" data-icon="check" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface">Faltam recursos</span>
+</label>
+<!-- Option 4 -->
+<label class="relative flex items-center p-md rounded-lg border border-surface-variant cursor-pointer hover:bg-surface-container-low transition-colors group has-[:checked]:bg-surface-container has-[:checked]:border-outline">
+<input class="peer sr-only" name="cancel_reason" type="radio" value="alternative"/>
+<div class="w-5 h-5 rounded-full border border-outline mr-md flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-all">
+<span class="material-symbols-outlined text-[14px] text-on-primary opacity-0 peer-checked:opacity-100 transition-opacity" data-icon="check" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface">Encontrei outra alternativa</span>
+</label>
+<!-- Option 5 -->
+<label class="relative flex items-center p-md rounded-lg border border-surface-variant cursor-pointer hover:bg-surface-container-low transition-colors group has-[:checked]:bg-surface-container has-[:checked]:border-outline">
+<input class="peer sr-only" name="cancel_reason" type="radio" value="other"/>
+<div class="w-5 h-5 rounded-full border border-outline mr-md flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-all">
+<span class="material-symbols-outlined text-[14px] text-on-primary opacity-0 peer-checked:opacity-100 transition-opacity" data-icon="check" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface">Outro</span>
+</label>
+</div>
+</fieldset>
+<!-- Additional Comments -->
+<div class="mb-xl flex-grow">
+<label class="sr-only" for="additional_comments">Conte mais detalhes (opcional)</label>
+<textarea class="w-full bg-transparent border-0 border-b border-surface-variant border-outline-variant focus:border-primary focus:ring-0 px-0 py-md font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant resize-none transition-colors" id="additional_comments" name="additional_comments" placeholder="Conte mais detalhes (opcional)" rows="4"></textarea>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-sm mt-auto md:flex-row-reverse md:justify-start">
+<button class="w-full md:w-auto bg-[#0F172A] text-on-primary font-button text-button py-[16px] px-lg rounded-xl hover:bg-opacity-90 active:scale-95 transition-all shadow-[0px_8px_30px_rgba(15,23,42,0.1)]" type="submit">
+                        Enviar Feedback
+                    </button>
+<button class="w-full md:w-auto bg-transparent text-[#0F172A] font-button text-button py-[16px] px-lg rounded-xl border border-[#E2D1B3] hover:bg-surface-container-low active:scale-95 transition-all" type="button">
+                        Pular
+                    </button>
+</div>
+</form>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ViaWay - Adicionar Gasto</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#fcdeb5",
+                        "primary": "#000000",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed": "#231a08",
+                        "surface": "#fcf8fa",
+                        "on-secondary-fixed-variant": "#51452f",
+                        "outline-variant": "#c6c6cd",
+                        "surface-dim": "#dcd9db",
+                        "primary-container": "#131b2e",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#dae2fd",
+                        "surface-tint": "#565e74",
+                        "inverse-on-surface": "#f3f0f2",
+                        "tertiary-container": "#271901",
+                        "on-background": "#1b1b1d",
+                        "inverse-primary": "#bec6e0",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#303032",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-secondary-container": "#6e6149",
+                        "on-surface-variant": "#45464d",
+                        "surface-bright": "#fcf8fa",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "surface-container-low": "#f6f3f5",
+                        "secondary-container": "#efdebf",
+                        "on-surface": "#1b1b1d",
+                        "on-secondary": "#ffffff",
+                        "background": "#fcf8fa",
+                        "tertiary": "#000000",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#f0edef",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#7c839b",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#d5c5a7",
+                        "surface-variant": "#e4e2e4",
+                        "on-error-container": "#93000a",
+                        "secondary": "#695d45",
+                        "secondary-fixed": "#f2e0c2",
+                        "on-tertiary-container": "#98805d",
+                        "outline": "#76777d",
+                        "surface-container-high": "#eae7e9",
+                        "surface-container-highest": "#e4e2e4",
+                        "on-tertiary-fixed": "#271901",
+                        "on-primary-fixed": "#131b2e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "md": "16px",
+                        "margin-mobile": "20px",
+                        "lg": "24px",
+                        "xxl": "48px",
+                        "xl": "32px",
+                        "sm": "8px",
+                        "gutter-mobile": "12px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "button": ["Inter"],
+                        "h3": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "h2": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "button": ["16px", { "lineHeight": "1", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "h3": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "h1": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col">
+<!-- TopAppBar (Adapted for Modal/Task Flow - Hiding BottomNav as per rules) -->
+<header class="bg-[#F8FAFC] dark:bg-slate-950 text-[#0F172A] dark:text-slate-50 font-['Plus_Jakarta_Sans'] font-semibold tracking-tight docked full-width top-0 border-b border-[#E2D1B3]/30 dark:border-slate-800 shadow-none flex justify-between items-center w-full px-5 h-16 sticky z-50">
+<button class="text-[#0F172A] dark:text-slate-50 hover:opacity-70 transition-opacity flex items-center justify-center p-2 -ml-2">
+<span class="material-symbols-outlined">close</span>
+</button>
+<span class="text-xl font-bold tracking-tighter text-[#0F172A] dark:text-slate-50">Adicionar Gasto</span>
+<div class="w-8"></div> <!-- Spacer to balance center alignment -->
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col w-full max-w-md mx-auto px-margin-mobile py-lg pb-[100px]">
+<!-- Form Container -->
+<form class="flex flex-col gap-xl w-full">
+<!-- Amount Input -->
+<div class="flex flex-col items-center justify-center py-lg gap-sm">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase">Valor</label>
+<div class="flex items-center gap-xs">
+<span class="font-h1 text-h1 text-on-surface">R$</span>
+<input class="font-h1 text-h1 text-on-surface bg-transparent border-none text-center focus:ring-0 w-48 p-0 placeholder-on-surface-variant/30" placeholder="0,00" type="number"/>
+</div>
+</div>
+<div class="flex flex-col gap-lg">
+<!-- Title Field -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant">Título da despesa</label>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant py-sm px-0 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-0 placeholder-on-surface-variant/50" placeholder="Ex: Jantar em Roma" type="text"/>
+</div>
+<!-- Category Field -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant">Categoria</label>
+<div class="w-full flex items-center justify-between border-b border-outline-variant py-sm cursor-pointer hover:opacity-80">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">restaurant</span>
+<span class="font-body-md text-body-md text-on-surface">Alimentação</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+</div>
+<!-- Date Field -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant">Data</label>
+<div class="w-full flex items-center justify-between border-b border-outline-variant py-sm cursor-pointer hover:opacity-80">
+<span class="font-body-md text-body-md text-on-surface">Hoje, 24 Out</span>
+<span class="material-symbols-outlined text-on-surface-variant">calendar_today</span>
+</div>
+</div>
+</div>
+<!-- Receipt Upload Area -->
+<div class="flex flex-col gap-sm mt-md">
+<label class="font-label-md text-label-md text-on-surface-variant">Comprovante</label>
+<div class="w-full border border-dashed border-outline-variant rounded-xl p-lg flex flex-col items-center justify-center gap-sm bg-surface-container-lowest cursor-pointer hover:bg-surface-container-low transition-colors min-h-[120px]">
+<span class="material-symbols-outlined text-on-surface-variant text-3xl">add_photo_alternate</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Adicionar recibo</span>
+</div>
+</div>
+</form>
+</main>
+<!-- Fixed Bottom Action Area -->
+<div class="fixed bottom-0 w-full bg-surface/90 backdrop-blur-md border-t border-outline-variant/30 px-margin-mobile py-md pb-safe">
+<div class="max-w-md mx-auto">
+<button class="w-full bg-primary text-on-primary font-button text-button py-[16px] rounded-full shadow-[0_8px_30px_rgba(15,23,42,0.1)] hover:opacity-90 transition-opacity">
+                Salvar Gasto
+            </button>
+</div>
+</div>
+</body></html>

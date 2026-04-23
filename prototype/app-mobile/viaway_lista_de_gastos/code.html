@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ViaWay - Detalhes de Gastos</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#fcdeb5",
+                        "primary": "#000000",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed": "#231a08",
+                        "surface": "#fcf8fa",
+                        "on-secondary-fixed-variant": "#51452f",
+                        "outline-variant": "#c6c6cd",
+                        "surface-dim": "#dcd9db",
+                        "primary-container": "#131b2e",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#dae2fd",
+                        "surface-tint": "#565e74",
+                        "inverse-on-surface": "#f3f0f2",
+                        "tertiary-container": "#271901",
+                        "on-background": "#1b1b1d",
+                        "inverse-primary": "#bec6e0",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#303032",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-secondary-container": "#6e6149",
+                        "on-surface-variant": "#45464d",
+                        "surface-bright": "#fcf8fa",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "surface-container-low": "#f6f3f5",
+                        "secondary-container": "#efdebf",
+                        "on-surface": "#1b1b1d",
+                        "on-secondary": "#ffffff",
+                        "background": "#fcf8fa",
+                        "tertiary": "#000000",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#f0edef",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#7c839b",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#d5c5a7",
+                        "surface-variant": "#e4e2e4",
+                        "on-error-container": "#93000a",
+                        "secondary": "#695d45",
+                        "secondary-fixed": "#f2e0c2",
+                        "on-tertiary-container": "#98805d",
+                        "outline": "#76777d",
+                        "surface-container-high": "#eae7e9",
+                        "surface-container-highest": "#e4e2e4",
+                        "on-tertiary-fixed": "#271901",
+                        "on-primary-fixed": "#131b2e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "md": "16px",
+                        "margin-mobile": "20px",
+                        "lg": "24px",
+                        "xxl": "48px",
+                        "xl": "32px",
+                        "sm": "8px",
+                        "gutter-mobile": "12px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "button": ["Inter"],
+                        "h3": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "h1": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "h2": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "button": ["16px", { "lineHeight": "1", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "h3": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "h1": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Custom Ambient Shadows from Style Guidance */
+        .shadow-level-1 {
+            box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05);
+        }
+        .shadow-level-2 {
+            box-shadow: 0px 8px 30px rgba(15, 23, 42, 0.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased min-h-screen pb-safe">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#F8FAFC] dark:bg-slate-950 border-b border-[#E2D1B3]/30 dark:border-slate-800 shadow-none flex justify-between items-center px-5 h-16">
+<button class="text-[#0F172A] dark:text-slate-50 hover:opacity-70 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-['Plus_Jakarta_Sans'] font-semibold tracking-tight text-xl text-[#0F172A] dark:text-slate-50">ViaWay</h1>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden hover:opacity-70 transition-opacity cursor-pointer border border-outline-variant/30">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="close up portrait of a young woman with natural makeup looking directly at camera with soft warm natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhnYmQQrgyW0gnfU_EWMwpWeovLJ4WLgXkAgnAS2uMjeve4w6uYgSF3_mBqN_JRBRfMELX6zcnC9mLc-OtaGT2bNuZEdUEohs_K9JhSBbCcR-jsPa1Jasd8qAtagdpqb9YnXpkUhLVG9c4WcnYtg0E3sPLUxIj0VJouOiPFj7QvAjrq3AwPo63x2KppuiDt5z-I08tuwEO9Ttuxew1wrSQfCccgkWex2lUiqwVTqTCMwhJPlCznanC-UPqtg_oMU_hoOtcl-JmHiw"/>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[88px] pb-[104px] px-margin-mobile max-w-2xl mx-auto">
+<!-- Summary Section (Editorial Minimalism) -->
+<section class="mb-xl flex flex-col items-center text-center">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Gastos Totais</span>
+<div class="mt-sm flex items-start justify-center">
+<span class="font-h2 text-h2 text-outline mt-1 mr-1">R$</span>
+<h2 class="font-h1 text-[56px] leading-[1.1] tracking-tighter text-primary">4.250<span class="text-h2 text-outline">,00</span></h2>
+</div>
+<!-- Progress Line (Style Guidance) -->
+<div class="w-full max-w-[240px] mt-md">
+<div class="w-full h-[4px] bg-secondary-fixed rounded-full overflow-hidden">
+<div class="h-full bg-[#F47458] w-[65%] rounded-full"></div>
+</div>
+<div class="flex justify-between mt-sm">
+<span class="font-label-md text-label-md text-on-surface-variant">Orçamento</span>
+<span class="font-label-md text-label-md text-on-surface">R$ 6.500</span>
+</div>
+</div>
+</section>
+<!-- Filter Carousel -->
+<section class="flex gap-sm overflow-x-auto pb-md hide-scrollbar -mx-margin-mobile px-margin-mobile mb-lg">
+<!-- Active Filter -->
+<button class="whitespace-nowrap px-lg py-[10px] rounded-full bg-primary-container text-on-tertiary font-button text-button transition-colors shadow-sm">
+                Todos
+            </button>
+<!-- Inactive Filters -->
+<button class="whitespace-nowrap px-lg py-[10px] rounded-full bg-secondary-fixed text-on-secondary-fixed font-button text-button transition-colors hover:bg-secondary-fixed-dim">
+                Hospedagem
+            </button>
+<button class="whitespace-nowrap px-lg py-[10px] rounded-full bg-secondary-fixed text-on-secondary-fixed font-button text-button transition-colors hover:bg-secondary-fixed-dim">
+                Transporte
+            </button>
+<button class="whitespace-nowrap px-lg py-[10px] rounded-full bg-secondary-fixed text-on-secondary-fixed font-button text-button transition-colors hover:bg-secondary-fixed-dim">
+                Alimentação
+            </button>
+<button class="whitespace-nowrap px-lg py-[10px] rounded-full bg-secondary-fixed text-on-secondary-fixed font-button text-button transition-colors hover:bg-secondary-fixed-dim">
+                Lazer
+            </button>
+</section>
+<!-- Chronological List -->
+<section class="space-y-xl">
+<!-- Date Group 1 -->
+<div class="relative">
+<!-- Timeline styling from guidance -->
+<div class="absolute left-6 top-10 bottom-[-32px] w-[2px] bg-secondary-fixed/50 z-0"></div>
+<div class="flex items-center gap-sm mb-md relative z-10">
+<div class="w-2 h-2 rounded-full bg-[#F47458]"></div>
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">12 de Outubro, 2023</h3>
+</div>
+<div class="space-y-sm relative z-10 pl-md">
+<!-- Transaction Card 1 (Level 1 Elevation) -->
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-level-1 border border-secondary-fixed/30 flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed shrink-0">
+<span class="material-symbols-outlined">hotel</span>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-h3 text-h3 text-on-surface truncate">Grand Plaza Hotel</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Hospedagem • Paris</p>
+</div>
+<div class="text-right shrink-0">
+<p class="font-button text-button text-primary">- R$ 1.850</p>
+<!-- Status Chip -->
+<span class="inline-block mt-xs px-2 py-[2px] rounded-[8px] bg-[#000000]/10 text-primary font-label-md text-label-md">Pago</span>
+</div>
+</div>
+<!-- Transaction Card 2 -->
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-level-1 border border-secondary-fixed/30 flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed shrink-0">
+<span class="material-symbols-outlined">restaurant</span>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-h3 text-h3 text-on-surface truncate">Le Comptoir</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Alimentação • 20:30</p>
+</div>
+<div class="text-right shrink-0">
+<p class="font-button text-button text-primary">- R$ 320</p>
+<span class="inline-block mt-xs px-2 py-[2px] rounded-[8px] bg-[#000000]/10 text-primary font-label-md text-label-md">Pago</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Date Group 2 -->
+<div class="relative">
+<div class="flex items-center gap-sm mb-md relative z-10">
+<div class="w-2 h-2 rounded-full bg-[#F47458]"></div>
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">11 de Outubro, 2023</h3>
+</div>
+<div class="space-y-sm relative z-10 pl-md">
+<!-- Transaction Card 3 -->
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-level-1 border border-secondary-fixed/30 flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant shrink-0">
+<span class="material-symbols-outlined">flight</span>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-h3 text-h3 text-on-surface truncate">Voo AirFrance</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Transporte • GRU - CDG</p>
+</div>
+<div class="text-right shrink-0">
+<p class="font-button text-button text-primary">- R$ 2.080</p>
+<span class="inline-block mt-xs px-2 py-[2px] rounded-[8px] bg-[#000000]/10 text-primary font-label-md text-label-md">Pago</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-4 bg-white dark:bg-slate-900 border-t border-[#E2D1B3]/20 dark:border-slate-800 shadow-[0_8px_30px_rgba(15,23,42,0.1)] rounded-t-2xl z-50 md:hidden">
+<!-- Inactive -->
+<a class="flex flex-col items-center justify-center text-[#E2D1B3] dark:text-slate-600 hover:text-[#F47458] dark:hover:text-[#F47458] transition-colors w-12 h-12" href="#">
+<span class="material-symbols-outlined">explore</span>
+</a>
+<!-- Active (Receipts/Expenses) -->
+<a class="flex flex-col items-center justify-center text-[#0F172A] dark:text-white scale-110 transition-transform w-12 h-12" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+</a>
+<!-- Inactive -->
+<a class="flex flex-col items-center justify-center text-[#E2D1B3] dark:text-slate-600 hover:text-[#F47458] dark:hover:text-[#F47458] transition-colors w-12 h-12" href="#">
+<span class="material-symbols-outlined">add_circle</span>
+</a>
+<!-- Inactive -->
+<a class="flex flex-col items-center justify-center text-[#E2D1B3] dark:text-slate-600 hover:text-[#F47458] dark:hover:text-[#F47458] transition-colors w-12 h-12" href="#">
+<span class="material-symbols-outlined">map</span>
+</a>
+<!-- Inactive -->
+<a class="flex flex-col items-center justify-center text-[#E2D1B3] dark:text-slate-600 hover:text-[#F47458] dark:hover:text-[#F47458] transition-colors w-12 h-12" href="#">
+<span class="material-symbols-outlined">person</span>
+</a>
+</nav>
+</body></html>

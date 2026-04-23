@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ViaWay - Cancelar Assinatura</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline-variant": "#c6c6cd",
+                      "surface-container-lowest": "#ffffff",
+                      "primary": "#000000",
+                      "on-secondary": "#ffffff",
+                      "surface": "#fcf8fa",
+                      "secondary-container": "#efdebf",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#574425",
+                      "inverse-surface": "#303032",
+                      "secondary-fixed": "#f2e0c2",
+                      "tertiary-fixed-dim": "#dec29a",
+                      "tertiary-fixed": "#fcdeb5",
+                      "on-surface-variant": "#45464d",
+                      "on-error": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#bec6e0",
+                      "surface-bright": "#fcf8fa",
+                      "on-secondary-fixed-variant": "#51452f",
+                      "on-secondary-fixed": "#231a08",
+                      "background": "#fcf8fa",
+                      "error": "#ba1a1a",
+                      "primary-fixed": "#dae2fd",
+                      "on-background": "#1b1b1d",
+                      "surface-variant": "#e4e2e4",
+                      "surface-tint": "#565e74",
+                      "surface-container-low": "#f6f3f5",
+                      "on-surface": "#1b1b1d",
+                      "outline": "#76777d",
+                      "error-container": "#ffdad6",
+                      "surface-container-highest": "#e4e2e4",
+                      "secondary": "#695d45",
+                      "on-tertiary-fixed": "#271901",
+                      "surface-dim": "#dcd9db",
+                      "primary-fixed-dim": "#bec6e0",
+                      "primary-container": "#131b2e",
+                      "on-error-container": "#93000a",
+                      "surface-container-high": "#eae7e9",
+                      "surface-container": "#f0edef",
+                      "on-tertiary-container": "#98805d",
+                      "inverse-on-surface": "#f3f0f2",
+                      "on-primary-fixed": "#131b2e",
+                      "secondary-fixed-dim": "#d5c5a7",
+                      "tertiary": "#000000",
+                      "tertiary-container": "#271901",
+                      "on-secondary-container": "#6e6149",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "on-primary-container": "#7c839b",
+                      "viaway-navy": "#0F172A",
+                      "viaway-sand": "#E2D1B3",
+                      "viaway-coral": "#F47152"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xxl": "48px",
+                      "sm": "8px",
+                      "xl": "32px",
+                      "lg": "24px",
+                      "xs": "4px",
+                      "margin-mobile": "20px",
+                      "gutter-mobile": "12px",
+                      "md": "16px"
+              },
+              "fontFamily": {
+                      "h1": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "h3": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "button": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "h2": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "h1": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "h3": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "button": [
+                              "16px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "h2": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+      </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[#F8FAFC] text-on-surface min-h-screen flex flex-col font-body-md antialiased">
+<!-- TopAppBar -->
+<header class="bg-[#F8FAFC] dark:bg-slate-950 text-[#0F172A] dark:text-slate-50 font-['Plus_Jakarta_SANS'] font-semibold text-lg border-b border-[#E2D1B3] dark:border-slate-800 shadow-none sticky top-0 z-50">
+<div class="flex items-center justify-between px-5 h-16 w-full max-w-none">
+<button aria-label="Go back" class="flex items-center justify-center p-2 -ml-2 text-[#0F172A] dark:text-white hover:opacity-80 transition-opacity active:scale-95">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h1 class="text-[#0F172A] dark:text-slate-50 font-bold tracking-tight text-center flex-1 pr-6 font-h3 text-h3">Cancelar Assinatura</h1>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col px-margin-mobile pt-xl pb-xxl max-w-md mx-auto w-full">
+<!-- Hero Message -->
+<section class="text-center mb-xl flex flex-col items-center">
+<div class="w-16 h-16 bg-viaway-sand/20 rounded-full flex items-center justify-center mb-md text-viaway-navy">
+<span class="material-symbols-outlined text-[32px]">sentiment_dissatisfied</span>
+</div>
+<h2 class="font-h1 text-h1 text-viaway-navy mb-sm">Sentiremos sua falta!</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Ao cancelar, você perderá acesso aos recursos exclusivos do ViaWay Pro que tornam suas viagens inesquecíveis.
+            </p>
+</section>
+<!-- Benefits Lost Card -->
+<section class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] border border-viaway-sand/30 p-lg mb-xl">
+<h3 class="font-h3 text-h3 text-viaway-navy mb-md">O que você vai perder:</h3>
+<ul class="space-y-sm">
+<li class="flex items-start">
+<span class="material-symbols-outlined text-viaway-coral mr-sm mt-xs text-[20px]">flight_takeoff</span>
+<div>
+<span class="font-body-md text-body-md font-medium text-viaway-navy block">Viagens ilimitadas</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Crie quantos roteiros desejar sem restrições.</span>
+</div>
+</li>
+<li class="flex items-start">
+<span class="material-symbols-outlined text-viaway-coral mr-sm mt-xs text-[20px]">auto_awesome</span>
+<div>
+<span class="font-body-md text-body-md font-medium text-viaway-navy block">Gerador de Itinerário com IA</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Roteiros personalizados em segundos.</span>
+</div>
+</li>
+<li class="flex items-start">
+<span class="material-symbols-outlined text-viaway-coral mr-sm mt-xs text-[20px]">picture_as_pdf</span>
+<div>
+<span class="font-body-md text-body-md font-medium text-viaway-navy block">Exportação em PDF</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Baixe seus roteiros para acesso offline.</span>
+</div>
+</li>
+<li class="flex items-start">
+<span class="material-symbols-outlined text-viaway-coral mr-sm mt-xs text-[20px]">location_on</span>
+<div>
+<span class="font-body-md text-body-md font-medium text-viaway-navy block">Busca com Google Places</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Encontre os melhores locais com precisão.</span>
+</div>
+</li>
+</ul>
+</section>
+<!-- Cycle Information -->
+<section class="bg-[#F8FAFC] border border-viaway-sand rounded-lg p-md mb-xl flex items-center">
+<span class="material-symbols-outlined text-viaway-navy mr-md text-[24px]">info</span>
+<p class="font-body-sm text-body-sm text-viaway-navy">
+                Sua assinatura continuará ativa até <strong class="font-semibold">12 de Outubro de 2024</strong>. Você pode reativá-la a qualquer momento antes dessa data.
+            </p>
+</section>
+<!-- Action Buttons -->
+<div class="mt-auto flex flex-col gap-sm">
+<button class="w-full bg-viaway-navy text-white font-button text-button py-[16px] px-lg rounded-lg hover:opacity-90 active:scale-[0.98] transition-all">
+                Manter Assinatura
+            </button>
+<button class="w-full bg-transparent text-viaway-coral font-button text-button py-[16px] px-lg rounded-lg hover:bg-viaway-coral/5 active:scale-[0.98] transition-all">
+                Confirmar Cancelamento
+            </button>
+</div>
+</main>
+</body></html>

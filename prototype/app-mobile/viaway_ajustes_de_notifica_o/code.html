@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ViaWay - Notificações</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-container": "#271901",
+                      "surface-container-low": "#f6f3f5",
+                      "outline-variant": "#c6c6cd",
+                      "surface-bright": "#fcf8fa",
+                      "inverse-primary": "#bec6e0",
+                      "surface-dim": "#dcd9db",
+                      "on-background": "#1b1b1d",
+                      "on-tertiary-fixed-variant": "#574425",
+                      "surface-container-highest": "#e4e2e4",
+                      "surface-container-high": "#eae7e9",
+                      "secondary-fixed-dim": "#d5c5a7",
+                      "surface-tint": "#565e74",
+                      "secondary": "#695d45",
+                      "tertiary-fixed-dim": "#dec29a",
+                      "surface-variant": "#e4e2e4",
+                      "on-error": "#ffffff",
+                      "on-secondary-fixed-variant": "#51452f",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "surface": "#fcf8fa",
+                      "tertiary": "#000000",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-container": "#98805d",
+                      "primary-fixed": "#dae2fd",
+                      "on-primary-fixed": "#131b2e",
+                      "on-primary": "#ffffff",
+                      "background": "#fcf8fa",
+                      "outline": "#76777d",
+                      "on-secondary-fixed": "#231a08",
+                      "on-secondary-container": "#6e6149",
+                      "inverse-on-surface": "#f3f0f2",
+                      "on-primary-container": "#7c839b",
+                      "inverse-surface": "#303032",
+                      "primary-fixed-dim": "#bec6e0",
+                      "on-tertiary-fixed": "#271901",
+                      "primary": "#000000",
+                      "secondary-fixed": "#f2e0c2",
+                      "on-tertiary": "#ffffff",
+                      "error": "#ba1a1a",
+                      "on-secondary": "#ffffff",
+                      "on-surface-variant": "#45464d",
+                      "on-surface": "#1b1b1d",
+                      "surface-container": "#f0edef",
+                      "error-container": "#ffdad6",
+                      "primary-container": "#131b2e",
+                      "tertiary-fixed": "#fcdeb5",
+                      "secondary-container": "#efdebf",
+                      "on-error-container": "#93000a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "32px",
+                      "gutter-mobile": "12px",
+                      "md": "16px",
+                      "margin-mobile": "20px",
+                      "xs": "4px",
+                      "lg": "24px",
+                      "sm": "8px",
+                      "xxl": "48px"
+              },
+              "fontFamily": {
+                      "h3": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "h2": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "button": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "h1": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "h3": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "h2": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "button": [
+                              "16px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "letterSpacing": "0",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "h1": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-surface-container-lowest text-on-background font-h3 docked full-width top-0 border-b border-surface-variant shadow-none transition-colors duration-200 flex items-center w-full px-5 h-16 sticky z-10">
+<button class="mr-4 text-on-surface-variant hover:text-on-background focus:outline-none flex items-center justify-center p-2 -ml-2 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="flex-1 font-h3 text-h3 text-on-background">Notificações</h1>
+</header>
+<main class="px-margin-mobile py-lg pb-xxl max-w-2xl mx-auto space-y-lg">
+<!-- Alertas de Viagem -->
+<section>
+<h2 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-sm px-sm">Alertas de Viagem</h2>
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] overflow-hidden">
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-md border-b border-surface-variant last:border-b-0">
+<div>
+<p class="font-body-md text-body-md text-on-surface">Próximas viagens</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Lembretes antes da partida</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-outline-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-md border-b border-surface-variant last:border-b-0">
+<div>
+<p class="font-body-md text-body-md text-on-surface">Mudanças de itinerário</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Avisos sobre voos e reservas</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-outline-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-md border-b border-surface-variant last:border-b-0">
+<div>
+<p class="font-body-md text-body-md text-on-surface">Portão de embarque</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Atualizações de terminal e portão</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-outline-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- Financeiro -->
+<section>
+<h2 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-sm px-sm">Financeiro</h2>
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] overflow-hidden">
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-md border-b border-surface-variant last:border-b-0">
+<div>
+<p class="font-body-md text-body-md text-on-surface">Lembrete de orçamento</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Avisos ao atingir limites diários</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-outline-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-md border-b border-surface-variant last:border-b-0">
+<div>
+<p class="font-body-md text-body-md text-on-surface">Novas cotações</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Variações cambiais importantes</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-outline-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- Promoções e Novidades -->
+<section>
+<h2 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-sm px-sm">Promoções e Novidades</h2>
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] overflow-hidden">
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-md border-b border-surface-variant last:border-b-0">
+<div>
+<p class="font-body-md text-body-md text-on-surface">Ofertas especiais</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Descontos em voos e hotéis</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-outline-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-md border-b border-surface-variant last:border-b-0">
+<div>
+<p class="font-body-md text-body-md text-on-surface">Dicas de destino</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Sugestões de roteiros e passeios</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-outline-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- Geral -->
+<section>
+<h2 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-sm px-sm">Geral</h2>
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] overflow-hidden">
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-md border-b border-surface-variant last:border-b-0">
+<div>
+<p class="font-body-md text-body-md text-on-surface">Notificações push</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Alertas no seu dispositivo</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-outline-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-md border-b border-surface-variant last:border-b-0">
+<div>
+<p class="font-body-md text-body-md text-on-surface">E-mail</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Resumos e confirmações</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-outline-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+</main>
+</body></html>

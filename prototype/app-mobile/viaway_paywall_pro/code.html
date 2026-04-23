@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ViaWay Pro</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary": "#ffffff",
+                      "surface-container-high": "#eae7e9",
+                      "secondary-fixed": "#f2e0c2",
+                      "surface-container-lowest": "#ffffff",
+                      "on-background": "#1b1b1d",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "inverse-surface": "#303032",
+                      "surface-container": "#f0edef",
+                      "on-secondary-container": "#6e6149",
+                      "on-tertiary-container": "#98805d",
+                      "inverse-on-surface": "#f3f0f2",
+                      "on-error": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "surface-bright": "#fcf8fa",
+                      "surface-dim": "#dcd9db",
+                      "background": "#fcf8fa",
+                      "surface-tint": "#565e74",
+                      "on-tertiary-fixed-variant": "#574425",
+                      "tertiary-container": "#271901",
+                      "on-error-container": "#93000a",
+                      "on-secondary-fixed": "#231a08",
+                      "error": "#ba1a1a",
+                      "primary-container": "#131b2e",
+                      "on-surface-variant": "#45464d",
+                      "on-primary-container": "#7c839b",
+                      "secondary-fixed-dim": "#d5c5a7",
+                      "outline-variant": "#c6c6cd",
+                      "tertiary-fixed-dim": "#dec29a",
+                      "primary": "#000000",
+                      "surface-container-highest": "#e4e2e4",
+                      "secondary": "#695d45",
+                      "on-tertiary-fixed": "#271901",
+                      "surface-variant": "#e4e2e4",
+                      "surface-container-low": "#f6f3f5",
+                      "primary-fixed-dim": "#bec6e0",
+                      "on-primary-fixed": "#131b2e",
+                      "on-secondary-fixed-variant": "#51452f",
+                      "error-container": "#ffdad6",
+                      "secondary-container": "#efdebf",
+                      "inverse-primary": "#bec6e0",
+                      "outline": "#76777d",
+                      "on-surface": "#1b1b1d",
+                      "primary-fixed": "#dae2fd",
+                      "on-primary": "#ffffff",
+                      "surface": "#fcf8fa",
+                      "tertiary-fixed": "#fcdeb5",
+                      "tertiary": "#000000"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "lg": "24px",
+                      "margin-mobile": "20px",
+                      "xl": "32px",
+                      "sm": "8px",
+                      "md": "16px",
+                      "xs": "4px",
+                      "xxl": "48px",
+                      "gutter-mobile": "12px"
+              },
+              "fontFamily": {
+                      "h1": ["Plus Jakarta Sans"],
+                      "h2": ["Plus Jakarta Sans"],
+                      "body-lg": ["Inter"],
+                      "h3": ["Plus Jakarta Sans"],
+                      "button": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-md": ["Inter"]
+              },
+              "fontSize": {
+                      "h1": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "h2": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                      "h3": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "button": ["16px", {"lineHeight": "1", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "body-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        /* Custom styles for subtle premium effects if needed */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(213, 197, 167, 0.1);
+        }
+        .premium-gradient-text {
+            background: linear-gradient(135deg, #f2e0c2 0%, #d5c5a7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-primary-container min-h-screen flex flex-col font-body-md text-on-primary antialiased relative overflow-x-hidden">
+<!-- Decorative Background Elements -->
+<div class="absolute top-0 left-0 w-full h-[400px] bg-gradient-to-b from-black/40 to-transparent pointer-events-none z-0"></div>
+<div class="absolute -top-[200px] -right-[100px] w-[400px] h-[400px] rounded-full bg-secondary-fixed/5 blur-[100px] pointer-events-none z-0"></div>
+<!-- Top Action Bar (Close) -->
+<header class="w-full flex justify-end px-margin-mobile py-md relative z-10">
+<button class="w-10 h-10 rounded-full bg-inverse-surface/40 flex items-center justify-center text-on-primary hover:bg-inverse-surface/60 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">close</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col px-margin-mobile pb-xxl relative z-10 max-w-md mx-auto w-full">
+<!-- Hero Section -->
+<div class="flex flex-col items-center mt-sm mb-xl text-center">
+<div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-secondary-fixed-dim/20 to-transparent flex items-center justify-center mb-md border border-secondary-fixed-dim/30">
+<span class="material-symbols-outlined text-[32px] text-secondary-fixed-dim" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<h1 class="font-h1 text-h1 text-on-primary mb-xs">Seja ViaWay Pro</h1>
+<p class="font-body-md text-body-md text-on-primary-container">Desbloqueie o poder total para planejar viagens inesquecíveis.</p>
+</div>
+<!-- Benefits List -->
+<div class="flex flex-col gap-lg mb-xl">
+<!-- Benefit 1 -->
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full glass-panel flex items-center justify-center shrink-0 text-secondary-fixed-dim">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">all_inclusive</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-primary">Itinerários ilimitados</span>
+</div>
+<!-- Benefit 2 -->
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full glass-panel flex items-center justify-center shrink-0 text-secondary-fixed-dim">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">location_on</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-primary">Busca com Google Places</span>
+</div>
+<!-- Benefit 3 -->
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full glass-panel flex items-center justify-center shrink-0 text-secondary-fixed-dim">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">auto_awesome</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-primary">IA Personalizada</span>
+</div>
+<!-- Benefit 4 -->
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full glass-panel flex items-center justify-center shrink-0 text-secondary-fixed-dim">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">picture_as_pdf</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-primary">Exportar PDF</span>
+</div>
+</div>
+<!-- Spacer to push pricing to bottom if screen is tall -->
+<div class="flex-1"></div>
+<!-- Plan Selector Cards -->
+<div class="flex flex-col gap-sm mb-lg">
+<!-- Yearly Card (Selected/Recommended) -->
+<div class="relative w-full rounded-xl p-[2px] bg-gradient-to-br from-secondary-fixed-dim to-secondary-fixed-dim/30">
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-secondary-fixed-dim text-on-secondary-fixed font-label-md text-label-md uppercase px-3 py-1 rounded-full whitespace-nowrap shadow-sm z-10">
+                    Mais Popular
+                </div>
+<div class="bg-primary-container rounded-[10px] p-lg flex items-center justify-between cursor-pointer w-full h-full relative overflow-hidden">
+<div class="absolute inset-0 bg-secondary-fixed-dim/5 pointer-events-none"></div>
+<div class="flex flex-col gap-xs relative z-10">
+<span class="font-h3 text-h3 text-on-primary">Anual</span>
+<span class="font-body-sm text-body-sm text-secondary-fixed-dim">Equivalente a R$ 12,90/mês</span>
+</div>
+<div class="flex items-center gap-sm relative z-10">
+<div class="text-right">
+<span class="font-h2 text-h2 text-on-primary block">R$ 154,80</span>
+<span class="font-body-sm text-body-sm text-on-primary-container line-through">R$ 358,80</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-secondary-fixed-dim flex items-center justify-center text-on-secondary-fixed shrink-0">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Monthly Card (Unselected) -->
+<div class="w-full rounded-xl border border-outline-variant/30 bg-transparent p-lg flex items-center justify-between cursor-pointer hover:bg-surface-container-high/5 transition-colors">
+<div class="flex flex-col gap-xs">
+<span class="font-h3 text-h3 text-on-primary">Mensal</span>
+<span class="font-body-sm text-body-sm text-on-primary-container">Cancele quando quiser</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="font-h2 text-h2 text-on-primary">R$ 29,90</span>
+<div class="w-6 h-6 rounded-full border border-outline-variant/50 shrink-0"></div>
+</div>
+</div>
+</div>
+<!-- CTA Button -->
+<button class="w-full bg-secondary-fixed-dim text-on-secondary-fixed font-button text-button py-[18px] rounded-full flex items-center justify-center mb-md shadow-[0px_8px_30px_rgba(213,197,167,0.15)] hover:bg-secondary-fixed transition-colors">
+            Testar 7 dias Grátis
+        </button>
+<!-- Footer Link -->
+<div class="text-center">
+<a class="font-body-sm text-body-sm text-on-primary-container hover:text-secondary-fixed-dim transition-colors underline decoration-on-primary-container/30 underline-offset-4" href="#">Termos de Uso</a>
+</div>
+</main>
+</body></html>

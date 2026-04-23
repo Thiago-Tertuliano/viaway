@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ViaWay - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#ffffff",
+                    "surface-container-high": "#eae7e9",
+                    "secondary-fixed": "#f2e0c2",
+                    "surface-container-lowest": "#ffffff",
+                    "on-background": "#1b1b1d",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "inverse-surface": "#303032",
+                    "surface-container": "#f0edef",
+                    "on-secondary-container": "#6e6149",
+                    "on-tertiary-container": "#98805d",
+                    "inverse-on-surface": "#f3f0f2",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "surface-bright": "#fcf8fa",
+                    "surface-dim": "#dcd9db",
+                    "background": "#fcf8fa",
+                    "surface-tint": "#565e74",
+                    "on-tertiary-fixed-variant": "#574425",
+                    "tertiary-container": "#271901",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#231a08",
+                    "error": "#ba1a1a",
+                    "primary-container": "#131b2e",
+                    "on-surface-variant": "#45464d",
+                    "on-primary-container": "#7c839b",
+                    "secondary-fixed-dim": "#d5c5a7",
+                    "outline-variant": "#c6c6cd",
+                    "tertiary-fixed-dim": "#dec29a",
+                    "primary": "#000000",
+                    "surface-container-highest": "#e4e2e4",
+                    "secondary": "#695d45",
+                    "on-tertiary-fixed": "#271901",
+                    "surface-variant": "#e4e2e4",
+                    "surface-container-low": "#f6f3f5",
+                    "primary-fixed-dim": "#bec6e0",
+                    "on-primary-fixed": "#131b2e",
+                    "on-secondary-fixed-variant": "#51452f",
+                    "error-container": "#ffdad6",
+                    "secondary-container": "#efdebf",
+                    "inverse-primary": "#bec6e0",
+                    "outline": "#76777d",
+                    "on-surface": "#1b1b1d",
+                    "primary-fixed": "#dae2fd",
+                    "on-primary": "#ffffff",
+                    "surface": "#fcf8fa",
+                    "tertiary-fixed": "#fcdeb5",
+                    "tertiary": "#000000"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "24px",
+                    "margin-mobile": "20px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "xxl": "48px",
+                    "gutter-mobile": "12px"
+            },
+            "fontFamily": {
+                    "h1": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "h2": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "h3": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "button": [
+                            "Inter"
+                    ],
+                    "body-sm": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "h1": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "h2": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.3",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "h3": [
+                            "20px",
+                            {
+                                    "lineHeight": "1.4",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "button": [
+                            "16px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-sm": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "letterSpacing": "0",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-md": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "600"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-xxl">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-5 h-16 bg-[#F8FAFC] dark:bg-slate-950 text-[#0F172A] dark:text-slate-50 border-b border-[#E2D1B3] dark:border-slate-800 shadow-none sticky top-0 z-40">
+<button class="hover:opacity-80 transition-opacity flex items-center justify-center p-2 rounded-full">
+<span class="material-symbols-outlined text-2xl">menu</span>
+</button>
+<div class="text-2xl font-extrabold text-[#0F172A] dark:text-slate-50 tracking-tighter">
+            ViaWay
+        </div>
+<button class="hover:opacity-80 transition-opacity flex items-center justify-center w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="close up portrait of a young woman with natural makeup, soft lighting, neutral background, professional and clean aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjskOYWxfjvZVIj-u3AyTjDY2Pz20VMLwuu-dIf4kfUTzgGUCEOMvGj0NjJSG_MmRb6qbxWBrc6DJXxiO_vsbFq4a_kp3FDmNRB6dYaf1JQxWivEIksr6mY4xrY5t-nCcfG3SKNZiv1lOl-AilfUVEmyDyI3J7Bx4mnnhoBDCFCAlY5hrJ09KqitTcIkdKJ41-A0igApN7wNd2g115QqaYvNmUxxJlH_8eXLOAfJXs071sDpVOum6PMSdlAsqlm6Uhb0FLoX3w0S8"/>
+</button>
+</header>
+<main class="px-margin-mobile pt-lg pb-xxl flex flex-col gap-xl max-w-3xl mx-auto">
+<!-- Em andamento Section -->
+<section>
+<div class="flex justify-between items-end mb-md">
+<h2 class="font-h2 text-h2 text-on-background">Em andamento</h2>
+</div>
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] overflow-hidden border border-surface-container">
+<div class="h-48 relative w-full">
+<img alt="Paris trip" class="w-full h-full object-cover" data-alt="Eiffel tower in Paris during golden hour with warm sunlight, soft clouds, elegant and romantic travel aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKl32_E1-wbCRcI2sIuYGOdBd1Gj7eQ_6w8PrpFSnb487W9J9SZIt_wmDAZZEMjHjGgLYx6esrSgYRNcJSJiMAtaIVkz451MLosz1wWeee2H7_nf5Z6009gRZMpQbPETmpZusKc2b8IWf1Qr1uux9HiBF2Mca41drQQ3IqgaT2ggbPId8zP9OSp9_jQifRQrZ2jpQ4PEmZo5MGSzX-5HMTpLFXoqDlaQH5ogvfJOCZeIM2_9B_bYQAj0OyyoQHlbWxTqr5Z5Oak_Y"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute top-4 left-4 bg-primary-container text-on-primary-container px-3 py-1 rounded-full flex items-center gap-2 backdrop-blur-sm bg-opacity-90">
+<span class="material-symbols-outlined text-sm">flight_takeoff</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Ativo</span>
+</div>
+</div>
+<div class="p-lg">
+<div class="flex justify-between items-start mb-sm">
+<div>
+<h3 class="font-h3 text-h3 text-on-background mb-xs">Paris, França</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+                                12 Out - 20 Out
+                            </p>
+</div>
+</div>
+<div class="mt-md">
+<div class="flex justify-between text-body-sm font-body-sm text-on-surface-variant mb-xs">
+<span>Orçamento: €1.500</span>
+<span class="font-medium text-on-background">65% Usado</span>
+</div>
+<div class="w-full h-1 bg-secondary-fixed rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[65%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Próximas Section -->
+<section>
+<div class="flex justify-between items-end mb-md">
+<h2 class="font-h2 text-h2 text-on-background">Próximas</h2>
+<button class="font-button text-button text-primary flex items-center gap-1">
+                    Ver todas <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="flex gap-md overflow-x-auto pb-4 snap-x snap-mandatory -mx-margin-mobile px-margin-mobile hide-scrollbar" style="scrollbar-width: none;">
+<!-- Upcoming Trip 1 -->
+<div class="min-w-[260px] bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] overflow-hidden border border-surface-container snap-center flex-shrink-0">
+<div class="h-32 relative w-full">
+<img alt="Kyoto trip" class="w-full h-full object-cover" data-alt="Traditional street in Kyoto, Japan, wooden houses, warm evening lanterns, calm and serene travel aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkqktujQosAQIQPY6qmIIV7Z8Iof9trvT3zcRysmHZLgqjXUclkSAMY4vlS362YuJLgs_TpYYDTWqSzVhjd6_u_Ezx9XEFe3mdkQClHGGcuM4raOXxkyYqm9D4IGNd6uSMSm87Ti9DH676n1ZqCdOPNoasv2DXd1lAZOAV4SDYcrJVNkAty_ERPBxvsTZqWVU5U7ZKXZ4VwLJlONgP4LzzisR2pm5UorR0kGv5rkEPemGA9a04cprNfT5KPJ8EOp3E2gMR_H2mGN4"/>
+</div>
+<div class="p-md">
+<h4 class="font-h3 text-h3 text-on-background mb-xs truncate">Kyoto, Japão</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1 mb-md">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+                            05 Nov - 18 Nov
+                        </p>
+<div class="flex items-center gap-2">
+<div class="w-full h-1 bg-secondary-fixed rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[10%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Upcoming Trip 2 -->
+<div class="min-w-[260px] bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] overflow-hidden border border-surface-container snap-center flex-shrink-0">
+<div class="h-32 relative w-full">
+<img alt="Sydney trip" class="w-full h-full object-cover" data-alt="Sydney Opera house at sunset, clear sky, vibrant warm colors, iconic travel destination aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDw-lJyD95WC32A3qjHlB5ZW6gk_e4PjQFlY0dAJjkT2sd5lNfRrHPF8rAovOS5qiTDQ0BOo3jZKYZjKKjbf7qwko94nEJanOo9zZdYUgsjwsZMguWoiTvKMuagYU9GM_iCk4PvfGnE5uIQeGjwOXjosiAO_JDKIfXWl4P51koCLsbtBI5dI4Z-ybFVMNmV2djD0CQ-rX6gx9XfYB2hjoMJTBUllAjcFbVpwvoB41I7-IL3AqmaSjrT0I4_zAEkU4O3MtzfLj6awrU"/>
+</div>
+<div class="p-md">
+<h4 class="font-h3 text-h3 text-on-background mb-xs truncate">Sydney, Austrália</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1 mb-md">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+                            10 Dez - 25 Dez
+                        </p>
+<div class="flex items-center gap-2">
+<div class="w-full h-1 bg-secondary-fixed rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[0%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Sugestões Section -->
+<section>
+<div class="flex items-center gap-2 mb-md">
+<span class="material-symbols-outlined text-tertiary-container">auto_awesome</span>
+<h2 class="font-h2 text-h2 text-on-background">Sugestões</h2>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<!-- Suggestion 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-md border border-surface-container shadow-[0px_4px_20px_rgba(15,23,42,0.05)] flex flex-col gap-sm">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container mb-2">
+<span class="material-symbols-outlined">restaurant</span>
+</div>
+<h4 class="font-body-lg text-body-lg font-semibold text-on-background leading-tight">Gastronomia Local</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Experimente os famosos escargots em Le Marais.</p>
+</div>
+<!-- Suggestion 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-md border border-surface-container shadow-[0px_4px_20px_rgba(15,23,42,0.05)] flex flex-col gap-sm">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container mb-2">
+<span class="material-symbols-outlined">museum</span>
+</div>
+<h4 class="font-body-lg text-body-lg font-semibold text-on-background leading-tight">Cultura e Arte</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Visite o Louvre no final da tarde para evitar filas.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-28 right-margin-mobile w-14 h-14 bg-primary text-on-primary rounded-full shadow-[0px_8px_30px_rgba(15,23,42,0.2)] flex items-center justify-center z-50 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe px-6 bg-white dark:bg-slate-900 border-t border-[#E2D1B3] dark:border-slate-800 shadow-[0px_8px_30px_rgba(15,23,42,0.1)] rounded-t-none">
+<!-- Active Tab: Home -->
+<a class="flex flex-col items-center justify-center text-[#0F172A] dark:text-slate-50 scale-110 transition-all hover:opacity-80" href="#">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-semibold uppercase tracking-widest mt-1">home</span>
+</a>
+<!-- Inactive Tab: Explore -->
+<a class="flex flex-col items-center justify-center text-[#E2D1B3] dark:text-slate-600 hover:text-[#0F172A] dark:hover:text-slate-200 transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">explore</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-semibold uppercase tracking-widest mt-1">explore</span>
+</a>
+<!-- Inactive Tab: Profile -->
+<a class="flex flex-col items-center justify-center text-[#E2D1B3] dark:text-slate-600 hover:text-[#0F172A] dark:hover:text-slate-200 transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">person</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-semibold uppercase tracking-widest mt-1">person</span>
+</a>
+</nav>
+<style>
+        /* Safe area padding for modern mobile devices */
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            .pb-safe {
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+        }
+        
+        /* Hide scrollbar for clean horizontal lists */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</body></html>
