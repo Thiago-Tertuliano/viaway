@@ -1,6 +1,7 @@
 {
   "name": "viaway-api",
   "version": "0.1.0",
+  "description": "API HTTP do produto ViaWay (Fastify + Prisma + PostgreSQL)",
   "private": true,
   "type": "module",
   "scripts": {
