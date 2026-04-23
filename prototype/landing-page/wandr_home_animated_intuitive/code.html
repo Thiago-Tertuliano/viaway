@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+<html lang="pt"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Wandr - Sua viagem inteligente</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#665e4b",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-tertiary-container": "#e0f3ff",
+                        "on-secondary-container": "#6a624f",
+                        "surface-container-high": "#e7e7f3",
+                        "inverse-primary": "#b4c5ff",
+                        "tertiary": "#005c79",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#7bd1fa",
+                        "outline": "#737686",
+                        "surface-variant": "#e1e2ed",
+                        "surface-container": "#ededf9",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#191b23",
+                        "on-secondary-fixed": "#211b0c",
+                        "background": "#faf8ff",
+                        "surface": "#faf8ff",
+                        "primary": "#004ac6",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#434655",
+                        "on-secondary-fixed-variant": "#4d4634",
+                        "inverse-surface": "#2e3039",
+                        "surface-container-highest": "#e1e2ed",
+                        "error-container": "#ffdad6",
+                        "on-background": "#191b23",
+                        "surface-dim": "#d9d9e5",
+                        "surface-bright": "#faf8ff",
+                        "secondary-fixed": "#ede1c9",
+                        "tertiary-container": "#00769a",
+                        "on-tertiary-fixed": "#001e2b",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#c0e8ff",
+                        "primary-fixed": "#dbe1ff",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-tertiary-fixed-variant": "#004d66",
+                        "on-primary-container": "#eeefff",
+                        "surface-container-low": "#f3f3fe",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f0f0fb",
+                        "primary-container": "#2563eb",
+                        "surface-tint": "#0053db",
+                        "outline-variant": "#c3c6d7",
+                        "on-primary-fixed": "#00174b",
+                        "secondary-container": "#ebdec6",
+                        "secondary-fixed-dim": "#d1c5ae"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    },
+                    "keyframes": {
+                        "float": {
+                            "0%, 100%": { transform: "translateY(0)" },
+                            "50%": { transform: "translateY(-15px)" },
+                        },
+                        "float-delayed": {
+                            "0%, 100%": { transform: "translateY(0)" },
+                            "50%": { transform: "translateY(-15px)" },
+                        },
+                        "fade-in-up": {
+                            "0%": { opacity: "0", transform: "translateY(30px)" },
+                            "100%": { opacity: "1", transform: "translateY(0)" },
+                        },
+                        "blob": {
+                            "0%": { transform: "translate(0px, 0px) scale(1)" },
+                            "33%": { transform: "translate(30px, -50px) scale(1.1)" },
+                            "66%": { transform: "translate(-20px, 20px) scale(0.9)" },
+                            "100%": { transform: "translate(0px, 0px) scale(1)" },
+                        }
+                    },
+                    "animation": {
+                        "float": "float 6s ease-in-out infinite",
+                        "float-delayed": "float-delayed 7s ease-in-out 3.5s infinite",
+                        "fade-in-up": "fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                        "blob": "blob 10s infinite alternate",
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .reveal-on-scroll { opacity: 0; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body antialiased relative overflow-x-hidden">
+<!-- Animated Background Elements -->
+<div class="fixed inset-0 pointer-events-none -z-20 overflow-hidden">
+<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[100px] animate-blob"></div>
+<div class="absolute top-[20%] right-[-10%] w-[35%] h-[35%] bg-tertiary/20 rounded-full blur-[100px] animate-blob" style="animation-delay: 2s;"></div>
+<div class="absolute bottom-[-10%] left-[20%] w-[45%] h-[45%] bg-primary-container/20 rounded-full blur-[120px] animate-blob" style="animation-delay: 4s;"></div>
+</div>
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 glass-panel transition-all duration-300 ease-in-out shadow-[0_4px_30px_rgb(25,27,35,0.03)] border-b border-outline-variant/10">
+<div class="flex justify-between items-center h-20 px-8 max-w-7xl mx-auto">
+<div class="text-2xl font-headline font-bold tracking-tighter text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl">flight_takeoff</span>
+                Wandr
+            </div>
+<div class="hidden md:flex space-x-8 items-center">
+<a class="font-headline font-bold text-sm tracking-tight text-on-surface-variant hover:text-primary transition-colors" href="#features">Como Funciona</a>
+<a class="font-headline font-bold text-sm tracking-tight text-on-surface-variant hover:text-primary transition-colors" href="#pricing">Planos</a>
+<a class="font-headline font-bold text-sm tracking-tight text-on-surface-variant hover:text-primary transition-colors" href="#support">Suporte</a>
+</div>
+<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold text-sm tracking-tight px-6 py-3 rounded-full hover:scale-105 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300">
+                Iniciar Assistente
+            </button>
+</div>
+</nav>
+<main class="pt-28 pb-20">
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-8 py-16 lg:py-24 flex flex-col lg:flex-row items-center gap-16 reveal-on-scroll">
+<div class="lg:w-1/2 space-y-8 z-10">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-container/10 border border-primary/20 text-primary font-medium text-sm mb-4 backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm">smart_toy</span>
+                    Assistente de Viagem Inteligente
+                </div>
+<h1 class="font-headline text-5xl lg:text-7xl font-extrabold tracking-tight text-on-background leading-[1.1]">
+                    Sua viagem,<br/>no piloto <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-tertiary">automático.</span>
+</h1>
+<p class="text-lg text-on-surface-variant max-w-xl leading-relaxed">
+                    Deixe a organização pesada com a gente. Nosso algoritmo sincroniza roteiros, despesas e lugares favoritos em um fluxo intuitivo projetado para viajantes modernos.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="group relative overflow-hidden bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold text-base px-8 py-4 rounded-full hover:scale-105 transition-all duration-300 shadow-lg shadow-primary/25 flex items-center justify-center gap-3">
+<span class="relative z-10">Baixar na App Store</span>
+<span class="material-symbols-outlined relative z-10 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+<div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+</button>
+<button class="glass-panel text-on-surface font-headline font-bold text-base px-8 py-4 rounded-full hover:bg-surface-container-high hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3">
+<img alt="Google Play" class="w-5 h-5 opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJPLbJV8cgkxXYDF91MfVm6lMQSIsKy07dnQEK7-TMHogrD6o_K3PSEeiOzZIPIZDCI2P2XRxuUqjtM8CF8-JPG6z1wn7exXLnIJeAfB8Er_asdQP9WMTP0Dx_x5px2a5B1xDLjzNpgKaHWVWYize6onN4bADVPKyAmAbDv-gx2QBmlUnA9-59388FzdaSegcQAWsPW-BDgpBSVv2udWT-E4JJIax53DCTEvc1KidS4uejamEwsruIT3LT2MM0RnM6kATnPUfMmLo"/>
+                        Google Play
+                    </button>
+</div>
+</div>
+<div class="lg:w-1/2 relative">
+<!-- Mockup Image with Float Animation -->
+<div class="relative w-full max-w-md mx-auto aspect-[9/19] rounded-[2.5rem] bg-surface-container-lowest p-4 shadow-[0_30px_60px_rgba(0,74,198,0.15)] border border-white/50 overflow-hidden animate-float glass-panel">
+<div class="absolute top-8 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-full z-20"></div>
+<img alt="Wandr App Interface" class="w-full h-full object-cover rounded-[2rem] relative z-10" data-alt="sleek modern mobile app interface showing a travel itinerary with beautiful destination photos, clean white background, digital mockup style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGRUkStK90avTKGCrJq-U2U4c_HR0qWN5rS4jI4WwlllF3d7l1UiV77srE6G1FQ3p0WnajBlSijopYk_86jkOAczZsFDyvqyePHyPdiN42C3o4AwBvEfbz6kaC5whE9GqFirhiAaNa_vM7A3rulPVQtDl099R9KQSTSx-YJZ5A0_e0cn3E_k3kPQsdoo4iDPw_4xYecAr4rbxbXnXDREcO3CNhg6akxnT_MqUZddvNZs22yUsad0AXTp3rn810pBnBEHkjfoHNlTA"/>
+<!-- Floating UI Element -->
+<div class="absolute -right-8 top-1/3 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 z-30 animate-float-delayed hidden md:flex items-center gap-3">
+<div class="bg-green-100 p-2 rounded-full"><span class="material-symbols-outlined text-green-600 text-sm">flight_land</span></div>
+<div>
+<div class="text-xs font-bold text-gray-800">Voo Atualizado</div>
+<div class="text-[10px] text-gray-500">Portão 4B • No horário</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Problem Section (Bento Grid) -->
+<section class="glass-panel py-24 mt-12 rounded-[3rem] mx-4 lg:mx-8 px-8 reveal-on-scroll relative overflow-hidden">
+<div class="max-w-7xl mx-auto relative z-10">
+<div class="text-center mb-16">
+<h2 class="font-headline text-3xl md:text-4xl font-bold text-on-background mb-4">O Caos de Viajar</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto">Viajar deveria ser relaxante. O Wandr resolve a bagunça para você focar no que importa.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Problem 1 -->
+<div class="bg-white/60 backdrop-blur-sm p-8 rounded-2xl shadow-sm border border-white/50 relative overflow-hidden group hover:-translate-y-2 hover:shadow-xl transition-all duration-300">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-300">
+<span class="material-symbols-outlined text-6xl text-error">description</span>
+</div>
+<div class="bg-error-container/50 w-12 h-12 rounded-full flex items-center justify-center mb-6 group-hover:bg-error-container transition-colors">
+<span class="material-symbols-outlined text-on-error-container">edit_note</span>
+</div>
+<h3 class="font-headline text-xl font-bold mb-3 text-on-background">Anotações Espalhadas</h3>
+<p class="text-on-surface-variant text-sm">Links do WhatsApp, emails perdidos e notas do celular. Onde estava aquela recomendação de restaurante mesmo?</p>
+</div>
+<!-- Problem 2 -->
+<div class="bg-white/60 backdrop-blur-sm p-8 rounded-2xl shadow-sm border border-white/50 relative overflow-hidden group hover:-translate-y-2 hover:shadow-xl transition-all duration-300" style="transition-delay: 100ms;">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-300">
+<span class="material-symbols-outlined text-6xl text-tertiary">account_balance_wallet</span>
+</div>
+<div class="bg-tertiary-container/10 w-12 h-12 rounded-full flex items-center justify-center mb-6 group-hover:bg-tertiary-container/30 transition-colors">
+<span class="material-symbols-outlined text-tertiary">attach_money</span>
+</div>
+<h3 class="font-headline text-xl font-bold mb-3 text-on-background">Estresse no Orçamento</h3>
+<p class="text-on-surface-variant text-sm">Não saber quanto você já gastou ou tentar dividir contas de forma justa depois que a viagem termina.</p>
+</div>
+<!-- Problem 3 -->
+<div class="bg-white/60 backdrop-blur-sm p-8 rounded-2xl shadow-sm border border-white/50 relative overflow-hidden group hover:-translate-y-2 hover:shadow-xl transition-all duration-300" style="transition-delay: 200ms;">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-300">
+<span class="material-symbols-outlined text-6xl text-secondary">map</span>
+</div>
+<div class="bg-secondary-container/50 w-12 h-12 rounded-full flex items-center justify-center mb-6 group-hover:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-on-secondary-container">pin_drop</span>
+</div>
+<h3 class="font-headline text-xl font-bold mb-3 text-on-background">Pins Perdidos</h3>
+<p class="text-on-surface-variant text-sm">Um mapa cheio de estrelas sem contexto. Você não lembra mais por que salvou aquele lugar.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Solution / Features Section (Guided Flow) -->
+<section class="max-w-7xl mx-auto px-8 py-24 relative" id="features">
+<div class="text-center mb-20 reveal-on-scroll">
+<h2 class="font-headline text-3xl md:text-5xl font-extrabold text-on-background mb-6 tracking-tight">Fluxo Automatizado</h2>
+<p class="text-lg text-on-surface-variant max-w-2xl mx-auto">Tudo que você precisa, orquestrado perfeitamente em segundo plano.</p>
+</div>
+<!-- Vertical connecting line for desktop -->
+<div class="hidden md:block absolute left-1/2 top-[300px] bottom-[200px] w-0.5 bg-gradient-to-b from-primary/20 via-tertiary/20 to-primary/20 -translate-x-1/2 z-0">
+<div class="w-full h-32 bg-gradient-to-b from-transparent via-primary to-transparent animate-[float_4s_ease-in-out_infinite]"></div>
+</div>
+<!-- Feature 1: Itineraries -->
+<div class="flex flex-col md:flex-row items-center gap-16 mb-32 relative z-10 reveal-on-scroll group">
+<div class="md:w-1/2 relative order-2 md:order-1">
+<div class="absolute inset-0 bg-primary-fixed rounded-[2rem] transform -rotate-3 scale-105 -z-10 group-hover:rotate-0 transition-transform duration-500"></div>
+<div class="glass-panel p-2 rounded-[2rem]">
+<img alt="Itineraries Feature" class="rounded-[1.5rem] shadow-xl w-full object-cover aspect-[4/3] group-hover:scale-[1.02] transition-transform duration-500" data-alt="close up of person holding smartphone showing clean travel itinerary app interface with mountain landscape background, soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCa9v4-AWzJzCAAwH8SgGKd4TD7IUhGcsXwT4SFdsfrdQF8o4jXl8ly-FMt9PmaLiJU3hao-aYxuvazPOwQCJF201hm9x0q3KRViV30deslEEwQHtRDj92GeC049EZGoOCnnBn5wwDlNB255JgBXXPW1IwjQkOa8pEKMz7jRe4kpWxZo1iGxdU12ZrhcMDORI_A4OMEV0Y4yDsbvFCnojqVep0XJAKbej236-hIopuzyIW_cqq_8SG6K4YBOvQVHCfp1xC9oPNTlXM"/>
+</div>
+</div>
+<!-- Center Step Indicator -->
+<div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-12 h-12 bg-white rounded-full border-4 border-primary/20 items-center justify-center z-20 shadow-lg group-hover:border-primary transition-colors duration-300">
+<span class="text-primary font-bold">1</span>
+</div>
+<div class="md:w-1/2 space-y-6 order-1 md:order-2 md:pl-12">
+<span class="inline-flex items-center gap-2 px-4 py-1.5 bg-primary-container/10 text-primary font-bold text-xs uppercase tracking-widest rounded-full border border-primary/20">
+<span class="material-symbols-outlined text-sm">calendar_month</span> Passo 1
+                </span>
+<h3 class="font-headline text-3xl md:text-4xl font-bold text-on-background">Planejamento Inteligente</h3>
+<p class="text-on-surface-variant leading-relaxed text-lg">
+                        Nosso algoritmo ajuda a visualizar seus dias com uma linha do tempo dinâmica. Arraste atividades e o Wandr recalcula rotas e tempos de deslocamento instantaneamente.
+                    </p>
+<ul class="space-y-4 pt-4">
+<li class="flex items-center gap-3 text-on-background bg-white/50 p-3 rounded-xl border border-white hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-1 rounded-full">route</span>
+                            Roteirização automática
+                        </li>
+<li class="flex items-center gap-3 text-on-background bg-white/50 p-3 rounded-xl border border-white hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-1 rounded-full">sync</span>
+                            Sincronização offline transparente
+                        </li>
+</ul>
+</div>
+</div>
+<!-- Feature 2: Places -->
+<div class="flex flex-col md:flex-row-reverse items-center gap-16 mb-32 relative z-10 reveal-on-scroll group">
+<div class="md:w-1/2 relative">
+<div class="absolute inset-0 bg-secondary-container rounded-[2rem] transform rotate-3 scale-105 -z-10 group-hover:rotate-0 transition-transform duration-500"></div>
+<div class="glass-panel p-2 rounded-[2rem]">
+<img alt="Places Feature" class="rounded-[1.5rem] shadow-xl w-full object-cover aspect-[4/3] group-hover:scale-[1.02] transition-transform duration-500" data-alt="stylish flat lay of hiking map, compass, and modern smartphone showing saved locations in an app, wooden table, warm rustic tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmkkv8-viDupc9Dy7PHjBJYmzapSP4jIYuYIvyoGArhi_Wf9q3Y6ikaLM_dJYj6cx7bV3RRLorDa5Fe7LDj3CM95w5YQiFYcfPxPkEY_6tDLt-1heL3oupWwEMzFZwqNMnNiPZOM2IvsyXL6iXJTM0QQ4GYdLISquFVvf95Yf5mdDG3fCba4rnkYzO_96-tWyNnc8IYCvzygWv0Q6p6Wd43rAJIG-UUwcMRkn3HMBHH0LJYOuRihFMVSbZjat5WZB2SEYeHsxjBqs"/>
+</div>
+</div>
+<!-- Center Step Indicator -->
+<div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-12 h-12 bg-white rounded-full border-4 border-secondary/20 items-center justify-center z-20 shadow-lg group-hover:border-secondary transition-colors duration-300">
+<span class="text-secondary font-bold">2</span>
+</div>
+<div class="md:w-1/2 space-y-6 md:pr-12 text-left md:text-right flex flex-col md:items-end">
+<span class="inline-flex items-center gap-2 px-4 py-1.5 bg-secondary-container/50 text-on-secondary-container font-bold text-xs uppercase tracking-widest rounded-full border border-secondary/20">
+<span class="material-symbols-outlined text-sm">auto_awesome</span> Passo 2
+                </span>
+<h3 class="font-headline text-3xl md:text-4xl font-bold text-on-background">Curadoria Automática</h3>
+<p class="text-on-surface-variant leading-relaxed text-lg md:text-right">
+                        Cole um link do Instagram ou TikTok e nós extraímos as informações. Categorizamos locais automaticamente e geramos um mapa interativo e limpo para você explorar.
+                    </p>
+</div>
+</div>
+<!-- Feature 3: Expenses -->
+<div class="flex flex-col md:flex-row items-center gap-16 relative z-10 reveal-on-scroll group">
+<div class="md:w-1/2 relative order-2 md:order-1">
+<div class="absolute inset-0 bg-tertiary-fixed rounded-[2rem] transform -rotate-2 scale-105 -z-10 group-hover:rotate-0 transition-transform duration-500"></div>
+<div class="glass-panel p-2 rounded-[2rem]">
+<img alt="Expenses Feature" class="rounded-[1.5rem] shadow-xl w-full object-cover aspect-[4/3] group-hover:scale-[1.02] transition-transform duration-500" data-alt="person using phone in cozy cafe with coffee cup, screen shows clean minimalist budget and expense tracking dashboard, soft daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARm3E-qRnRnR226rNB5oJNUMvX0_NlNo3RWSz5WrfpjOdScesGOjmVuHGjyyzwZiY_rzbYmeaPLxw2du2G5dgX1iMGTDOasq2ahcXusfo6_U0xUBu14DkXJX7ErBEVpy68opXIOJlFDcS7DQ1Q-Oi9RuejtgNVkDq1OEzBmSyNjG8363NyrIXLxB2OOtqPTubUVSiCuerztG0AQTj55SvR5U0lIDw5aQfsjvoJbmN7n5uOYdaxcyRWomH5xFp0CnLdOwyQaFQfkp0"/>
+</div>
+</div>
+<!-- Center Step Indicator -->
+<div class="hidden md:flex absolute left-1/2 -translate-x-1/2 w-12 h-12 bg-white rounded-full border-4 border-tertiary/20 items-center justify-center z-20 shadow-lg group-hover:border-tertiary transition-colors duration-300">
+<span class="text-tertiary font-bold">3</span>
+</div>
+<div class="md:w-1/2 space-y-6 order-1 md:order-2 md:pl-12">
+<span class="inline-flex items-center gap-2 px-4 py-1.5 bg-tertiary-container/10 text-tertiary font-bold text-xs uppercase tracking-widest rounded-full border border-tertiary/20">
+<span class="material-symbols-outlined text-sm">account_balance</span> Passo 3
+                </span>
+<h3 class="font-headline text-3xl md:text-4xl font-bold text-on-background">Finanças Sincronizadas</h3>
+<p class="text-on-surface-variant leading-relaxed text-lg">
+                        Cálculos automáticos e conversão de moedas em tempo real. Divida contas com o grupo em um clique e acompanhe os custos sem esforço manual.
+                    </p>
+</div>
+</div>
+</section>
+<!-- Pricing Section -->
+<section class="glass-panel py-24 rounded-[3rem] mx-4 lg:mx-8 px-8 reveal-on-scroll relative overflow-hidden" id="pricing">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px]"></div>
+<div class="max-w-5xl mx-auto relative z-10">
+<div class="text-center mb-16">
+<h2 class="font-headline text-3xl md:text-4xl font-bold text-on-background mb-4">Atualize seu Piloto Automático</h2>
+<p class="text-on-surface-variant max-w-xl mx-auto">Comece a planejar gratuitamente e desbloqueie o poder total do assistente quando precisar.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+<!-- Free Plan -->
+<div class="bg-white/80 backdrop-blur-md p-10 rounded-3xl border border-outline-variant/20 flex flex-col hover:shadow-lg transition-shadow duration-300">
+<h3 class="font-headline text-2xl font-bold text-on-background mb-2">Explorer (Free)</h3>
+<p class="text-on-surface-variant mb-6 text-sm">O básico para organizadores solo.</p>
+<div class="text-4xl font-headline font-bold text-on-background mb-8">R$0<span class="text-base font-normal text-on-surface-variant">/mês</span></div>
+<ul class="space-y-4 mb-8 flex-1">
+<li class="flex items-center gap-3 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-outline text-lg">check</span> 1 Viagem ativa
+                            </li>
+<li class="flex items-center gap-3 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-outline text-lg">check</span> Itinerário básico
+                            </li>
+<li class="flex items-center gap-3 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-outline text-lg">check</span> Até 15 lugares salvos
+                            </li>
+</ul>
+<button class="w-full bg-surface-container-high text-on-surface font-headline font-bold py-3 rounded-full hover:bg-surface-variant transition-colors hover:scale-[1.02] duration-300">
+                            Começar Grátis
+                        </button>
+</div>
+<!-- Pro Plan -->
+<div class="bg-white/90 backdrop-blur-md p-10 rounded-3xl border-2 border-primary/30 shadow-2xl relative flex flex-col transform md:-translate-y-4 hover:-translate-y-6 transition-transform duration-300">
+<div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-primary to-primary-container text-on-primary text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider shadow-lg flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">bolt</span> Automação Total
+                        </div>
+<h3 class="font-headline text-2xl font-bold text-primary mb-2">Wandr Pro</h3>
+<p class="text-on-surface-variant mb-6 text-sm">Para viajantes frequentes e grupos.</p>
+<div class="text-4xl font-headline font-bold text-on-background mb-8">R$19<span class="text-base font-normal text-on-surface-variant">/mês</span></div>
+<ul class="space-y-4 mb-8 flex-1">
+<li class="flex items-center gap-3 text-sm text-on-background font-medium">
+<span class="material-symbols-outlined text-primary text-lg">check_circle</span> Viagens ilimitadas
+                            </li>
+<li class="flex items-center gap-3 text-sm text-on-background font-medium">
+<span class="material-symbols-outlined text-primary text-lg">check_circle</span> Sincronização em tempo real
+                            </li>
+<li class="flex items-center gap-3 text-sm text-on-background font-medium">
+<span class="material-symbols-outlined text-primary text-lg">check_circle</span> Automação financeira avançada
+                            </li>
+<li class="flex items-center gap-3 text-sm text-on-background font-medium">
+<span class="material-symbols-outlined text-primary text-lg">check_circle</span> Extração de links ilimitada
+                            </li>
+</ul>
+<button class="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold py-3 rounded-full hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/30 transition-all duration-300">
+                            Desbloquear Pro
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low w-full py-12 border-t border-outline-variant/10">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 max-w-7xl mx-auto gap-6">
+<div class="text-lg font-headline font-black text-on-background tracking-tight flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">flight_takeoff</span>
+                Wandr
+            </div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Privacidade</a>
+<a class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Termos</a>
+<a class="font-label text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Suporte</a>
+</div>
+<div class="font-label text-xs uppercase tracking-widest text-on-surface-variant opacity-60">
+                © 2024 <a href="https://axellion.com.br/" target="_blank" rel="noopener noreferrer">Axellion</a>. All rights reserved.
+            </div>
+</div>
+</footer>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in-up');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+        
+        document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
+            observer.observe(el);
+        });
+    });
+</script>
+</body></html>

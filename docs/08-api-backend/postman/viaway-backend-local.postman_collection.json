@@ -1,0 +1,762 @@
+{
+  "info": {
+    "name": "ViaWay Backend Local",
+    "_postman_id": "f2b7f6a2-2f11-4b25-a595-24ac694f10c0",
+    "description": "Colecao para testar o backend ViaWay local (/v1), cobrindo MVP Free: viagens, itinerario, lugares, cotacoes, gastos e checklist.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "Viagens",
+      "item": [
+        {
+          "name": "Viagens / Listar",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/viagens?page=1&pageSize=20"
+          }
+        },
+        {
+          "name": "Viagens / Criar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Viagem Postman\",\n  \"destinoPrincipal\": \"Lisboa, PT\",\n  \"destinosSecundarios\": [\"Sintra\"],\n  \"numViajantes\": 2,\n  \"orcamentoTotal\": 4200,\n  \"notas\": \"Teste via Postman\"\n}"
+            },
+            "url": "{{baseUrl}}/viagens"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body?.data?.id) pm.environment.set('viagemId', body.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Viagens / Obter por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/viagens/{{viagemId}}"
+          }
+        },
+        {
+          "name": "Viagens / Atualizar",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Viagem Postman (atualizada)\",\n  \"numViajantes\": 3,\n  \"notas\": \"Atualizada em teste\"\n}"
+            },
+            "url": "{{baseUrl}}/viagens/{{viagemId}}"
+          }
+        },
+        {
+          "name": "Viagens / Excluir (soft delete)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/viagens/{{viagemId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Itinerario",
+      "item": [
+        {
+          "name": "Dias / Listar",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/itinerario/dias?viagemId={{viagemId}}"
+          }
+        },
+        {
+          "name": "Dias / Criar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"viagemId\": \"{{viagemId}}\",\n  \"data\": \"2026-05-01\",\n  \"ordem\": 1,\n  \"resumoDia\": \"Dia 1 de testes\"\n}"
+            },
+            "url": "{{baseUrl}}/itinerario/dias"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body?.data?.id) pm.environment.set('diaId', body.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Dias / Atualizar",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resumoDia\": \"Dia atualizado\",\n  \"ordem\": 2\n}"
+            },
+            "url": "{{baseUrl}}/itinerario/dias/{{diaId}}"
+          }
+        },
+        {
+          "name": "Atividades / Listar",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/itinerario/atividades?diaId={{diaId}}"
+          }
+        },
+        {
+          "name": "Atividades / Criar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"diaId\": \"{{diaId}}\",\n  \"viagemId\": \"{{viagemId}}\",\n  \"tipo\": \"atividade\",\n  \"nome\": \"Passeio no centro\",\n  \"ordem\": 1,\n  \"custoEstimado\": 120\n}"
+            },
+            "url": "{{baseUrl}}/itinerario/atividades"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body?.data?.id) pm.environment.set('atividadeId', body.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Atividades / Atualizar",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Passeio no centro (editado)\",\n  \"status\": \"confirmado\"\n}"
+            },
+            "url": "{{baseUrl}}/itinerario/atividades/{{atividadeId}}"
+          }
+        },
+        {
+          "name": "Atividades / Excluir",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/itinerario/atividades/{{atividadeId}}"
+          }
+        },
+        {
+          "name": "Dias / Excluir",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/itinerario/dias/{{diaId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Lugares",
+      "item": [
+        {
+          "name": "Lugares / Listar",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/lugares?viagemId={{viagemId}}"
+          }
+        },
+        {
+          "name": "Lugares / Criar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"viagemId\": \"{{viagemId}}\",\n  \"nome\": \"Museu Postman\",\n  \"tipo\": \"museu\",\n  \"cidade\": \"Lisboa\"\n}"
+            },
+            "url": "{{baseUrl}}/lugares"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body?.data?.id) pm.environment.set('lugarId', body.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Lugares / Atualizar",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"ja_fui\",\n  \"notaPessoal\": \"Muito bom\"\n}"
+            },
+            "url": "{{baseUrl}}/lugares/{{lugarId}}"
+          }
+        },
+        {
+          "name": "Lugares / Excluir",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/lugares/{{lugarId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cotacoes",
+      "item": [
+        {
+          "name": "Cotacoes / Listar",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/cotacoes?viagemId={{viagemId}}"
+          }
+        },
+        {
+          "name": "Cotacoes / Criar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"viagemId\": \"{{viagemId}}\",\n  \"tipo\": \"hospedagem\",\n  \"fornecedor\": \"Hotel Teste\",\n  \"valorTotal\": 980,\n  \"status\": \"analise\"\n}"
+            },
+            "url": "{{baseUrl}}/cotacoes"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body?.data?.id) pm.environment.set('cotacaoId', body.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cotacoes / Atualizar",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"escolhido\",\n  \"valorTotal\": 950\n}"
+            },
+            "url": "{{baseUrl}}/cotacoes/{{cotacaoId}}"
+          }
+        },
+        {
+          "name": "Cotacoes / Comparativo",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/cotacoes/comparativo?viagemId={{viagemId}}"
+          }
+        },
+        {
+          "name": "Cotacoes / Excluir",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/cotacoes/{{cotacaoId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gastos",
+      "item": [
+        {
+          "name": "Gastos / Listar",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/gastos?viagemId={{viagemId}}"
+          }
+        },
+        {
+          "name": "Gastos / Criar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"viagemId\": \"{{viagemId}}\",\n  \"descricao\": \"Transporte aeroporto\",\n  \"categoria\": \"transporte\",\n  \"valor\": 65,\n  \"data\": \"2026-05-01\"\n}"
+            },
+            "url": "{{baseUrl}}/gastos"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body?.data?.id) pm.environment.set('gastoId', body.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Gastos / Atualizar",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"valor\": 70,\n  \"notas\": \"Valor atualizado\"\n}"
+            },
+            "url": "{{baseUrl}}/gastos/{{gastoId}}"
+          }
+        },
+        {
+          "name": "Gastos / Painel Financeiro",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/gastos/painel?viagemId={{viagemId}}"
+          }
+        },
+        {
+          "name": "Gastos / Excluir",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/gastos/{{gastoId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Checklist",
+      "item": [
+        {
+          "name": "Checklist / Listar",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/checklists?viagemId={{viagemId}}"
+          }
+        },
+        {
+          "name": "Checklist / Criar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"viagemId\": \"{{viagemId}}\",\n  \"item\": \"Passaporte\",\n  \"ordem\": 1,\n  \"origem\": \"manual\"\n}"
+            },
+            "url": "{{baseUrl}}/checklists"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();",
+                  "if (body?.data?.id) pm.environment.set('checklistId', body.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Checklist / Toggle Conclusao",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"concluido\": true\n}"
+            },
+            "url": "{{baseUrl}}/checklists/{{checklistId}}/toggle"
+          }
+        },
+        {
+          "name": "Checklist / Atualizar",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"item\": \"Passaporte e vistos\",\n  \"ordem\": 2\n}"
+            },
+            "url": "{{baseUrl}}/checklists/{{checklistId}}"
+          }
+        },
+        {
+          "name": "Checklist / Excluir",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}/checklists/{{checklistId}}"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3001/v1",
+      "type": "string"
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "viagemId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "diaId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "atividadeId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "lugarId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cotacaoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "gastoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "checklistId",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

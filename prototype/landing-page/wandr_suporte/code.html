@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html lang="pt"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Suporte e FAQ - Wandr</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#665e4b",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-tertiary-container": "#e0f3ff",
+                        "on-secondary-container": "#6a624f",
+                        "surface-container-high": "#e7e7f3",
+                        "inverse-primary": "#b4c5ff",
+                        "tertiary": "#005c79",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#7bd1fa",
+                        "outline": "#737686",
+                        "surface-variant": "#e1e2ed",
+                        "surface-container": "#ededf9",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#191b23",
+                        "on-secondary-fixed": "#211b0c",
+                        "background": "#faf8ff",
+                        "surface": "#faf8ff",
+                        "primary": "#004ac6",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#434655",
+                        "on-secondary-fixed-variant": "#4d4634",
+                        "inverse-surface": "#2e3039",
+                        "surface-container-highest": "#e1e2ed",
+                        "error-container": "#ffdad6",
+                        "on-background": "#191b23",
+                        "surface-dim": "#d9d9e5",
+                        "surface-bright": "#faf8ff",
+                        "secondary-fixed": "#ede1c9",
+                        "tertiary-container": "#00769a",
+                        "on-tertiary-fixed": "#001e2b",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#c0e8ff",
+                        "primary-fixed": "#dbe1ff",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-tertiary-fixed-variant": "#004d66",
+                        "on-primary-container": "#eeefff",
+                        "surface-container-low": "#f3f3fe",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f0f0fb",
+                        "primary-container": "#2563eb",
+                        "surface-tint": "#0053db",
+                        "outline-variant": "#c3c6d7",
+                        "on-primary-fixed": "#00174b",
+                        "secondary-container": "#ebdec6",
+                        "secondary-fixed-dim": "#d1c5ae"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {},
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-xl transition-all duration-300 ease-in-out">
+<div class="flex justify-between items-center h-20 px-8 max-w-7xl mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-blue-700 dark:text-blue-400 font-headline">Wandr</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-tight transition-all duration-300 ease-in-out hover:scale-[0.98]" href="#">Features</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-600 font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-tight transition-all duration-300 ease-in-out hover:scale-[0.98]" href="#">Pricing</a>
+<a class="text-blue-700 dark:text-blue-400 font-semibold border-b-2 border-blue-700 font-['Plus_Jakarta_Sans'] font-bold text-sm tracking-tight transition-all duration-300 ease-in-out hover:scale-[0.98] pb-1" href="#">Support</a>
+</div>
+<div class="hidden md:block">
+<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary px-6 py-2 rounded-full font-headline font-semibold text-sm hover:scale-[0.98] transition-transform shadow-[0_8px_30px_rgb(25,27,35,0.04)]">Download</button>
+</div>
+<!-- Mobile Menu Icon (Placeholder) -->
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-28 pb-20 px-4 md:px-8 max-w-6xl mx-auto w-full">
+<!-- Hero Section: Search & Categories -->
+<section class="text-center mb-24 mt-12 relative z-10">
+<h1 class="text-5xl md:text-6xl font-headline font-extrabold tracking-tight text-on-surface mb-6">Como podemos ajudar?</h1>
+<p class="text-lg md:text-xl text-on-surface-variant font-body mb-10 max-w-2xl mx-auto leading-relaxed">Pesquise nossa base de conhecimento ou explore as categorias abaixo para encontrar respostas rápidas para sua próxima viagem.</p>
+<!-- Search Bar -->
+<div class="max-w-2xl mx-auto relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant text-2xl group-focus-within:text-primary transition-colors">search</span>
+</div>
+<input class="w-full bg-surface-container-low text-on-surface placeholder:text-outline py-4 pl-12 pr-4 rounded-xl border-none focus:ring-0 focus:bg-surface-container-lowest focus:shadow-[0_0_0_1px_rgba(0,74,198,0.2)] transition-all font-body text-base outline-none shadow-sm h-16" placeholder="Pesquisar por artigos, destinos ou problemas..." type="text"/>
+</div>
+<!-- Category Chips -->
+<div class="flex flex-wrap justify-center gap-3 mt-10">
+<button class="bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label text-sm px-5 py-2.5 rounded-full transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">flight</span> Voos &amp; Reservas
+                </button>
+<button class="bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label text-sm px-5 py-2.5 rounded-full transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">hotel</span> Hospedagem
+                </button>
+<button class="bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label text-sm px-5 py-2.5 rounded-full transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">account_circle</span> Minha Conta
+                </button>
+<button class="bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label text-sm px-5 py-2.5 rounded-full transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">credit_card</span> Pagamentos
+                </button>
+</div>
+</section>
+<!-- Bento Grid FAQ -->
+<section class="mb-24">
+<h2 class="text-3xl font-headline font-bold text-on-surface mb-10 tracking-tight">Perguntas Frequentes</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- FAQ Card 1 -->
+<div class="bg-surface-container-low p-8 rounded-xl hover:bg-surface-container transition-colors group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-fixed rounded-bl-full opacity-20 -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
+<span class="material-symbols-outlined text-primary text-3xl mb-4 block">sync_alt</span>
+<h3 class="text-xl font-headline font-semibold text-on-surface mb-3">Como altero as datas da minha viagem?</h3>
+<p class="text-on-surface-variant font-body text-sm leading-relaxed">Vá para 'Minhas Viagens', selecione o itinerário desejado e toque no ícone de lápis para ajustar as datas de voos e hotéis conectados.</p>
+</div>
+<!-- FAQ Card 2 -->
+<div class="bg-surface-container-low p-8 rounded-xl hover:bg-surface-container transition-colors group cursor-pointer">
+<span class="material-symbols-outlined text-primary text-3xl mb-4 block">cancel</span>
+<h3 class="text-xl font-headline font-semibold text-on-surface mb-3">Qual é a política de cancelamento?</h3>
+<p class="text-on-surface-variant font-body text-sm leading-relaxed">As políticas variam de acordo com o provedor. Verifique os termos específicos detalhados no seu recibo de confirmação antes de cancelar na aba 'Reservas'.</p>
+</div>
+<!-- FAQ Card 3 -->
+<div class="bg-surface-container-low p-8 rounded-xl hover:bg-surface-container transition-colors group cursor-pointer">
+<span class="material-symbols-outlined text-primary text-3xl mb-4 block">offline_pin</span>
+<h3 class="text-xl font-headline font-semibold text-on-surface mb-3">Posso acessar meu roteiro offline?</h3>
+<p class="text-on-surface-variant font-body text-sm leading-relaxed">Sim! Todos os roteiros confirmados são salvos automaticamente em cache no seu dispositivo para acesso garantido sem conexão à internet.</p>
+</div>
+<!-- FAQ Card 4 -->
+<div class="bg-surface-container-low p-8 rounded-xl hover:bg-surface-container transition-colors group cursor-pointer lg:col-span-2 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-surface-container-low to-surface-container-high opacity-50"></div>
+<div class="relative z-10">
+<span class="material-symbols-outlined text-primary text-3xl mb-4 block">group_add</span>
+<h3 class="text-xl font-headline font-semibold text-on-surface mb-3">Como convido amigos para planejar junto?</h3>
+<p class="text-on-surface-variant font-body text-sm leading-relaxed max-w-2xl">O planejamento colaborativo é fácil. Abra o roteiro que deseja compartilhar, clique no botão 'Compartilhar' no canto superior direito e gere um link de convite ou insira os e-mails dos seus amigos para dar acesso de edição.</p>
+</div>
+</div>
+<!-- FAQ Card 5 -->
+<div class="bg-surface-container-low p-8 rounded-xl hover:bg-surface-container transition-colors group cursor-pointer">
+<span class="material-symbols-outlined text-primary text-3xl mb-4 block">receipt_long</span>
+<h3 class="text-xl font-headline font-semibold text-on-surface mb-3">Onde encontro minhas faturas?</h3>
+<p class="text-on-surface-variant font-body text-sm leading-relaxed">Acesse 'Conta', depois 'Histórico de Pagamentos'. Você pode baixar todas as faturas em PDF para suas despesas de viagem.</p>
+</div>
+</div>
+<div class="mt-8 text-center">
+<button class="text-primary hover:text-primary-container font-headline font-semibold text-sm transition-colors inline-flex items-center gap-1">
+                    Ver todos os artigos <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Contact Section -->
+<section class="bg-surface-container-lowest rounded-2xl p-8 md:p-12 shadow-[0_8px_30px_rgb(25,27,35,0.04)] relative overflow-hidden">
+<!-- Decorative blur -->
+<div class="absolute -bottom-24 -right-24 w-64 h-64 bg-primary-fixed-dim rounded-full blur-3xl opacity-30"></div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
+<div>
+<h2 class="text-3xl font-headline font-bold text-on-surface mb-4 tracking-tight">Ainda precisa de ajuda?</h2>
+<p class="text-on-surface-variant font-body mb-8">Nossa equipe de concierge digital está pronta para ajudar a resolver qualquer problema com sua jornada.</p>
+<div class="flex items-start gap-4 mb-6">
+<div class="bg-primary-container/10 p-3 rounded-full text-primary">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div>
+<h4 class="font-headline font-semibold text-on-surface">Email Direto</h4>
+<a class="text-primary hover:underline font-body text-sm" href="mailto:suporte@wandr.app">suporte@wandr.app</a>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="bg-secondary-container/30 p-3 rounded-full text-secondary">
+<span class="material-symbols-outlined">schedule</span>
+</div>
+<div>
+<h4 class="font-headline font-semibold text-on-surface">Tempo de Resposta (SLA)</h4>
+<p class="text-on-surface-variant font-body text-sm">Respondemos a todas as consultas em até <strong class="text-on-surface">2 horas úteis</strong> durante o horário comercial.</p>
+</div>
+</div>
+</div>
+<!-- Contact Form -->
+<div class="bg-surface-container-low p-6 rounded-xl">
+<form class="space-y-4">
+<div>
+<label class="block text-sm font-label text-on-surface-variant mb-1" for="name">Nome completo</label>
+<input class="w-full bg-surface-container-lowest border-none rounded-lg focus:ring-0 focus:shadow-[0_0_0_1px_rgba(0,74,198,0.2)] text-on-surface p-3 font-body text-sm h-11" id="name" placeholder="Seu nome" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-label text-on-surface-variant mb-1" for="email">E-mail</label>
+<input class="w-full bg-surface-container-lowest border-none rounded-lg focus:ring-0 focus:shadow-[0_0_0_1px_rgba(0,74,198,0.2)] text-on-surface p-3 font-body text-sm h-11" id="email" placeholder="seu.email@exemplo.com" type="email"/>
+</div>
+<div>
+<label class="block text-sm font-label text-on-surface-variant mb-1" for="message">Mensagem</label>
+<textarea class="w-full bg-surface-container-lowest border-none rounded-lg focus:ring-0 focus:shadow-[0_0_0_1px_rgba(0,74,198,0.2)] text-on-surface p-3 font-body text-sm resize-none" id="message" placeholder="Como podemos ajudar hoje?" rows="4"></textarea>
+</div>
+<button class="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary py-3 rounded-full font-headline font-semibold text-sm hover:scale-[0.98] transition-transform mt-2" type="submit">Enviar Mensagem</button>
+</form>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-100 dark:bg-slate-900 w-full py-12 transition-all duration-300 ease-in-out">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 max-w-7xl mx-auto gap-6 opacity-80 hover:opacity-100">
+<div class="text-lg font-black text-slate-900 dark:text-slate-100 font-headline">Wandr</div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-slate-500 dark:text-slate-400 font-['Inter'] text-xs uppercase tracking-widest hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Privacy</a>
+<a class="text-slate-500 dark:text-slate-400 font-['Inter'] text-xs uppercase tracking-widest hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Terms</a>
+<a class="text-blue-600 font-bold font-['Inter'] text-xs uppercase tracking-widest hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Support</a>
+<a class="text-slate-500 dark:text-slate-400 font-['Inter'] text-xs uppercase tracking-widest hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Delete Account</a>
+</div>
+<div class="font-['Inter'] text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                © 2024 <a href="https://axellion.com.br/" target="_blank" rel="noopener noreferrer">Axellion</a>. All rights reserved.
+            </div>
+</div>
+</footer>
+</body></html>
