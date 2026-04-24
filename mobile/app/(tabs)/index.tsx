@@ -1,98 +1,134 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'expo-router';
+import { ActivityIndicator, FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { AppHeader } from '@/components/viaway/AppHeader';
+import { EmptyTripsState } from '@/components/viaway/EmptyTripsState';
+import { useMenu } from '@/context/menu-context';
+import { ApiException } from '@/lib/api-client';
+import { listViagens, type ViagemJson } from '@/lib/viaway-api';
+import { ViaColors, ViaFonts, ViaRadius, ViaShadows, ViaSpacing, textBodySm, textH2 } from '@/constants/viaway-theme';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+type Row = ViagemJson & { destaqueEmAndamento?: boolean };
 
-export default function HomeScreen() {
+function useViagensQ() {
+  return useQuery({
+    queryKey: ['viagens'] as const,
+    queryFn: async () => (await listViagens(1)).data,
+  });
+}
+
+export default function InicioScreen() {
+  const insets = useSafeAreaInsets();
+  const router = useRouter();
+  const menu = useMenu();
+  const qClient = useQueryClient();
+  const q = useViagensQ();
+  const rows: Row[] = (q.data ?? []) as Row[];
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
+    <View style={styles.root}>
+      <AppHeader
+        onMenuPress={() => menu.open()}
+        showAvatar
+      />
+      {q.isLoading ? (
+        <View style={styles.c}>
+          <ActivityIndicator size="large" color={ViaColors.coral} />
+        </View>
+      ) : q.isError && q.error instanceof ApiException && q.error.status === 401 ? (
+        <View style={[styles.body, { paddingBottom: 100 + insets.bottom }]}>
+          <Text style={styles.errT}>A API exige autenticação.</Text>
+          <Text style={styles.errS}>
+            Em desenvolvimento, inicie o backend com DISABLE_AUTH=true ou configure Clerk no
+            app e a URL (localhost vs 10.0.2.2 no Android) em .env
+          </Text>
+        </View>
+      ) : q.isError ? (
+        <View style={[styles.body, { paddingBottom: 100 + insets.bottom }]}>
+          <Text style={styles.errT}>{(q.error as Error).message}</Text>
+          <Pressable
+            onPress={() => void qClient.invalidateQueries({ queryKey: ['viagens'] })}
+            style={({ pressed }) => [styles.retry, pressed && { opacity: 0.88 }]}>
+            <Text style={styles.retryT}>Tentar de novo</Text>
+          </Pressable>
+        </View>
+      ) : rows.length === 0 ? (
+        <View
+          style={[
+            styles.body,
+            { paddingBottom: 100 + insets.bottom, paddingTop: ViaSpacing.lg },
+          ]}>
+          <EmptyTripsState onCreatePress={() => router.push('/criar-viagem')} />
+        </View>
+      ) : (
+        <FlatList
+          data={rows}
+          keyExtractor={(i) => i.id}
+          contentContainerStyle={[
+            styles.list,
+            { paddingBottom: 100 + insets.bottom, paddingTop: ViaSpacing.md },
+          ]}
+          refreshControl={
+            <RefreshControl
+              refreshing={q.isFetching}
+              onRefresh={() => void qClient.invalidateQueries({ queryKey: ['viagens'] })}
             />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
-
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+          }
+          renderItem={({ item: v }) => (
+            <Pressable
+              onPress={() => router.push({ pathname: '/trip/[id]', params: { id: v.id } })}
+              style={({ pressed }) => [styles.trip, pressed && { opacity: 0.94 }]}>
+              <View style={styles.tripTop}>
+                <View style={{ flex: 1, minWidth: 0 }}>
+                  {v.destaqueEmAndamento && <Text style={styles.badge}>em andamento</Text>}
+                  <Text style={styles.tit}>{v.nome}</Text>
+                  <Text style={styles.sub}>{v.destinoPrincipal}</Text>
+                </View>
+                <MaterialIcons name="chevron-right" size={28} color={ViaColors.navy} />
+              </View>
+            </Pressable>
+          )}
+        />
+      )}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  root: { flex: 1, backgroundColor: ViaColors.background },
+  c: { flex: 1, justifyContent: 'center' },
+  body: { flex: 1, paddingHorizontal: ViaSpacing.margin },
+  list: { paddingHorizontal: ViaSpacing.margin, gap: ViaSpacing.md },
+  errT: { fontFamily: ViaFonts.bodySemi, color: '#ba1a1a', marginBottom: ViaSpacing.md },
+  errS: { fontFamily: ViaFonts.body, color: ViaColors.onSurfaceVariant, lineHeight: 20 },
+  retry: {
+    alignSelf: 'flex-start',
+    marginTop: ViaSpacing.lg,
+    backgroundColor: ViaColors.primaryContainer,
+    paddingVertical: 12,
+    paddingHorizontal: ViaSpacing.lg,
+    borderRadius: 999,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  retryT: { color: ViaColors.onPrimary, fontFamily: ViaFonts.bodySemi, fontSize: 15 },
+  trip: {
+    backgroundColor: ViaColors.surfaceWhite,
+    borderRadius: ViaRadius.lg,
+    borderWidth: 1,
+    borderColor: 'rgba(226,209,179,0.35)',
+    ...ViaShadows.level1,
+    padding: ViaSpacing.md,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  tripTop: { flexDirection: 'row', alignItems: 'center' },
+  badge: {
+    fontSize: 11,
+    fontFamily: ViaFonts.label,
+    textTransform: 'uppercase' as const,
+    letterSpacing: 0.6,
+    color: ViaColors.coral,
+    marginBottom: 4,
   },
+  tit: { ...textH2, color: ViaColors.navy, fontSize: 20, marginBottom: 4 },
+  sub: { ...textBodySm, color: ViaColors.onSurfaceVariant },
 });
