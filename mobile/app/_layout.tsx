@@ -10,10 +10,6 @@ import { MenuProvider } from '@/context/menu-context';
 import { ViawayQueryProvider } from '@/context/query-provider';
 import { MenuDrawer } from '@/components/viaway/MenuDrawer';
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
-
 const navLight = {
   ...DefaultTheme,
   colors: {
@@ -51,6 +47,11 @@ function RootLayoutNav() {
       <ViawayQueryProvider>
         <MenuProvider>
           <Stack>
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="splash" options={{ headerShown: false }} />
+            <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+            <Stack.Screen name="auth" options={{ headerShown: false }} />
+            <Stack.Screen name="register-intent" options={{ headerShown: false }} />
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="criar-viagem" options={{ headerShown: false }} />
             <Stack.Screen name="trip/[id]" options={{ headerShown: false }} />

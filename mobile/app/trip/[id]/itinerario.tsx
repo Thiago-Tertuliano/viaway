@@ -4,6 +4,8 @@ import { useLocalSearchParams } from 'expo-router';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View, RefreshControl } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '@/components/viaway/AppHeader';
+import { ScreenState } from '@/components/viaway/ScreenState';
+import { SectionCard } from '@/components/viaway/SectionCard';
 import { listAtividades, listDias } from '@/lib/viaway-api';
 import { formatDateBr } from '@/lib/format';
 import {
@@ -31,9 +33,7 @@ export default function ItinerarioViagemScreen() {
     <View style={styles.root}>
       <AppHeader left="back" showAvatar={false} title="Itinerário" />
       {diasQ.isLoading ? (
-        <View style={styles.c}>
-          <ActivityIndicator color={ViaColors.coral} size="large" />
-        </View>
+        <ScreenState kind="loading" title="Carregando itinerário..." />
       ) : (
         <ScrollView
           contentContainerStyle={[
@@ -57,7 +57,11 @@ export default function ItinerarioViagemScreen() {
             .sort((a, b) => a.ordem - b.ordem)
             .map((dia) => <DiaBloco key={dia.id} dia={dia} />)}
           {diasQ.isSuccess && (diasQ.data?.length ?? 0) === 0 && (
-            <Text style={styles.empty}>Nenhum dia ainda. Crie dias pela API ou um fluxo de edição futuro.</Text>
+            <ScreenState
+              kind="empty"
+              title="Nenhum dia planejado"
+              subtitle="Adicione dias e atividades para montar seu roteiro."
+            />
           )}
         </ScrollView>
       )}
@@ -83,7 +87,8 @@ function DiaBloco({ dia }: { dia: { id: string; data: string; ordem: number; res
       {q.isLoading && <ActivityIndicator color={ViaColors.coral} style={{ marginVertical: 8 }} />}
       {q.isSuccess &&
         (q.data ?? []).map((a) => (
-          <Pressable key={a.id} style={({ pressed }) => [styles.a, pressed && { opacity: 0.92 }]}>
+          <SectionCard key={a.id}>
+          <Pressable style={({ pressed }) => [styles.a, pressed && { opacity: 0.92 }]}>
             <View style={styles.badge}>
               <Text style={styles.tipo}>{a.tipo}</Text>
             </View>
@@ -101,6 +106,7 @@ function DiaBloco({ dia }: { dia: { id: string; data: string; ordem: number; res
               </View>
             </View>
           </Pressable>
+          </SectionCard>
         ))}
     </View>
   );
@@ -108,7 +114,6 @@ function DiaBloco({ dia }: { dia: { id: string; data: string; ordem: number; res
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: ViaColors.background },
-  c: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   sc: { padding: ViaSpacing.margin, gap: ViaSpacing.lg },
   e: { color: '#ba1a1a' },
   empty: { ...textBody, color: ViaColors.onSurfaceVariant },
@@ -119,14 +124,7 @@ const styles = StyleSheet.create({
   kb: { ...textLabel, color: ViaColors.coral, marginBottom: 2 },
   h2: { ...textH3, color: ViaColors.navy },
   s: { ...textBodySm, marginTop: 4, color: ViaColors.onSurfaceVariant },
-  a: {
-    backgroundColor: ViaColors.surfaceWhite,
-    borderRadius: ViaRadius.lg,
-    padding: ViaSpacing.md,
-    marginLeft: 22,
-    marginBottom: ViaSpacing.sm,
-    ...ViaShadows.level1,
-  },
+  a: { paddingVertical: ViaSpacing.xs, marginLeft: 22, marginBottom: ViaSpacing.sm },
   badge: { marginBottom: 4 },
   tipo: { ...textLabel, color: ViaColors.navy, fontSize: 10, alignSelf: 'flex-start' },
   an: { fontFamily: textH3.fontFamily, fontSize: 17, color: ViaColors.onSurface },

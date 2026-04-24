@@ -4,6 +4,8 @@ import { useLocalSearchParams } from 'expo-router';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View, RefreshControl } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '@/components/viaway/AppHeader';
+import { ScreenState } from '@/components/viaway/ScreenState';
+import { SectionCard } from '@/components/viaway/SectionCard';
 import { listLugaresViagem } from '@/lib/viaway-api';
 import { ViaColors, ViaRadius, ViaShadows, ViaSpacing, textBody, textBodySm, textH3 } from '@/constants/viaway-theme';
 
@@ -21,9 +23,7 @@ export default function LugaresViagemScreen() {
     <View style={styles.root}>
       <AppHeader left="back" showAvatar={false} title="Lugares" />
       {q.isLoading ? (
-        <View style={styles.c}>
-          <ActivityIndicator size="large" color={ViaColors.coral} />
-        </View>
+        <ScreenState kind="loading" title="Carregando lugares..." />
       ) : (
         <ScrollView
           contentContainerStyle={[
@@ -38,7 +38,8 @@ export default function LugaresViagemScreen() {
           }>
           {q.isError && <Text style={styles.e}>Falha ao carregar.</Text>}
           {(q.data ?? []).map((l) => (
-            <Pressable key={l.id} style={({ pressed }) => [styles.card, pressed && { opacity: 0.95 }]}>
+            <SectionCard key={l.id}>
+            <Pressable style={({ pressed }) => [styles.card, pressed && { opacity: 0.95 }]}>
               <MaterialIcons name="place" size={22} color={ViaColors.secondary} />
               <View style={styles.t}>
                 <Text style={styles.tit}>{l.nome}</Text>
@@ -48,9 +49,14 @@ export default function LugaresViagemScreen() {
                 </Text>
               </View>
             </Pressable>
+            </SectionCard>
           ))}
           {q.isSuccess && (q.data?.length ?? 0) === 0 && (
-            <Text style={styles.n}>Nenhum lugar vinculado a esta viagem.</Text>
+            <ScreenState
+              kind="empty"
+              title="Nenhum lugar vinculado"
+              subtitle="Salve lugares e associe à viagem para ter referência no roteiro."
+            />
           )}
         </ScrollView>
       )}
@@ -60,7 +66,6 @@ export default function LugaresViagemScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: ViaColors.background },
-  c: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   sc: { padding: ViaSpacing.margin, gap: ViaSpacing.md },
   e: { color: '#ba1a1a' },
   n: { ...textBody, color: ViaColors.onSurfaceVariant },
@@ -68,10 +73,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: ViaSpacing.md,
-    backgroundColor: ViaColors.surfaceWhite,
-    borderRadius: ViaRadius.lg,
-    padding: ViaSpacing.md,
-    ...ViaShadows.level1,
+    paddingVertical: ViaSpacing.xs,
   },
   t: { flex: 1, minWidth: 0 },
   tit: { ...textH3, color: ViaColors.navy, marginBottom: 2 },

@@ -14,6 +14,8 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '@/components/viaway/AppHeader';
 import { ProgressBarCoral } from '@/components/viaway/ProgressBarCoral';
+import { ScreenState } from '@/components/viaway/ScreenState';
+import { SectionCard } from '@/components/viaway/SectionCard';
 import { formatBrl } from '@/lib/format';
 import { type GastoJson, createGasto, getPainelGastos, listGastos } from '@/lib/viaway-api';
 import {
@@ -94,9 +96,7 @@ export default function GastosViagemScreen() {
     <View style={styles.root}>
       <AppHeader left="back" showAvatar={false} title="Gastos" />
       {list.isLoading ? (
-        <View style={styles.c}>
-          <ActivityIndicator size="large" color={ViaColors.coral} />
-        </View>
+        <ScreenState kind="loading" title="Carregando gastos..." />
       ) : (
         <ScrollView
           contentContainerStyle={[
@@ -115,13 +115,16 @@ export default function GastosViagemScreen() {
             />
           }>
           {painel.data && (
-            <View style={styles.pan}>
+            <SectionCard>
+              <View style={styles.pan}>
               <Text style={styles.panT}>
                 {formatBrl(painel.data.jaGasto)} gasto · {formatBrl(painel.data.saldoDisponivel)} saldo
               </Text>
               {orc > 0 && <ProgressBarCoral progress={prog} />}
-            </View>
+              </View>
+            </SectionCard>
           )}
+          <SectionCard>
           <View style={styles.form}>
             <Text style={styles.h2}>Novo gasto</Text>
             <TextInput
@@ -169,9 +172,11 @@ export default function GastosViagemScreen() {
               <Text style={styles.e}>{(m.error as Error).message}</Text>
             )}
           </View>
+          </SectionCard>
           <Text style={styles.h2}>Lançamentos</Text>
           {(list.data ?? []).map((g) => (
-            <View key={g.id} style={styles.card}>
+            <SectionCard key={g.id}>
+            <View style={styles.card}>
               <View>
                 <Text style={styles.tit}>{g.descricao}</Text>
                 <Text style={styles.tip}>
@@ -180,7 +185,15 @@ export default function GastosViagemScreen() {
               </View>
               <Text style={styles.v}>{formatBrl(g.valor)}</Text>
             </View>
+            </SectionCard>
           ))}
+          {(list.data?.length ?? 0) === 0 && (
+            <ScreenState
+              kind="empty"
+              title="Nenhum gasto lançado"
+              subtitle="Cadastre o primeiro gasto para acompanhar o orçamento."
+            />
+          )}
         </ScrollView>
       )}
     </View>
@@ -189,17 +202,10 @@ export default function GastosViagemScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: ViaColors.background },
-  c: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   sc: { padding: ViaSpacing.margin, gap: ViaSpacing.md },
-  pan: { marginBottom: ViaSpacing.md },
+  pan: {},
   panT: { ...textBody, marginBottom: 8, color: ViaColors.navy },
-  form: {
-    backgroundColor: ViaColors.surfaceWhite,
-    borderRadius: ViaRadius.lg,
-    padding: ViaSpacing.md,
-    marginBottom: ViaSpacing.lg,
-    ...ViaShadows.level1,
-  },
+  form: {},
   h2: { ...textH3, color: ViaColors.navy, marginBottom: ViaSpacing.sm },
   inp: {
     fontFamily: ViaFonts.body,
@@ -233,11 +239,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: ViaColors.surfaceWhite,
-    borderRadius: ViaRadius.lg,
-    padding: ViaSpacing.md,
-    marginBottom: ViaSpacing.sm,
-    ...ViaShadows.level1,
+    paddingVertical: ViaSpacing.xs,
   },
   tit: { ...textH3, fontSize: 16, color: ViaColors.navy },
   tip: { ...textBodySm, marginTop: 2, textTransform: 'capitalize' },

@@ -14,6 +14,8 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '@/components/viaway/AppHeader';
+import { ScreenState } from '@/components/viaway/ScreenState';
+import { SectionCard } from '@/components/viaway/SectionCard';
 import { createChecklistItem, listChecklist, toggleChecklist } from '@/lib/viaway-api';
 import {
   ViaColors,
@@ -64,9 +66,7 @@ export default function ChecklistViagemScreen() {
     <View style={styles.root}>
       <AppHeader left="back" showAvatar={false} title="Checklist" />
       {list.isLoading ? (
-        <View style={styles.c}>
-          <ActivityIndicator size="large" color={ViaColors.coral} />
-        </View>
+        <ScreenState kind="loading" title="Carregando checklist..." />
       ) : (
         <ScrollView
           contentContainerStyle={[
@@ -79,6 +79,7 @@ export default function ChecklistViagemScreen() {
               onRefresh={() => id && qClient.invalidateQueries({ queryKey: ['checklist', id] })}
             />
           }>
+          <SectionCard>
           <View style={styles.form}>
             <TextInput
               value={item}
@@ -97,7 +98,9 @@ export default function ChecklistViagemScreen() {
               <Text style={styles.e}>{(addM.error as Error).message}</Text>
             )}
           </View>
+          </SectionCard>
           {(list.data ?? []).map((c) => (
+            <SectionCard key={c.id}>
             <Pressable
               key={c.id}
               onPress={() => toggleM.mutate({ cid: c.id, concluido: !c.concluido })}
@@ -112,9 +115,14 @@ export default function ChecklistViagemScreen() {
                 {c.categoria && <Text style={styles.sub}>{c.categoria}</Text>}
               </View>
             </Pressable>
+            </SectionCard>
           ))}
           {list.isSuccess && (list.data?.length ?? 0) === 0 && (
-            <Text style={styles.n}>Lista vazia. Adicione o que não pode faltar.</Text>
+            <ScreenState
+              kind="empty"
+              title="Checklist vazio"
+              subtitle="Adicione o que não pode faltar para esta viagem."
+            />
           )}
         </ScrollView>
       )}
@@ -124,15 +132,8 @@ export default function ChecklistViagemScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: ViaColors.background },
-  c: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   sc: { padding: ViaSpacing.margin, gap: ViaSpacing.sm },
-  form: {
-    backgroundColor: ViaColors.surfaceWhite,
-    borderRadius: ViaRadius.lg,
-    padding: ViaSpacing.md,
-    marginBottom: ViaSpacing.md,
-    ...ViaShadows.level1,
-  },
+  form: {},
   h2: { ...textH3, marginBottom: 8, color: ViaColors.navy },
   inp: {
     fontFamily: textBody.fontFamily,
@@ -150,10 +151,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: ViaSpacing.md,
-    backgroundColor: ViaColors.surfaceWhite,
-    borderRadius: ViaRadius.lg,
-    padding: ViaSpacing.md,
-    ...ViaShadows.level1,
+    paddingVertical: ViaSpacing.xs,
   },
   t: { flex: 1, minWidth: 0 },
   txt: { fontFamily: textBody.fontFamily, fontSize: 16, color: ViaColors.onSurface },

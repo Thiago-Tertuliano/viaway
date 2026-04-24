@@ -7,9 +7,9 @@ Este README descreve a estrutura alvo do projeto, o estado atual e o processo re
 
 ## Documentos principais
 
-- Produto: `VIAWAY_PRODUTO.md`
-- Documentacao tecnica: `docs/README.md`
-- Backend (estado atual): `backend/README.md`
+- Produto: [`VIAWAY_PRODUTO.md`](./VIAWAY_PRODUTO.md)
+- Documentacao tecnica: [`docs/README.md`](./docs/README.md)
+- Backend (estado atual): [`backend/README.md`](./backend/README.md)
 
 ## Estrutura atual da pasta
 
@@ -18,7 +18,7 @@ PROJETOS/Viaway/
 |- backend/            # API Fastify + Prisma + Postgres (em desenvolvimento)
 |- docs/               # Base tecnica e guias por dominio
 |- prototype/          # Prototipos e artefatos de tela/landing
-|- wandr-landing-page/ # Landing antiga (base de transicao)
+|- wandr-landing-page/ # Landing antiga (base de transicao para ViaWay)
 |- VIAWAY_PRODUTO.md   # Documento mae do produto
 ```
 

@@ -2,6 +2,7 @@ import { Image } from 'expo-image';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '@/components/viaway/AppHeader';
+import { SectionCard } from '@/components/viaway/SectionCard';
 import { useMenu } from '@/context/menu-context';
 import { ViaColors, ViaRadius, ViaShadows, ViaSpacing, textBody, textH2 } from '@/constants/viaway-theme';
 
@@ -25,6 +26,7 @@ export default function ExplorarScreen() {
           Inspire-se com destinos e dicas. Em breve conectaremos a recomendações com base no seu
           perfil e nas suas viagens.
         </Text>
+        <SectionCard padded={false}>
         <View style={styles.card}>
           <Image source={{ uri: CARD_IMG }} style={styles.cardImg} contentFit="cover" />
           <View style={styles.cardBody}>
@@ -34,6 +36,7 @@ export default function ExplorarScreen() {
             </Text>
           </View>
         </View>
+        </SectionCard>
       </ScrollView>
     </View>
   );
@@ -44,12 +47,7 @@ const styles = StyleSheet.create({
   scroll: { paddingHorizontal: ViaSpacing.margin, gap: ViaSpacing.md },
   heading: { ...textH2, color: ViaColors.navy, marginBottom: ViaSpacing.xs },
   p: { ...textBody, color: ViaColors.onSurfaceVariant, marginBottom: ViaSpacing.lg },
-  card: {
-    backgroundColor: ViaColors.surfaceWhite,
-    borderRadius: ViaRadius.lg,
-    overflow: 'hidden',
-    ...ViaShadows.level1,
-  },
+  card: { borderRadius: ViaRadius.lg, overflow: 'hidden' },
   cardImg: { width: '100%', height: 180 },
   cardBody: { padding: ViaSpacing.md, gap: ViaSpacing.sm },
   cardTitle: { fontFamily: textH2.fontFamily, fontSize: 18, color: ViaColors.navy },

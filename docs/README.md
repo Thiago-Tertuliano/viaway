@@ -1,7 +1,8 @@
-# Wandr — Documentação Técnica
+# ViaWay — Documentação Técnica
 
-> Documentação técnica completa do Wandr. Leia antes de codar.
-> Documento-mãe de produto: [`../WANDR_PRODUTO.md`](../WANDR_PRODUTO.md)
+> Documentação técnica completa do ViaWay. Leia antes de codar.
+> Documento-mãe de produto: [`../VIAWAY_PRODUTO.md`](../VIAWAY_PRODUTO.md)
+> README raiz do projeto: [`../README.md`](../README.md)
 
 ---
 
@@ -28,7 +29,7 @@
 
 ## Ordem de Leitura Recomendada
 
-1. `WANDR_PRODUTO.md` → entendimento do produto
+1. `VIAWAY_PRODUTO.md` → entendimento do produto
 2. `01-visao-geral` → confirmar entendimento
 3. `02-stack-tecnica` → decisões técnicas
 4. `03-banco-de-dados` → fundação do sistema
@@ -69,5 +70,5 @@
 
 ---
 
-*Wandr — Documentação Técnica v1.0*
+*ViaWay — Documentação Técnica v1.0*
 *[Axellion](https://axellion.com.br/) © 2026*

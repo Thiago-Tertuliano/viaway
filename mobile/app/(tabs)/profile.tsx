@@ -3,6 +3,7 @@ import { Image } from 'expo-image';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppHeader } from '@/components/viaway/AppHeader';
+import { SectionCard } from '@/components/viaway/SectionCard';
 import { useMenu } from '@/context/menu-context';
 import { ViaColors, ViaRadius, ViaShadows, ViaSpacing, textBody, textH2 } from '@/constants/viaway-theme';
 
@@ -34,6 +35,7 @@ export default function PerfilScreen() {
           <Text style={styles.email}>plano Grátis</Text>
         </View>
         {rows.map((r) => (
+          <SectionCard key={r.label}>
           <Pressable
             key={r.label}
             onPress={() => {}}
@@ -42,6 +44,7 @@ export default function PerfilScreen() {
             <Text style={styles.rowText}>{r.label}</Text>
             <MaterialIcons name="chevron-right" size={24} color={ViaColors.sand} />
           </Pressable>
+          </SectionCard>
         ))}
       </ScrollView>
     </View>
@@ -60,12 +63,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: ViaSpacing.md,
-    backgroundColor: ViaColors.surfaceWhite,
-    padding: ViaSpacing.md,
-    borderRadius: ViaRadius.md,
-    borderWidth: 1,
-    borderColor: 'rgba(226,209,179,0.35)',
-    ...ViaShadows.level1,
+    paddingVertical: ViaSpacing.xs,
   },
   rowText: { ...textBody, flex: 1, color: ViaColors.navy, fontSize: 16 },
 });
