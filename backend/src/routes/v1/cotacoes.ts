@@ -4,6 +4,7 @@ import { prisma } from "../../lib/prisma.js";
 import { sendData, sendError } from "../../lib/reply.js";
 import { resolveUsuarioId } from "../../auth/resolve-usuario.js";
 import { canCreateQuoteInTrip } from "../../lib/plan-limits.js";
+import { convertCurrency, SUPPORTED_CURRENCIES } from "../../lib/fx.js";
 
 const createCotacaoBody = z.object({
   viagemId: z.string().min(1),
@@ -19,6 +20,13 @@ const createCotacaoBody = z.object({
 });
 
 const updateCotacaoBody = createCotacaoBody.partial().omit({ viagemId: true });
+const convertBody = z.object({
+  from: z.string().length(3),
+  to: z.string().length(3),
+  amount: z.number().positive(),
+  iofPercentual: z.number().min(0).max(100).optional(),
+  taxaPercentual: z.number().min(0).max(100).optional(),
+});
 
 function toJsonCotacao(c: {
   id: string;
@@ -119,6 +127,27 @@ const cotacoesRoutes: FastifyPluginAsync = async (app) => {
       totalCotacoes: list.length,
       comparativo: byType,
     });
+  });
+
+  app.get("/cambio/moedas", async (_request, reply) => {
+    return sendData(reply, { moedas: SUPPORTED_CURRENCIES });
+  });
+
+  app.post("/cambio/converter", async (request, reply) => {
+    const parsed = convertBody.safeParse(request.body);
+    if (!parsed.success) {
+      return sendError(reply, 400, "validation_error", "Dados inválidos.", parsed.error.flatten());
+    }
+    const result = await convertCurrency(parsed.data);
+    if (!result) {
+      return sendError(
+        reply,
+        422,
+        "conversion_unavailable",
+        "Não foi possível converter as moedas informadas.",
+      );
+    }
+    return sendData(reply, result);
   });
 
   app.post("/", async (request, reply) => {

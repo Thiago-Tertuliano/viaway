@@ -2,13 +2,12 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { useViawayFonts } from '@/hooks/use-viaway-fonts';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { ViaColors } from '@/constants/viaway-theme';
-import { MenuProvider } from '@/context/menu-context';
 import { ViawayQueryProvider } from '@/context/query-provider';
-import { MenuDrawer } from '@/components/viaway/MenuDrawer';
 
 const navLight = {
   ...DefaultTheme,
@@ -43,25 +42,26 @@ function RootLayoutNav() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? navDark : navLight}>
-      <ViawayQueryProvider>
-        <MenuProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider value={colorScheme === 'dark' ? navDark : navLight}>
+        <ViawayQueryProvider>
           <Stack>
             <Stack.Screen name="index" options={{ headerShown: false }} />
             <Stack.Screen name="splash" options={{ headerShown: false }} />
             <Stack.Screen name="onboarding" options={{ headerShown: false }} />
             <Stack.Screen name="auth" options={{ headerShown: false }} />
             <Stack.Screen name="register-intent" options={{ headerShown: false }} />
+            <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="criar-viagem" options={{ headerShown: false }} />
+            <Stack.Screen name="viagem-criada" options={{ headerShown: false }} />
             <Stack.Screen name="trip/[id]" options={{ headerShown: false }} />
             <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
           </Stack>
-          <MenuDrawer />
-        </MenuProvider>
-      </ViawayQueryProvider>
-      <StatusBar style="dark" />
-    </ThemeProvider>
+        </ViawayQueryProvider>
+        <StatusBar style="light" backgroundColor={ViaColors.navy} />
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
 

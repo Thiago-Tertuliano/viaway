@@ -49,6 +49,27 @@ export async function createViagem(body: {
   return r.data;
 }
 
+export async function updateViagem(
+  id: string,
+  body: Partial<{
+    nome: string;
+    destinoPrincipal: string;
+    destinosSecundarios: string[];
+    dataIda: string | null;
+    dataVolta: string | null;
+    numViajantes: number;
+    orcamentoTotal: number | null;
+    notas: string | null;
+  }>,
+) {
+  const r = await apiPut<typeof body, { data: ViagemJson }>(`/viagens/${id}`, body);
+  return r.data;
+}
+
+export async function deleteViagem(id: string) {
+  await apiDelete(`/viagens/${id}`);
+}
+
 // --- Itinerário ---
 
 export type DiaJson = {
@@ -120,6 +141,18 @@ export type CotacaoJson = {
   criadoEm: string;
 };
 
+export type ConversaoMoeda = {
+  from: string;
+  to: string;
+  amount: number;
+  rate: number;
+  converted: number;
+  iofPercentual: number;
+  taxaPercentual: number;
+  totalWithTaxes: number;
+  provider: string;
+};
+
 export function listCotacoes(viagemId: string) {
   return apiGet<{ data: CotacaoJson[] }>('/cotacoes', { viagemId }).then((r) => r.data);
 }
@@ -134,6 +167,22 @@ export function getComparativo(viagemId: string) {
   }>('/cotacoes/comparativo', { viagemId }).then((r) => r.data);
 }
 
+export function listMoedas() {
+  return apiGet<{ data: { moedas: string[] } }>('/cotacoes/cambio/moedas').then((r) => r.data.moedas);
+}
+
+export function converterMoeda(body: {
+  from: string;
+  to: string;
+  amount: number;
+  iofPercentual?: number;
+  taxaPercentual?: number;
+}) {
+  return apiPost<typeof body, { data: ConversaoMoeda }>('/cotacoes/cambio/converter', body).then(
+    (r) => r.data,
+  );
+}
+
 // --- Gastos + painel ---
 
 export type GastoJson = {
@@ -141,6 +190,23 @@ export type GastoJson = {
   viagemId: string;
   descricao: string;
   categoria: string;
+  descricaoPagamento: string | null;
+  metodoPagamento:
+    | 'cartao_internacional'
+    | 'cartao_nacional'
+    | 'pix'
+    | 'dinheiro'
+    | 'transferencia'
+    | 'outro';
+  cartaoNome: string | null;
+  parcelas: number | null;
+  moeda: string;
+  valorOriginal: number | null;
+  cotacaoMoeda: number | null;
+  valorConvertido: number | null;
+  iofPercentual: number | null;
+  taxaPercentual: number | null;
+  milhasEstimadas: number | null;
   valor: number;
   data: string;
   comprovanteUrl: string | null;
@@ -169,7 +235,18 @@ export function createGasto(body: {
   viagemId: string;
   descricao: string;
   categoria: GastoJson['categoria'];
-  valor: number;
+  valor?: number;
+  descricaoPagamento?: string | null;
+  metodoPagamento?: GastoJson['metodoPagamento'];
+  cartaoNome?: string | null;
+  parcelas?: number | null;
+  moeda?: string;
+  valorOriginal?: number | null;
+  cotacaoMoeda?: number | null;
+  valorConvertido?: number | null;
+  iofPercentual?: number | null;
+  taxaPercentual?: number | null;
+  milhasEstimadas?: number | null;
   data: string;
 }) {
   return apiPost<typeof body, { data: GastoJson }>('/gastos', body).then((r) => r.data);

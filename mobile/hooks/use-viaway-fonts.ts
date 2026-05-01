@@ -3,6 +3,10 @@ import {
   Inter_600SemiBold,
 } from '@expo-google-fonts/inter';
 import {
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+} from '@expo-google-fonts/poppins';
+import {
   PlusJakartaSans_600SemiBold,
   PlusJakartaSans_700Bold,
   PlusJakartaSans_800ExtraBold,
@@ -16,6 +20,8 @@ void SplashScreen.preventAutoHideAsync();
 const fontMap = {
   Inter_400Regular,
   Inter_600SemiBold,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
   PlusJakartaSans_600SemiBold,
   PlusJakartaSans_700Bold,
   PlusJakartaSans_800ExtraBold,

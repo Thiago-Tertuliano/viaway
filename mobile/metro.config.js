@@ -17,6 +17,19 @@ config.resolver.unstable_enablePackageExports = false;
 
 const originalResolve = config.resolver.resolveRequest;
 config.resolver.resolveRequest = (context, realModuleName, platform, ...rest) => {
+  if (realModuleName.startsWith('react-native-svg/lib/module/')) {
+    const commonJsSubPath = realModuleName.replace(
+      'react-native-svg/lib/module/',
+      'react-native-svg/lib/commonjs/',
+    );
+    const normalizedSubPath = commonJsSubPath.endsWith('.js')
+      ? commonJsSubPath
+      : `${commonJsSubPath}.js`;
+    return {
+      type: 'sourceFile',
+      filePath: path.join(projectRoot, 'node_modules', normalizedSubPath),
+    };
+  }
   if (realModuleName === '@tanstack/query-core') {
     return {
       type: 'sourceFile',
@@ -41,6 +54,20 @@ config.resolver.resolveRequest = (context, realModuleName, platform, ...rest) =>
         'react-query',
         'build',
         'legacy',
+        'index.js',
+      ),
+    };
+  }
+  if (realModuleName === 'react-native-svg') {
+    return {
+      type: 'sourceFile',
+      // Forca build CommonJS para evitar parse de codegen/fabric no bundle Metro.
+      filePath: path.join(
+        projectRoot,
+        'node_modules',
+        'react-native-svg',
+        'lib',
+        'commonjs',
         'index.js',
       ),
     };
