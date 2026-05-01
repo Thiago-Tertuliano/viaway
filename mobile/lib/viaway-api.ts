@@ -9,6 +9,23 @@ import {
 
 // --- Viagens ---
 
+export type CategoriaPlanejamentoGasto =
+  | 'hospedagem'
+  | 'transporte'
+  | 'alimentacao'
+  | 'passeio'
+  | 'compras'
+  | 'outro';
+
+export type PlanejamentoGastosJson = {
+  porCategoria: Record<CategoriaPlanejamentoGasto, number>;
+  itens?: Array<{
+    categoria: CategoriaPlanejamentoGasto;
+    descricao: string;
+    valor: number;
+  }>;
+};
+
 export type ViagemJson = {
   id: string;
   nome: string;
@@ -21,6 +38,8 @@ export type ViagemJson = {
   status: string;
   orcamentoTotal: number | null;
   notas: string | null;
+  /** Viagens antigas ou API sem o campo podem omitir; use `?.` ao ler. */
+  planejamentoGastos?: PlanejamentoGastosJson | null;
   criadoEm: string;
   atualizadoEm: string;
   destaqueEmAndamento?: boolean;
@@ -43,7 +62,12 @@ export async function createViagem(body: {
   nome: string;
   destinoPrincipal: string;
   destinosSecundarios?: string[];
+  dataIda?: string | null;
+  dataVolta?: string | null;
+  numViajantes?: number;
   orcamentoTotal?: number | null;
+  notas?: string | null;
+  planejamentoGastos?: PlanejamentoGastosJson | null;
 }) {
   const r = await apiPost<typeof body, { data: ViagemJson }>('/viagens', body);
   return r.data;
@@ -60,6 +84,7 @@ export async function updateViagem(
     numViajantes: number;
     orcamentoTotal: number | null;
     notas: string | null;
+    planejamentoGastos: PlanejamentoGastosJson | null;
   }>,
 ) {
   const r = await apiPut<typeof body, { data: ViagemJson }>(`/viagens/${id}`, body);
@@ -248,8 +273,27 @@ export function createGasto(body: {
   taxaPercentual?: number | null;
   milhasEstimadas?: number | null;
   data: string;
+  notas?: string | null;
 }) {
   return apiPost<typeof body, { data: GastoJson }>('/gastos', body).then((r) => r.data);
+}
+
+export function updateGasto(
+  id: string,
+  body: Partial<{
+    descricao: string;
+    categoria: GastoJson['categoria'];
+    valor: number;
+    descricaoPagamento: string | null;
+    metodoPagamento: GastoJson['metodoPagamento'];
+    cartaoNome: string | null;
+    parcelas: number | null;
+    moeda: string;
+    data: string;
+    notas: string | null;
+  }>,
+) {
+  return apiPut<typeof body, { data: GastoJson }>(`/gastos/${id}`, body).then((r) => r.data);
 }
 
 // --- Checklist ---

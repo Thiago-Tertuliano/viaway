@@ -126,6 +126,8 @@ model Viagem {
   status               StatusViagem @default(planejando)
   orcamentoTotal       Decimal?     @db.Decimal(10, 2)
   notas                String?
+  /// Valores previstos no wizard (por categoria + linhas) para exibir em Gastos vs lançamentos reais.
+  planejamentoGastos   Json?
   criadoEm             DateTime     @default(now())
   atualizadoEm         DateTime     @updatedAt
   deletadoEm           DateTime?

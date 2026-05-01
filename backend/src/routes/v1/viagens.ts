@@ -9,6 +9,36 @@ import { canCreateActiveTrip } from "../../lib/plan-limits.js";
 const PAGE_SIZE_DEFAULT = 20;
 const PAGE_SIZE_MAX = 100;
 
+const planejamentoGastosZ = z
+  .object({
+    porCategoria: z.object({
+      hospedagem: z.number().nonnegative(),
+      transporte: z.number().nonnegative(),
+      alimentacao: z.number().nonnegative(),
+      passeio: z.number().nonnegative(),
+      compras: z.number().nonnegative(),
+      outro: z.number().nonnegative(),
+    }),
+    itens: z
+      .array(
+        z.object({
+          categoria: z.enum([
+            "hospedagem",
+            "transporte",
+            "alimentacao",
+            "passeio",
+            "compras",
+            "outro",
+          ]),
+          descricao: z.string().min(1).max(500),
+          valor: z.number().nonnegative(),
+        }),
+      )
+      .optional(),
+  })
+  .optional()
+  .nullable();
+
 const postViagemBody = z.object({
   nome: z.string().min(1).max(200),
   destinoPrincipal: z.string().min(1).max(300),
@@ -18,6 +48,7 @@ const postViagemBody = z.object({
   numViajantes: z.number().int().min(1).max(50).optional().default(1),
   orcamentoTotal: z.number().nonnegative().optional().nullable(),
   notas: z.string().max(10_000).optional().nullable(),
+  planejamentoGastos: planejamentoGastosZ,
 });
 
 const putViagemBody = postViagemBody.partial();
@@ -58,6 +89,7 @@ function toJsonViagem(v: {
   status: StatusViagem;
   orcamentoTotal: unknown;
   notas: string | null;
+  planejamentoGastos: unknown;
   criadoEm: Date;
   atualizadoEm: Date;
 }) {
@@ -74,6 +106,7 @@ function toJsonViagem(v: {
     orcamentoTotal:
       v.orcamentoTotal != null ? Number(v.orcamentoTotal) : null,
     notas: v.notas,
+    planejamentoGastos: v.planejamentoGastos ?? null,
     criadoEm: v.criadoEm.toISOString(),
     atualizadoEm: v.atualizadoEm.toISOString(),
   };
@@ -156,6 +189,7 @@ const viagensRoutes: FastifyPluginAsync = async (app) => {
         numViajantes: body.numViajantes,
         orcamentoTotal: body.orcamentoTotal ?? undefined,
         notas: body.notas ?? undefined,
+        planejamentoGastos: body.planejamentoGastos ?? undefined,
       },
     });
 
@@ -211,6 +245,9 @@ const viagensRoutes: FastifyPluginAsync = async (app) => {
           orcamentoTotal: body.orcamentoTotal ?? undefined,
         }),
         ...(body.notas !== undefined && { notas: body.notas }),
+        ...(body.planejamentoGastos !== undefined && {
+          planejamentoGastos: body.planejamentoGastos ?? undefined,
+        }),
       },
     });
 
