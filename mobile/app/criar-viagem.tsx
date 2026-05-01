@@ -9,7 +9,7 @@ import { SectionCard } from '@/components/viaway/SectionCard';
 import { ApiException } from '@/lib/api-client';
 import { formatCep, lookupCep } from '@/lib/brasil-cep';
 import { type DestinationOption, searchDestinations } from '@/lib/destination-search';
-import { createViagem } from '@/lib/viaway-api';
+import { createViagem, type PlanejamentoGastosJson } from '@/lib/viaway-api';
 import { ViaColors, ViaFonts, ViaSpacing, textBody, textBodySm } from '@/constants/viaway-theme';
 
 const HUBS_BY_TRANSPORTE: Record<'aviao' | 'onibus' | 'trem', Array<{ region: string; hubs: string[] }>> = {
@@ -240,12 +240,93 @@ export default function CriarViagemScreen() {
   }
 
   const m = useMutation({
-    mutationFn: () =>
-      createViagem({
+    mutationFn: () => {
+      const transporteCatTotal = transporteInterurbanoTotal + transporteItensTotal;
+      const itens: NonNullable<PlanejamentoGastosJson['itens']> = [];
+      if (hospedagemTotal > 0) {
+        const dias = Number.isNaN(hospedagemDiasNum) ? 0 : hospedagemDiasNum;
+        const diaria = Number.isNaN(hospedagemDiariaNum) ? 0 : hospedagemDiariaNum;
+        itens.push({
+          categoria: 'hospedagem',
+          descricao:
+            dias > 0 && diaria > 0
+              ? `Hospedagem (${dias} diárias × R$ ${diaria.toFixed(2)})`
+              : 'Hospedagem (estimada)',
+          valor: hospedagemTotal,
+        });
+      }
+      if (transporte === 'carro') {
+        if (combustivelTotal > 0) {
+          itens.push({
+            categoria: 'transporte',
+            descricao: 'Combustível (estimado)',
+            valor: combustivelTotal,
+          });
+        }
+        if (!Number.isNaN(pedagioValorNum) && pedagioValorNum > 0) {
+          itens.push({
+            categoria: 'transporte',
+            descricao: 'Pedágio (estimado)',
+            valor: pedagioValorNum,
+          });
+        }
+      } else {
+        if (!Number.isNaN(passagemIdaNum) && passagemIdaNum > 0) {
+          itens.push({
+            categoria: 'transporte',
+            descricao: 'Passagem ida',
+            valor: passagemIdaNum,
+          });
+        }
+        if (!Number.isNaN(passagemVoltaNum) && passagemVoltaNum > 0) {
+          itens.push({
+            categoria: 'transporte',
+            descricao: 'Passagem volta',
+            valor: passagemVoltaNum,
+          });
+        }
+        if (!Number.isNaN(pedagioValorNum) && pedagioValorNum > 0) {
+          itens.push({
+            categoria: 'transporte',
+            descricao: 'Pedágio (estimado)',
+            valor: pedagioValorNum,
+          });
+        }
+      }
+      for (const x of transporteItens) {
+        itens.push({ categoria: 'transporte', descricao: x.nome, valor: x.valor });
+      }
+      for (const x of alimentacaoItens) {
+        itens.push({ categoria: 'alimentacao', descricao: x.nome, valor: x.valor });
+      }
+      for (const x of passeiosItens) {
+        itens.push({ categoria: 'passeio', descricao: x.nome, valor: x.valor });
+      }
+      for (const x of comprasItens) {
+        itens.push({ categoria: 'compras', descricao: x.nome, valor: x.valor });
+      }
+      for (const x of outrosItens) {
+        itens.push({ categoria: 'outro', descricao: x.nome, valor: x.valor });
+      }
+
+      const planejamentoGastos: PlanejamentoGastosJson = {
+        porCategoria: {
+          hospedagem: hospedagemTotal,
+          transporte: transporteCatTotal,
+          alimentacao: alimentacaoItensTotal,
+          passeio: passeiosItensTotal,
+          compras: comprasItensTotal,
+          outro: outrosItensTotal,
+        },
+        itens,
+      };
+
+      return createViagem({
         nome: nome.trim() || 'Viagem',
         destinoPrincipal,
         destinosSecundarios: [],
         orcamentoTotal: totalEstimadoViagem > 0 ? totalEstimadoViagem : null,
+        planejamentoGastos,
         notas: [
           `Origem: ${origemPrincipal || 'Nao informado'}`,
           `Transporte principal: ${transporte}`,
@@ -267,7 +348,8 @@ export default function CriarViagemScreen() {
           `Outros: ${outrosItens.map((x) => `${x.nome}=${x.valor}`).join('; ') || 'nenhum'}`,
           `Total estimado geral: ${totalEstimadoViagem}`,
         ].join('\n'),
-      }),
+      });
+    },
     onSuccess: (v) => {
       void qClient.invalidateQueries({ queryKey: ['viagens'] });
       router.replace({ pathname: '/viagem-criada', params: { id: v.id, nome: v.nome } });
