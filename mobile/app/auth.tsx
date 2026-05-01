@@ -1,174 +1,413 @@
+import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Image } from 'expo-image';
-import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Dimensions,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import Svg, { Defs, LinearGradient as SvgGrad, Path, Rect, Stop } from 'react-native-svg';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { PrimaryCtaButton } from '@/components/viaway/PrimaryCtaButton';
-import { ViaColors, ViaFonts, ViaSpacing, textBody, textH2 } from '@/constants/viaway-theme';
-import { setAuthDone } from '@/lib/session';
+import { ViaColors, ViaFonts, ViaSpacing } from '@/constants/viaway-theme';
+import { getLocalPassword, getProfile, setAuthDone } from '@/lib/session';
+
+const { height: SCREEN_H } = Dimensions.get('window');
+const HERO_H  = Math.round(SCREEN_H * 0.47);
+const SHEET_R = 36;
+const WAVE_H  = 56;
 
 const HERO_IMAGE =
-  'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=1200&q=80&auto=format&fit=crop';
+  'https://images.unsplash.com/photo-1519659528534-7fd733a832a0?auto=format&fit=crop&w=3840&q=100';
 
 export default function AuthScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [emailFocused, setEmailFocused] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const insets = useSafeAreaInsets();
+
+  async function handleLogin() {
+    if (!email.includes('@') || email.length < 5) {
+      setError('Digite um e-mail válido para continuar.');
+      return;
+    }
+    if (password.length < 6) {
+      setError('A senha precisa ter pelo menos 6 caracteres.');
+      return;
+    }
+    const profile = await getProfile();
+    const storedPw = await getLocalPassword();
+    if (profile) {
+      if (profile.email.trim().toLowerCase() !== email.trim().toLowerCase()) {
+        setError('E-mail não confere com o cadastro.');
+        return;
+      }
+      if (!storedPw || storedPw !== password) {
+        setError('Senha incorreta.');
+        return;
+      }
+    }
+    await setAuthDone();
+    router.replace(profile ? '/(tabs)' : '/register-intent');
+  }
 
   return (
     <KeyboardAvoidingView
       style={styles.root}
       behavior={Platform.select({ ios: 'padding', android: undefined })}>
-      <View style={[styles.hero, { paddingTop: insets.top + 8 }]}>
-        <Image source={{ uri: HERO_IMAGE }} style={styles.heroImage} contentFit="cover" />
-        <View style={styles.heroTint} />
-        <View style={styles.heroWave} />
-      </View>
+      <View style={styles.inner}>
 
-      <View style={styles.content}>
-        <View style={styles.brandBlock}>
-          <Text style={styles.brand}>ViaWay</Text>
-          <Text style={styles.brandSub}>travel planner</Text>
-        </View>
-        <View style={styles.titleWrap}>
-          <Text style={styles.title}>Entrar no ViaWay</Text>
-          <Text style={styles.subtitle}>Seu roteiro, custos e checklist em um só lugar.</Text>
-        </View>
-
-        <View style={styles.mainCard}>
-          <Text style={styles.fieldLabel}>E-mail</Text>
-          <TextInput
-            value={email}
-            onChangeText={(v) => {
-              setEmail(v);
-              setError(null);
-            }}
-            placeholder="seuemail@exemplo.com"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            placeholderTextColor={ViaColors.onSurfaceVariant}
-            style={styles.input}
+        {/* ── Hero ──────────────────────────────────── */}
+        <View style={[styles.hero, { height: HERO_H }]}>
+          <Image
+            source={{ uri: HERO_IMAGE }}
+            style={StyleSheet.absoluteFill}
+            contentFit="cover"
+            priority="high"
           />
 
-          <Text style={[styles.fieldLabel, styles.fieldLabelSpacing]}>Senha</Text>
-          <TextInput
-            value={password}
-            onChangeText={(v) => {
-              setPassword(v);
-              setError(null);
-            }}
-            placeholder="Digite sua senha"
-            secureTextEntry
-            autoCapitalize="none"
-            placeholderTextColor={ViaColors.onSurfaceVariant}
-            style={styles.input}
-          />
+          {/* Gradient via SVG — sem dependência extra */}
+          <Svg width="100%" height="100%" style={StyleSheet.absoluteFill}>
+            <Defs>
+              <SvgGrad id="grad" x1="0" y1="0" x2="0" y2="1">
+                <Stop offset="0"   stopColor="#0F172A" stopOpacity="0.08" />
+                <Stop offset="0.4" stopColor="#0F172A" stopOpacity="0.22" />
+                <Stop offset="1"   stopColor="#0F172A" stopOpacity="0.80" />
+              </SvgGrad>
+            </Defs>
+            <Rect width="100%" height="100%" fill="url(#grad)" />
+          </Svg>
+
+          {/* Wordmark */}
+          <View style={[styles.logoArea, { paddingTop: insets.top + 18 }]}>
+            <View style={styles.logoRow}>
+              <MaterialIcons name="flight-takeoff" size={19} color="rgba(255,255,255,0.92)" />
+              <Text style={styles.logoText}>viaway</Text>
+            </View>
+          </View>
+
+          {/* Headline */}
+          <View style={styles.heroFooter}>
+            <Text style={styles.heroHeadline}>{'Descubra o mundo\nao seu jeito.'}</Text>
+            <Text style={styles.heroCaption}>
+              Roteiro, checklist, gastos e cotações em um só lugar.
+            </Text>
+          </View>
+
+          {/* ── Onda branca separadora ── */}
+          <Svg
+            width="100%"
+            height={WAVE_H}
+            viewBox={`0 0 400 ${WAVE_H}`}
+            preserveAspectRatio="none"
+            style={styles.wave}>
+            <Path
+              d="M0,56 C40,56 80,0 160,0 C240,0 260,56 280,56 C300,56 360,8 400,18 L400,56 Z"
+              fill="#FFFFFF"
+            />
+          </Svg>
         </View>
-        {error ? <Text style={styles.error}>{error}</Text> : null}
 
-        <PrimaryCtaButton
-          label="Entrar"
-          icon={null}
-          onPress={async () => {
-            if (!email.includes('@') || email.length < 5) {
-              setError('Digite um e-mail válido para continuar.');
-              return;
-            }
-            if (password.length < 6) {
-              setError('Digite uma senha válida com pelo menos 6 caracteres.');
-              return;
-            }
-            await setAuthDone();
-            router.replace('/register-intent');
-          }}
-        />
+        {/* ── Bottom Sheet ──────────────────────────── */}
+        <View style={[styles.sheet, { paddingBottom: Math.max(insets.bottom, 16) + 20 }]}>
+          <Text style={styles.sheetTitle}>Bem-vindo de volta</Text>
+          <Text style={styles.sheetSubtitle}>Entre para continuar sua jornada.</Text>
 
-        <Pressable onPress={() => router.replace('/register-intent')} style={styles.altWrap}>
-          <Text style={styles.alt}>Primeira vez? montar perfil inteligente</Text>
-        </Pressable>
+          {/* Campos agrupados */}
+          <View style={styles.fieldsGroup}>
+          {/* Campo e-mail */}
+          <View style={styles.field}>
+            <Text style={styles.fieldLabel}>E-mail</Text>
+            <View style={[styles.inputShell, emailFocused && styles.inputFocused]}>
+              <MaterialIcons
+                name="mail-outline"
+                size={18}
+                color={emailFocused ? ViaColors.navy : '#BBBBBB'}
+                style={styles.leadIcon}
+              />
+              <TextInput
+                value={email}
+                onChangeText={(v) => { setEmail(v); setError(null); }}
+                onFocus={() => setEmailFocused(true)}
+                onBlur={() => setEmailFocused(false)}
+                placeholder="seuemail@exemplo.com"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+                placeholderTextColor="#C2C2C2"
+                style={styles.inputText}
+              />
+            </View>
+          </View>
+
+          {/* Campo senha */}
+          <View style={styles.field}>
+            <View style={styles.labelRow}>
+              <Text style={styles.fieldLabel}>Senha</Text>
+              <Pressable hitSlop={10} onPress={() => router.push('/forgot-password')}>
+                <Text style={styles.forgotLink}>Esqueceu a senha?</Text>
+              </Pressable>
+            </View>
+            <View style={[styles.inputShell, passwordFocused && styles.inputFocused]}>
+              <MaterialIcons
+                name="lock-outline"
+                size={18}
+                color={passwordFocused ? ViaColors.navy : '#BBBBBB'}
+                style={styles.leadIcon}
+              />
+              <TextInput
+                value={password}
+                onChangeText={(v) => { setPassword(v); setError(null); }}
+                onFocus={() => setPasswordFocused(true)}
+                onBlur={() => setPasswordFocused(false)}
+                placeholder="Sua senha"
+                secureTextEntry={!showPassword}
+                autoCapitalize="none"
+                placeholderTextColor="#C2C2C2"
+                style={[styles.inputText, styles.inputFlex]}
+              />
+              <Pressable
+                onPress={() => setShowPassword((s) => !s)}
+                style={styles.eyeBtn}
+                hitSlop={10}>
+                <MaterialIcons
+                  name={showPassword ? 'visibility' : 'visibility-off'}
+                  size={20}
+                  color="#BBBBBB"
+                />
+              </Pressable>
+            </View>
+          </View>
+          </View>{/* fim fieldsGroup */}
+
+          {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
+          {/* Botão principal */}
+          <Pressable
+            style={({ pressed }) => [styles.primaryBtn, pressed && styles.primaryBtnActive]}
+            onPress={handleLogin}>
+            <Text style={styles.primaryBtnLabel}>Entrar</Text>
+          </Pressable>
+
+          {/* Divisor */}
+          <View style={styles.dividerRow}>
+            <View style={styles.dividerLine} />
+            <Text style={styles.dividerLabel}>ou</Text>
+            <View style={styles.dividerLine} />
+          </View>
+
+          {/* Botão secundário */}
+          <Pressable
+            style={({ pressed }) => [styles.secondaryBtn, pressed && { opacity: 0.6 }]}
+            onPress={() => router.replace('/register-intent')}>
+            <Text style={styles.secondaryBtnLabel}>Criar perfil — primeira vez aqui?</Text>
+          </Pressable>
+
+          <Text style={styles.footer}>Axellion Inc · 2026 · Todos os direitos reservados</Text>
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: '#f7f7fa' },
+  root: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  inner: {
+    flex: 1,
+  },
+
+  // ── Hero ──────────────────────────────────────────────
   hero: {
-    height: '44%',
     overflow: 'hidden',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
+    zIndex: 1,
   },
-  heroImage: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  heroTint: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(239, 143, 141, 0.78)',
-  },
-  heroWave: {
+  wave: {
     position: 'absolute',
-    left: -80,
-    right: -80,
-    bottom: -120,
-    height: 220,
-    backgroundColor: '#f7f7fa',
-    borderTopLeftRadius: 200,
-    borderTopRightRadius: 200,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
-  content: { flex: 1, paddingHorizontal: ViaSpacing.margin, gap: ViaSpacing.md, marginTop: -4 },
-  brandBlock: { alignItems: 'center', marginTop: 4 },
-  brand: { fontFamily: ViaFonts.h2, color: ViaColors.navy, fontSize: 28, letterSpacing: -0.3 },
-  brandSub: {
+  logoArea: {
+    paddingHorizontal: ViaSpacing.margin,
+  },
+  logoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 7,
+  },
+  logoText: {
+    fontFamily: ViaFonts.h2,
+    fontSize: 22,
+    letterSpacing: -0.2,
+    color: '#FFFFFF',
+  },
+  heroFooter: {
+    paddingHorizontal: ViaSpacing.margin,
+    paddingBottom: WAVE_H + 16,
+    gap: 5,
+  },
+  heroHeadline: {
+    fontFamily: ViaFonts.h1,
+    fontSize: 36,
+    lineHeight: 44,
+    letterSpacing: -0.7,
+    color: '#FFFFFF',
+  },
+  heroCaption: {
     fontFamily: ViaFonts.body,
-    color: ViaColors.onSurfaceVariant,
-    fontSize: 12,
-    letterSpacing: 1.2,
-    textTransform: 'uppercase',
+    fontSize: 14,
+    lineHeight: 21,
+    color: 'rgba(255,255,255,0.78)',
   },
-  titleWrap: { marginBottom: 2, marginTop: 10 },
-  title: { ...textH2, color: ViaColors.navy },
-  subtitle: { ...textBody, color: ViaColors.onSurfaceVariant, marginTop: 2, lineHeight: 22 },
-  mainCard: {
-    backgroundColor: '#ffffff',
-    borderWidth: 1,
-    borderColor: 'rgba(15,23,42,0.06)',
-    borderRadius: 18,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    shadowColor: '#0f172a',
-    shadowOpacity: 0.06,
-    shadowRadius: 14,
-    shadowOffset: { width: 0, height: 6 },
-    elevation: 3,
+
+  // ── Sheet ─────────────────────────────────────────────
+  sheet: {
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: ViaSpacing.margin,
+    paddingTop: 8,
+    flexShrink: 1,
+    gap: ViaSpacing.sm,
+  },
+  fieldsGroup: {
+    gap: 8,
+  },
+  sheetTitle: {
+    fontFamily: ViaFonts.h2,
+    fontSize: 26,
+    letterSpacing: -0.3,
+    color: ViaColors.navy,
+  },
+  sheetSubtitle: {
+    fontFamily: ViaFonts.body,
+    fontSize: 15,
+    color: ViaColors.onSurfaceVariant,
+    marginTop: -8,
+  },
+
+  // ── Campos ────────────────────────────────────────────
+  field: {
+    gap: 7,
+  },
+  labelRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   fieldLabel: {
     fontFamily: ViaFonts.bodySemi,
-    fontSize: 12,
-    color: ViaColors.navy,
-    marginBottom: 6,
-    letterSpacing: 0.3,
-  },
-  input: {
-    fontFamily: ViaFonts.body,
-    fontSize: 16,
+    fontSize: 13,
     color: ViaColors.onSurface,
-    borderWidth: 1,
-    borderColor: 'rgba(15,23,42,0.12)',
-    borderRadius: 12,
-    backgroundColor: '#fbfcff',
-    paddingHorizontal: 12,
-    paddingVertical: 11,
   },
-  fieldLabelSpacing: { marginTop: 14 },
-  error: {
+  forgotLink: {
+    fontFamily: ViaFonts.bodySemi,
+    fontSize: 13,
+    color: ViaColors.navy,
+  },
+  inputShell: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: '#E2D1B3',   // Sand
+    paddingHorizontal: 14,
+  },
+  inputFocused: {
+    backgroundColor: '#FFFFFF',
+    borderColor: ViaColors.navy,  // Deep Navy no foco
+  },
+  leadIcon: {
+    marginRight: 10,
+  },
+  inputText: {
+    flex: 1,
+    fontFamily: ViaFonts.body,
+    fontSize: 15,
+    color: ViaColors.onSurface,
+    paddingVertical: 14,
+  },
+  inputFlex: {
+    flex: 1,
+  },
+  eyeBtn: {
+    padding: 6,
+    marginLeft: 4,
+  },
+
+  // ── Erro ──────────────────────────────────────────────
+  errorText: {
     fontFamily: ViaFonts.body,
     fontSize: 13,
-    color: '#ba1a1a',
-    marginTop: -4,
+    color: '#E5342A',
+    marginTop: -6,
   },
-  altWrap: { marginTop: 4, paddingVertical: 8 },
-  alt: { textAlign: 'center', fontFamily: ViaFonts.body, color: ViaColors.onSurfaceVariant, fontSize: 13 },
-});
 
+  // ── Botões ────────────────────────────────────────────
+  primaryBtn: {
+    backgroundColor: ViaColors.navy,   // Deep Navy
+    borderRadius: 14,
+    paddingVertical: 17,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 2,
+  },
+  primaryBtnActive: {
+    opacity: 0.86,
+    transform: [{ scale: 0.99 }],
+  },
+  primaryBtnLabel: {
+    fontFamily: ViaFonts.bodySemi,
+    fontSize: 16,
+    letterSpacing: 0.2,
+    color: '#FFFFFF',
+  },
+  dividerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#EBEBEB',
+  },
+  dividerLabel: {
+    fontFamily: ViaFonts.body,
+    fontSize: 13,
+    color: '#BBBBBB',
+  },
+  secondaryBtn: {
+    borderWidth: 1.5,
+    borderColor: '#E2D1B3',          // Sand border
+    backgroundColor: '#F2E0C2',      // Sand background
+    borderRadius: 14,
+    paddingVertical: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  secondaryBtnLabel: {
+    fontFamily: ViaFonts.bodySemi,
+    fontSize: 14,
+    color: ViaColors.navy,           // Deep Navy text
+  },
+  footer: {
+    textAlign: 'center',
+    fontFamily: ViaFonts.body,
+    fontSize: 11,
+    color: '#BBBBBB',
+    marginTop: 4,
+  },
+});

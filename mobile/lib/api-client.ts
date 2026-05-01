@@ -40,7 +40,7 @@ export async function apiFetch<TResponse>(
   const { query, ...init } = options;
   const url = buildUrl(path, query);
   const headers: HeadersInit = {
-    'Content-Type': 'application/json',
+    ...(init.body != null ? { 'Content-Type': 'application/json' } : {}),
     ...(init.headers ?? {}),
   };
 

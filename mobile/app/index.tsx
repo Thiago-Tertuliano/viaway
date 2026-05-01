@@ -8,28 +8,11 @@ export default function AppEntry() {
   const router = useRouter();
 
   useEffect(() => {
-    let mounted = true;
-    (async () => {
-      const state = await getBootState();
-      if (!mounted) return;
-
-      if (!state.onboardingDone) {
-        router.replace('/splash');
-        return;
-      }
-      if (!state.authDone) {
-        router.replace('/auth');
-        return;
-      }
-      if (!state.hasProfile) {
-        router.replace('/register-intent');
-        return;
-      }
-      router.replace('/(tabs)');
-    })();
-    return () => {
-      mounted = false;
-    };
+    // 🚧 DEV: pulando auth para testes de UI — restaurar depois
+    // if (!state.onboardingDone) router.replace('/splash');
+    // if (!state.authDone) router.replace('/auth');
+    // if (!state.hasProfile) router.replace('/register-intent');
+    router.replace('/(tabs)');
   }, [router]);
 
   return (
