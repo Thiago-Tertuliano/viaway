@@ -25,7 +25,15 @@ import {
   textBodySm,
   textH2,
 } from '@/constants/viaway-theme';
-import { getProfile, getUserData, logoutSession, type ViawayProfile } from '@/lib/session';
+import { pickProfilePhotoDataUrl } from '@/lib/profile-photo';
+import {
+  getProfile,
+  getUserData,
+  logoutSession,
+  saveUserData,
+  type ViawayProfile,
+} from '@/lib/session';
+import { updateMe } from '@/lib/viaway-api';
 
 const MENU_ROWS: Array<{
   icon: keyof typeof MaterialIcons.glyphMap;
@@ -111,6 +119,7 @@ export default function PerfilScreen() {
   const [profile, setProfile] = useState<ViawayProfile | null>(null);
   const [userApi, setUserApi] = useState<Awaited<ReturnType<typeof getUserData>>>(null);
   const [loggingOut, setLoggingOut] = useState(false);
+  const [photoBusy, setPhotoBusy] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -192,6 +201,85 @@ export default function PerfilScreen() {
     Alert.alert('Ajuda', 'Entre em contato com o suporte Viaway ou consulte a documentação do app.');
   }
 
+  function openPhotoOptions() {
+    Alert.alert('Foto do perfil', 'Escolha uma imagem da galeria ou remova a foto atual.', [
+      { text: 'Cancelar', style: 'cancel' },
+      {
+        text: 'Galeria',
+        onPress: () => void applyPickedPhoto(),
+      },
+      ...(userApi?.fotoUrl
+        ? [
+            {
+              text: 'Remover foto',
+              style: 'destructive' as const,
+              onPress: () => void removeProfilePhoto(),
+            },
+          ]
+        : []),
+    ]);
+  }
+
+  async function applyPickedPhoto() {
+    if (photoBusy) return;
+    setPhotoBusy(true);
+    try {
+      const dataUrl = await pickProfilePhotoDataUrl();
+      if (!dataUrl) return;
+      const updated = await updateMe({ fotoUrl: dataUrl });
+      await saveUserData({
+        id: updated.id,
+        nome: updated.nome,
+        email: updated.email,
+        plano: updated.plano,
+        fotoUrl: updated.fotoUrl,
+      });
+      setUserApi({
+        id: updated.id,
+        nome: updated.nome,
+        email: updated.email,
+        plano: updated.plano,
+        fotoUrl: updated.fotoUrl,
+      });
+    } catch (e) {
+      Alert.alert(
+        'Foto',
+        e instanceof Error ? e.message : 'Não foi possível atualizar a foto.',
+      );
+    } finally {
+      setPhotoBusy(false);
+    }
+  }
+
+  async function removeProfilePhoto() {
+    if (photoBusy) return;
+    setPhotoBusy(true);
+    try {
+      const updated = await updateMe({ fotoUrl: null });
+      await saveUserData({
+        id: updated.id,
+        nome: updated.nome,
+        email: updated.email,
+        plano: updated.plano,
+        fotoUrl: updated.fotoUrl ?? null,
+      });
+      setUserApi({
+        id: updated.id,
+        nome: updated.nome,
+        email: updated.email,
+        plano: updated.plano,
+        fotoUrl: updated.fotoUrl ?? null,
+      });
+    } catch (e) {
+      Alert.alert(
+        'Foto',
+        e instanceof Error ? e.message : 'Não foi possível remover a foto.',
+      );
+    } finally {
+      setPhotoBusy(false);
+    }
+  }
+
   function confirmLogout() {
     Alert.alert('Sair da conta', 'Você precisará entrar de novo para acessar suas viagens.', [
       { text: 'Cancelar', style: 'cancel' },
@@ -231,13 +319,25 @@ export default function PerfilScreen() {
           ) : (
             <>
               <View style={styles.head}>
-                {userApi?.fotoUrl ? (
-                  <Image source={{ uri: userApi.fotoUrl }} style={styles.bigAvatar} contentFit="cover" />
-                ) : (
-                  <View style={[styles.bigAvatar, styles.avatarInitials]}>
-                    <Text style={styles.avatarInitialsTxt}>{initials(displayNome)}</Text>
+                <Pressable
+                  onPress={openPhotoOptions}
+                  disabled={photoBusy}
+                  style={({ pressed }) => [styles.avatarWrap, pressed && { opacity: 0.92 }]}>
+                  {userApi?.fotoUrl ? (
+                    <Image source={{ uri: userApi.fotoUrl }} style={styles.bigAvatar} contentFit="cover" />
+                  ) : (
+                    <View style={[styles.bigAvatar, styles.avatarInitials]}>
+                      <Text style={styles.avatarInitialsTxt}>{initials(displayNome)}</Text>
+                    </View>
+                  )}
+                  <View style={styles.avatarCameraBadge}>
+                    {photoBusy ? (
+                      <ActivityIndicator size="small" color="#fff" />
+                    ) : (
+                      <MaterialIcons name="photo-camera" size={18} color="#fff" />
+                    )}
                   </View>
-                )}
+                </Pressable>
                 <Text style={styles.nome}>{displayNome}</Text>
                 <View style={styles.emailRow}>
                   <MaterialIcons name="mail-outline" size={16} color={ViaColors.onSurfaceVariant} />
@@ -371,14 +471,31 @@ const styles = StyleSheet.create({
   loadingBox: { paddingVertical: 48, alignItems: 'center', gap: 12 },
   loadingTxt: { ...textBodySm, color: ViaColors.onSurfaceVariant },
   head: { alignItems: 'center', marginBottom: ViaSpacing.sm, gap: ViaSpacing.xs },
+  avatarWrap: {
+    position: 'relative',
+    marginBottom: ViaSpacing.sm,
+  },
   bigAvatar: {
     width: 96,
     height: 96,
     borderRadius: 48,
-    marginBottom: ViaSpacing.sm,
     backgroundColor: ViaColors.surfaceContainerLow,
     borderWidth: 3,
     borderColor: 'rgba(226,209,179,0.6)',
+  },
+  avatarCameraBadge: {
+    position: 'absolute',
+    right: -2,
+    bottom: -2,
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: ViaColors.navy,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: ViaColors.background,
+    ...ViaShadows.level1,
   },
   avatarInitials: {
     alignItems: 'center',

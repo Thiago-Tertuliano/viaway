@@ -8,6 +8,11 @@ import {
   issueTokenPair,
   verifyRefreshTokenString,
 } from "../../auth/tokens.js";
+import {
+  FOTO_URL_MAX_LENGTH,
+  isValidFotoUrlRef,
+  normalizeFotoUrlInput,
+} from "../../lib/foto-url.js";
 
 const SALT_ROUNDS = 10;
 
@@ -168,7 +173,7 @@ const authRoutes: FastifyPluginAsync = async (app) => {
     const body = z
       .object({
         nome: z.string().min(2).max(200).optional(),
-        fotoUrl: z.string().url().optional().nullable(),
+        fotoUrl: z.union([z.string(), z.null()]).optional(),
       })
       .safeParse(request.body);
 
@@ -176,9 +181,39 @@ const authRoutes: FastifyPluginAsync = async (app) => {
       return sendError(reply, 400, "validation_error", "Dados inválidos.", body.error.flatten());
     }
 
+    let fotoUrl: string | null | undefined;
+    if (body.data.fotoUrl === undefined) {
+      fotoUrl = undefined;
+    } else if (body.data.fotoUrl === null) {
+      fotoUrl = null;
+    } else {
+      const normalized = normalizeFotoUrlInput(body.data.fotoUrl);
+      if (normalized.length > FOTO_URL_MAX_LENGTH) {
+        return sendError(
+          reply,
+          400,
+          "foto_too_large",
+          "Imagem grande demais. Use uma foto menor.",
+        );
+      }
+      if (!isValidFotoUrlRef(normalized)) {
+        return sendError(
+          reply,
+          400,
+          "invalid_foto_url",
+          "URL ou imagem de perfil inválida.",
+        );
+      }
+      fotoUrl = normalized;
+    }
+
+    const patch: { nome?: string; fotoUrl?: string | null } = {};
+    if (body.data.nome !== undefined) patch.nome = body.data.nome;
+    if (fotoUrl !== undefined) patch.fotoUrl = fotoUrl;
+
     const usuario = await prisma.usuario.update({
       where: { id: usuarioId },
-      data: body.data,
+      data: patch,
       select: {
         id: true,
         nome: true,
