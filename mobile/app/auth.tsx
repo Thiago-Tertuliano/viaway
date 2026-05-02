@@ -2,6 +2,7 @@ import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
+  ActivityIndicator,
   Dimensions,
   KeyboardAvoidingView,
   Platform,
@@ -15,11 +16,11 @@ import Svg, { Defs, LinearGradient as SvgGrad, Path, Rect, Stop } from 'react-na
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ViaColors, ViaFonts, ViaSpacing } from '@/constants/viaway-theme';
-import { getLocalPassword, getProfile, setAuthDone } from '@/lib/session';
+import { saveTokens, saveUserData, setAuthDone } from '@/lib/session';
+import { login } from '@/lib/viaway-api';
 
 const { height: SCREEN_H } = Dimensions.get('window');
 const HERO_H  = Math.round(SCREEN_H * 0.47);
-const SHEET_R = 36;
 const WAVE_H  = 56;
 
 const HERO_IMAGE =
@@ -32,6 +33,7 @@ export default function AuthScreen() {
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
@@ -44,20 +46,28 @@ export default function AuthScreen() {
       setError('A senha precisa ter pelo menos 6 caracteres.');
       return;
     }
-    const profile = await getProfile();
-    const storedPw = await getLocalPassword();
-    if (profile) {
-      if (profile.email.trim().toLowerCase() !== email.trim().toLowerCase()) {
-        setError('E-mail não confere com o cadastro.');
-        return;
-      }
-      if (!storedPw || storedPw !== password) {
-        setError('Senha incorreta.');
-        return;
-      }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const result = await login(email, password);
+
+      // Salvar tokens e dados do usuário
+      await saveTokens(result.accessToken, result.refreshToken);
+      await saveUserData({
+        ...result.usuario,
+        telefone: result.usuario.telefone ?? null,
+      });
+      await setAuthDone();
+
+      router.replace('/(tabs)');
+    } catch (err: any) {
+      const message = err?.message || 'Erro ao fazer login. Tente novamente.';
+      setError(message);
+    } finally {
+      setLoading(false);
     }
-    await setAuthDone();
-    router.replace(profile ? '/(tabs)' : '/register-intent');
   }
 
   return (
@@ -193,9 +203,14 @@ export default function AuthScreen() {
 
           {/* Botão principal */}
           <Pressable
-            style={({ pressed }) => [styles.primaryBtn, pressed && styles.primaryBtnActive]}
-            onPress={handleLogin}>
-            <Text style={styles.primaryBtnLabel}>Entrar</Text>
+            style={({ pressed }) => [styles.primaryBtn, pressed && styles.primaryBtnActive, loading && styles.primaryBtnDisabled]}
+            onPress={handleLogin}
+            disabled={loading}>
+            {loading ? (
+              <ActivityIndicator color="#FFFFFF" />
+            ) : (
+              <Text style={styles.primaryBtnLabel}>Entrar</Text>
+            )}
           </Pressable>
 
           {/* Divisor */}
@@ -208,8 +223,10 @@ export default function AuthScreen() {
           {/* Botão secundário */}
           <Pressable
             style={({ pressed }) => [styles.secondaryBtn, pressed && { opacity: 0.6 }]}
-            onPress={() => router.replace('/register-intent')}>
-            <Text style={styles.secondaryBtnLabel}>Criar perfil — primeira vez aqui?</Text>
+            onPress={() => router.push('/register-intent')}>
+            <Text style={styles.secondaryBtnLabel}>
+              Criar conta — primeira vez aqui?
+            </Text>
           </Pressable>
 
           <Text style={styles.footer}>Axellion Inc · 2026 · Todos os direitos reservados</Text>
@@ -367,6 +384,9 @@ const styles = StyleSheet.create({
   primaryBtnActive: {
     opacity: 0.86,
     transform: [{ scale: 0.99 }],
+  },
+  primaryBtnDisabled: {
+    opacity: 0.6,
   },
   primaryBtnLabel: {
     fontFamily: ViaFonts.bodySemi,

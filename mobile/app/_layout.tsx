@@ -52,6 +52,12 @@ function RootLayoutNav() {
             <Stack.Screen name="auth" options={{ headerShown: false }} />
             <Stack.Screen name="register-intent" options={{ headerShown: false }} />
             <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
+            <Stack.Screen name="account-settings" options={{ headerShown: false }} />
+            <Stack.Screen name="notifications-settings" options={{ headerShown: false }} />
+            <Stack.Screen name="travel-preferences" options={{ headerShown: false }} />
+            <Stack.Screen name="cambio" options={{ headerShown: false }} />
+            <Stack.Screen name="checklist-hub" options={{ headerShown: false }} />
+            <Stack.Screen name="notifications-inbox" options={{ headerShown: false }} />
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="criar-viagem" options={{ headerShown: false }} />
             <Stack.Screen name="viagem-criada" options={{ headerShown: false }} />

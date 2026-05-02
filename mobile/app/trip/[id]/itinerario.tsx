@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useLocalSearchParams } from 'expo-router';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View, RefreshControl } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AppHeader } from '@/components/viaway/AppHeader';
+import { TripScreenHeader } from '@/components/viaway/TripScreenHeader';
 import { ScreenState } from '@/components/viaway/ScreenState';
 import { SectionCard } from '@/components/viaway/SectionCard';
 import { listAtividades, listDias } from '@/lib/viaway-api';
@@ -31,7 +31,7 @@ export default function ItinerarioViagemScreen() {
   });
   return (
     <View style={styles.root}>
-      <AppHeader left="back" showAvatar={false} title="Itinerário" />
+      <TripScreenHeader title="Itinerário" />
       {diasQ.isLoading ? (
         <ScreenState kind="loading" title="Carregando itinerário..." />
       ) : (
@@ -48,6 +48,7 @@ export default function ItinerarioViagemScreen() {
                   void qClient.invalidateQueries({ queryKey: ['dias', id] });
                 }
               }}
+              tintColor={ViaColors.navy}
             />
           }>
           {diasQ.isError && (

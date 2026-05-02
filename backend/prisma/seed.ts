@@ -3,20 +3,17 @@ import { PrismaClient, Plano, StatusViagem } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const clerkId = process.env.DEV_CLERK_ID ?? "user_dev_1";
   const email = process.env.DEV_USER_EMAIL ?? "dev@viaway.local";
   const nome = process.env.DEV_USER_NOME ?? "Dev Local";
 
   const usuario = await prisma.usuario.upsert({
-    where: { clerkId },
+    where: { email },
     create: {
-      clerkId,
       email,
       nome,
       plano: Plano.free,
     },
     update: {
-      email,
       nome,
       ultimoAcesso: new Date(),
     },
@@ -73,7 +70,7 @@ async function main() {
 
   console.log("Seed concluido.", {
     usuarioId: usuario.id,
-    clerkId,
+    email,
     totalViagens,
   });
 }

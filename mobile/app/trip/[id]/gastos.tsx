@@ -13,7 +13,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AppHeader } from '@/components/viaway/AppHeader';
+import { TripScreenHeader } from '@/components/viaway/TripScreenHeader';
 import { ScreenState } from '@/components/viaway/ScreenState';
 import { SectionCard } from '@/components/viaway/SectionCard';
 import {
@@ -176,7 +176,7 @@ export default function GastosViagemScreen() {
 
   return (
     <View style={styles.root}>
-      <AppHeader left="back" showAvatar={false} title="Gastos" />
+      <TripScreenHeader title="Gastos" />
       {list.isLoading ? (
         <ScreenState kind="loading" title="Carregando gastos..." />
       ) : (
