@@ -5,7 +5,7 @@ import { ViaColors } from '@/constants/viaway-theme';
 import { getBootState } from '@/lib/session';
 
 /**
- * Ponto de entrada: onboarding → autenticação → perfil de viagem (register-intent) → abas.
+ * Ponto de entrada: onboarding → autenticação → abas (ou assistente register-intent só se não houver sessão nem perfil salvo).
  */
 export default function AppEntry() {
   const router = useRouter();

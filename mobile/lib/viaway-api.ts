@@ -14,6 +14,7 @@ export type AuthResponse = {
     id: string;
     nome: string;
     email: string;
+    telefone?: string | null;
     plano: string;
     fotoUrl?: string | null;
   };
@@ -25,10 +26,13 @@ export type UsuarioResponse = {
   id: string;
   nome: string;
   email: string;
+  telefone?: string | null;
   fotoUrl?: string | null;
   plano: string;
   proExpiraEm?: string | null;
-  criadoEm: string;
+  criadoEm?: string;
+  accessToken?: string;
+  refreshToken?: string;
 };
 
 export async function cadastro(nome: string, email: string, senha: string) {
@@ -60,8 +64,16 @@ export async function getMe() {
   return r.data;
 }
 
-export async function updateMe(body: { nome?: string; fotoUrl?: string | null }) {
-  const r = await apiPut<typeof body, { data: UsuarioResponse }>('/auth/me', body);
+export type UpdateMeBody = {
+  nome?: string;
+  fotoUrl?: string | null;
+  telefone?: string | null;
+  email?: string;
+  senhaAtual?: string;
+};
+
+export async function updateMe(body: UpdateMeBody) {
+  const r = await apiPut<UpdateMeBody, { data: UsuarioResponse }>('/auth/me', body);
   return r.data;
 }
 
@@ -387,4 +399,8 @@ export function toggleChecklist(id: string, concluido: boolean) {
   return apiPatch<{ concluido: boolean }, { data: ChecklistJson }>(`/checklists/${id}/toggle`, {
     concluido,
   }).then((r) => r.data);
+}
+
+export function deleteChecklistItem(id: string) {
+  return apiDelete(`/checklists/${id}`);
 }

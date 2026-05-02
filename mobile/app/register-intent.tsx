@@ -34,7 +34,7 @@ import {
   setAuthDone,
   type ViawayProfile,
 } from '@/lib/session';
-import { cadastro } from '@/lib/viaway-api';
+import { cadastro, updateMe } from '@/lib/viaway-api';
 
 type Opt<T extends string> = { id: T; label: string };
 
@@ -446,7 +446,23 @@ export default function RegisterIntentScreen() {
   async function persistRegistration(): Promise<void> {
     const result = await cadastro(nome.trim(), email.trim(), senha);
     await saveTokens(result.accessToken, result.refreshToken);
-    await saveUserData(result.usuario);
+    let usuarioApi = result.usuario;
+    if (telefone.replace(/\D/g, '').length >= 10) {
+      try {
+        const u = await updateMe({ telefone: telefone.trim() });
+        usuarioApi = {
+          id: u.id,
+          nome: u.nome,
+          email: u.email,
+          plano: u.plano,
+          fotoUrl: u.fotoUrl,
+          telefone: u.telefone ?? null,
+        };
+      } catch {
+        /* telefone opcional no primeiro sync */
+      }
+    }
+    await saveUserData(usuarioApi);
     await saveLocalPassword(senha);
     await saveProfile({
       nome: nome.trim(), email: email.trim(), telefone: telefone.trim(),

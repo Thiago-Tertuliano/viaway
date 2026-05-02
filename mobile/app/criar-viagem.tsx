@@ -3,7 +3,18 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import type { Dispatch, SetStateAction } from 'react';
 import { useEffect, useId, useMemo, useState } from 'react';
-import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import { AppHeader } from '@/components/viaway/AppHeader';
 import { SectionCard } from '@/components/viaway/SectionCard';
 import { ApiException } from '@/lib/api-client';
@@ -45,6 +56,18 @@ function normalizeText(v: string) {
 }
 
 type ExpenseItem = { nome: string; valor: number };
+
+function toIsoLocal(d: Date) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function fmtPickDate(d: Date | null) {
+  if (!d) return null;
+  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+}
 
 export default function CriarViagemScreen() {
   const router = useRouter();
@@ -92,6 +115,10 @@ export default function CriarViagemScreen() {
   const [destinoLoading, setDestinoLoading] = useState(false);
   const [destinoOptions, setDestinoOptions] = useState<DestinationOption[]>([]);
   const [err, setErr] = useState<string | null>(null);
+  const [dataIda, setDataIda] = useState<Date | null>(null);
+  const [dataVolta, setDataVolta] = useState<Date | null>(null);
+  const [showIdaPicker, setShowIdaPicker] = useState(false);
+  const [showVoltaPicker, setShowVoltaPicker] = useState(false);
   const idN = useId();
 
   useEffect(() => {
@@ -325,6 +352,8 @@ export default function CriarViagemScreen() {
         nome: nome.trim() || 'Viagem',
         destinoPrincipal,
         destinosSecundarios: [],
+        dataIda: dataIda ? toIsoLocal(dataIda) : null,
+        dataVolta: dataVolta ? toIsoLocal(dataVolta) : null,
         orcamentoTotal: totalEstimadoViagem > 0 ? totalEstimadoViagem : null,
         planejamentoGastos,
         notas: [
@@ -449,6 +478,67 @@ export default function CriarViagemScreen() {
             <Text style={styles.hint}>
               Seu destino conecta itinerario, lugares, gastos e cotacoes automaticamente.
             </Text>
+          </View>
+
+          <View style={styles.field}>
+            <Text style={styles.label} nativeID={`${idN}-datas`}>
+              Datas da viagem (opcional)
+            </Text>
+            <View style={styles.dateRow}>
+              <Pressable
+                onPress={() => setShowIdaPicker(true)}
+                style={({ pressed }) => [styles.dateBtn, pressed && { opacity: 0.88 }]}>
+                <MaterialIcons name="flight-takeoff" size={18} color={ViaColors.navy} />
+                <View style={styles.dateBtnText}>
+                  <Text style={styles.dateBtnK}>Ida</Text>
+                  <Text style={styles.dateBtnV}>{fmtPickDate(dataIda) ?? 'A definir'}</Text>
+                </View>
+              </Pressable>
+              <Pressable
+                onPress={() => setShowVoltaPicker(true)}
+                style={({ pressed }) => [styles.dateBtn, pressed && { opacity: 0.88 }]}>
+                <MaterialIcons name="flight-land" size={18} color={ViaColors.navy} />
+                <View style={styles.dateBtnText}>
+                  <Text style={styles.dateBtnK}>Volta</Text>
+                  <Text style={styles.dateBtnV}>{fmtPickDate(dataVolta) ?? 'A definir'}</Text>
+                </View>
+              </Pressable>
+            </View>
+            <Text style={styles.hint}>Você pode ajustar depois no detalhe da viagem.</Text>
+            {showIdaPicker ? (
+              <DateTimePicker
+                value={dataIda ?? new Date()}
+                mode="date"
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                onChange={(ev, selected) => {
+                  if (Platform.OS === 'android') setShowIdaPicker(false);
+                  if (ev?.type === 'dismissed') return;
+                  if (selected) setDataIda(selected);
+                }}
+              />
+            ) : null}
+            {showVoltaPicker ? (
+              <DateTimePicker
+                value={dataVolta ?? dataIda ?? new Date()}
+                mode="date"
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                onChange={(ev, selected) => {
+                  if (Platform.OS === 'android') setShowVoltaPicker(false);
+                  if (ev?.type === 'dismissed') return;
+                  if (selected) setDataVolta(selected);
+                }}
+              />
+            ) : null}
+            {Platform.OS === 'ios' && (showIdaPicker || showVoltaPicker) ? (
+              <Pressable
+                onPress={() => {
+                  setShowIdaPicker(false);
+                  setShowVoltaPicker(false);
+                }}
+                style={styles.dateCloseIos}>
+                <Text style={styles.dateCloseIosTxt}>Fechar calendário</Text>
+              </Pressable>
+            ) : null}
           </View>
           </SectionCard>
         )}
@@ -1040,6 +1130,31 @@ const styles = StyleSheet.create({
   suggestItem: { paddingHorizontal: 12, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: 'rgba(226,209,179,0.25)' },
   suggestText: { fontFamily: ViaFonts.body, fontSize: 14, color: ViaColors.onSurface },
   hint: { ...textBodySm, color: ViaColors.onSurfaceVariant, fontSize: 12, lineHeight: 18 },
+  dateRow: { flexDirection: 'row', gap: 10, marginTop: 6 },
+  dateBtn: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(203,213,225,0.95)',
+    backgroundColor: '#EEF2F6',
+  },
+  dateBtnText: { flex: 1, minWidth: 0 },
+  dateBtnK: { ...textBodySm, fontSize: 11, color: ViaColors.outline, marginBottom: 2 },
+  dateBtnV: { fontFamily: ViaFonts.bodySemi, fontSize: 14, color: ViaColors.navy },
+  dateCloseIos: {
+    marginTop: 10,
+    alignSelf: 'flex-start',
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 999,
+    backgroundColor: ViaColors.navy,
+  },
+  dateCloseIosTxt: { fontFamily: ViaFonts.bodySemi, fontSize: 13, color: '#fff' },
   chipsRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 10, marginBottom: 12 },
   r2: { flexDirection: 'row', gap: 10, alignItems: 'center', marginBottom: 8 },
   chip: {

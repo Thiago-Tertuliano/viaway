@@ -1,8 +1,9 @@
 import { Image } from 'expo-image';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Alert,
   ActivityIndicator,
@@ -20,14 +21,17 @@ import Svg, { Defs, LinearGradient as SvgGrad, Path, Rect, Stop } from 'react-na
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ApiException } from '@/lib/api-client';
 import { deleteViagem, listViagens, type ViagemJson } from '@/lib/viaway-api';
-import { getProfile } from '@/lib/session';
+import {
+  getInboxUnreadCount,
+  getProfile,
+  getUserData,
+  seedInboxIfEmpty,
+} from '@/lib/session';
 import { ViaColors, ViaFonts, ViaShadows, ViaSpacing } from '@/constants/viaway-theme';
 
 const { width: W } = Dimensions.get('window');
 const FEATURED_H = Math.round(W * 0.56);
 const CARD_W = Math.round(W * 0.4);
-
-const AVATAR = 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop';
 
 const FALLBACK_IMAGES = [
   'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=85&auto=format&fit=crop',
@@ -49,7 +53,7 @@ const ACTIONS = [
   { icon: 'add-circle-outline',      label: 'Nova Viagem', bg: ViaColors.navy,  fg: '#FFFFFF',           route: '/criar-viagem' },
   { icon: 'checklist',               label: 'Checklist',   bg: '#E8F5EE',       fg: '#1B6B44',           route: null },
   { icon: 'account-balance-wallet',  label: 'Gastos',      bg: '#EBF0FB',       fg: '#2851A3',           route: null },
-  { icon: 'compare-arrows',          label: 'Cotações',    bg: '#FDF4E7',       fg: ViaColors.secondary, route: null },
+  { icon: 'currency-exchange',     label: 'Câmbio',      bg: '#FDF4E7',       fg: ViaColors.secondary, route: null },
 ] as const;
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
@@ -77,6 +81,12 @@ function statusColor(s: string) {
   return '#6B7280';
 }
 
+function initialsFromNome(nome: string) {
+  const p = nome.trim().split(/\s+/).filter(Boolean);
+  if (p.length === 0) return '?';
+  if (p.length === 1) return p[0]!.slice(0, 2).toUpperCase();
+  return `${p[0]![0] ?? ''}${p[p.length - 1]![0] ?? ''}`.toUpperCase();
+}
 
 // ─── component ────────────────────────────────────────────────────────────────
 export default function InicioScreen() {
@@ -87,12 +97,36 @@ export default function InicioScreen() {
   const slideAnim = useRef(new Animated.Value(16)).current;
 
   const [firstName, setFirstName] = useState('');
+  const [userFotoUrl, setUserFotoUrl] = useState<string | null>(null);
+  const [headerNome, setHeaderNome] = useState('');
   const [pinnedIds, setPinnedIds] = useState<string[]>([]);
+  const [inboxUnread, setInboxUnread] = useState(0);
+
+  const loadUserHeader = useCallback(async () => {
+    const [p, u] = await Promise.all([getProfile(), getUserData()]);
+    const nome = (u?.nome || p?.nome || '').trim();
+    setHeaderNome(nome);
+    if (nome) {
+      setFirstName(nome.split(/\s+/)[0] ?? 'Viajante');
+    } else {
+      setFirstName('');
+    }
+    setUserFotoUrl(u?.fotoUrl ?? null);
+  }, []);
+
+  const refreshInboxBadge = useCallback(async () => {
+    await seedInboxIfEmpty();
+    setInboxUnread(await getInboxUnreadCount());
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      void loadUserHeader();
+      void refreshInboxBadge();
+    }, [loadUserHeader, refreshInboxBadge]),
+  );
 
   useEffect(() => {
-    getProfile().then((p) => {
-      if (p?.nome) setFirstName(p.nome.split(' ')[0]);
-    });
     Animated.parallel([
       Animated.timing(fadeAnim, { toValue: 1, duration: 500, useNativeDriver: true }),
       Animated.timing(slideAnim, { toValue: 0, duration: 500, useNativeDriver: true }),
@@ -112,7 +146,6 @@ export default function InicioScreen() {
     const others = restBase.filter((v) => !pinnedIds.includes(v.id));
     return [...pinned, ...others];
   }, [pinnedIds, restBase]);
-  const tripForQuickAccess = featured ?? rows[0] ?? null;
 
   function togglePinTrip(id: string) {
     setPinnedIds((prev) => {
@@ -148,16 +181,12 @@ export default function InicioScreen() {
       router.push('/(tabs)/gastos');
       return;
     }
-    if (!tripForQuickAccess) {
-      router.push('/criar-viagem');
-      return;
-    }
-    if (label === 'Cotações') {
-      router.push({ pathname: '/trip/[id]/cotacoes', params: { id: tripForQuickAccess.id } });
+    if (label === 'Câmbio') {
+      router.push('/cambio');
       return;
     }
     if (label === 'Checklist') {
-      router.push({ pathname: '/trip/[id]/checklist', params: { id: tripForQuickAccess.id } });
+      router.push('/checklist-hub');
       return;
     }
   }
@@ -215,12 +244,24 @@ export default function InicioScreen() {
             <Animated.View style={[s.topBar, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
               <Text style={s.brandName}>Viaway</Text>
               <View style={s.topBarRight}>
-                <Pressable style={({ pressed }) => [s.topBtn, pressed && s.pressed]}>
+                <Pressable
+                  onPress={() => router.push('/notifications-inbox')}
+                  style={({ pressed }) => [s.topBtn, pressed && s.pressed]}>
                   <MaterialIcons name="notifications-none" size={22} color="rgba(255,255,255,0.8)" />
-                  <View style={s.notifBadge} />
+                  {inboxUnread > 0 ? <View style={s.notifBadge} /> : null}
                 </Pressable>
-                <Pressable style={({ pressed }) => [s.avatarRing, pressed && s.pressed]}>
-                  <Image source={{ uri: AVATAR }} style={s.avatar} contentFit="cover" />
+                <Pressable
+                  onPress={() => router.push('/(tabs)/profile')}
+                  style={({ pressed }) => [s.avatarRing, pressed && s.pressed]}>
+                  {userFotoUrl ? (
+                    <Image source={{ uri: userFotoUrl }} style={s.avatar} contentFit="cover" />
+                  ) : (
+                    <View style={[s.avatar, s.avatarInitials]}>
+                      <Text style={s.avatarInitialsTxt}>
+                        {initialsFromNome(headerNome || firstName || 'Viajante')}
+                      </Text>
+                    </View>
+                  )}
                 </Pressable>
               </View>
             </Animated.View>
@@ -266,23 +307,36 @@ export default function InicioScreen() {
           <View style={s.section}>
             <Text style={s.sectionTitle}>Acesso rápido</Text>
             <View style={s.actionsRow}>
-              {ACTIONS.map((a) => (
-                <Pressable
-                  key={a.label}
-                  onPress={() => handleQuickAction(a.label, a.route)}
-                  style={({ pressed }) => [
-                    s.actionBtn,
-                    { backgroundColor: a.bg },
-                    pressed && { opacity: 0.82, transform: [{ scale: 0.96 }] },
-                  ]}>
-                  <View style={[s.actionIcon, { backgroundColor: a.fg + '1A' }]}>
-                    <MaterialIcons name={a.icon as any} size={20} color={a.bg === ViaColors.navy ? '#FFFFFF' : a.fg} />
-                  </View>
-                  <Text style={[s.actionLabel, { color: a.bg === ViaColors.navy ? '#FFFFFF' : a.fg }]} numberOfLines={2}>
-                    {a.label}
-                  </Text>
-                </Pressable>
-              ))}
+              {ACTIONS.map((a) => {
+                const navyCard = a.bg === ViaColors.navy;
+                return (
+                  <Pressable
+                    key={a.label}
+                    onPress={() => handleQuickAction(a.label, a.route)}
+                    style={({ pressed }) => [
+                      s.actionBtn,
+                      { backgroundColor: a.bg },
+                      pressed && { opacity: 0.82, transform: [{ scale: 0.96 }] },
+                    ]}>
+                    <View
+                      style={[
+                        s.actionIcon,
+                        { backgroundColor: navyCard ? 'rgba(255,255,255,0.15)' : a.fg + '1A' },
+                      ]}>
+                      <MaterialIcons
+                        name={a.icon as any}
+                        size={20}
+                        color={navyCard ? '#FFFFFF' : a.fg}
+                      />
+                    </View>
+                    <Text
+                      style={[s.actionLabel, { color: navyCard ? '#FFFFFF' : a.fg }]}
+                      numberOfLines={2}>
+                      {a.label}
+                    </Text>
+                  </Pressable>
+                );
+              })}
             </View>
           </View>
 
@@ -538,6 +592,17 @@ const s = StyleSheet.create({
     borderColor: ViaColors.sand,
   },
   avatar: { width: '100%', height: '100%' },
+  avatarInitials: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  avatarInitialsTxt: {
+    fontFamily: ViaFonts.bodySemi,
+    fontSize: 13,
+    color: '#FFFFFF',
+    letterSpacing: 0.2,
+  },
 
   // tagline
   tagline: {

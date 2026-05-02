@@ -12,6 +12,7 @@ model Usuario {
   clerkId      String?   @unique
   nome         String
   email        String    @unique
+  telefone     String?
   fotoUrl      String?
   plano        Plano     @default(free)
   proExpiraEm  DateTime?

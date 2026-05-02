@@ -13,7 +13,6 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AppHeader } from '@/components/viaway/AppHeader';
 import { ProgressBarCoral } from '@/components/viaway/ProgressBarCoral';
 import { ApiException } from '@/lib/api-client';
 import { formatBrl, formatViagemDatas } from '@/lib/format';
@@ -43,6 +42,15 @@ import {
 
 const HERO_DEFAULT =
   'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=400&fit=crop';
+
+function atividadeTipoIcon(tipo: string): keyof typeof MaterialIcons.glyphMap {
+  const t = tipo.toLowerCase();
+  if (t === 'refeicao') return 'restaurant';
+  if (t === 'transporte') return 'directions-car';
+  if (t === 'hospedagem') return 'hotel';
+  if (t === 'livre') return 'wb-sunny';
+  return 'local-activity';
+}
 
 function useTripHubData(viagemId: string) {
   const qClient = useQueryClient();
@@ -116,7 +124,7 @@ export default function TripHubScreen() {
   const progress = orc > 0 ? Math.min(1, comprometido / orc) : 0;
   const pct = orc > 0 ? Math.round((comprometido / orc) * 100) : 0;
 
-  const [lugN, cotN, gasN, chkN, diaN] = metas.data ?? [0, 0, 0, 0, 0];
+  const [lugN, , gasN, chkN, diaN] = metas.data ?? [0, 0, 0, 0, 0];
 
   if (!id) {
     return null;
@@ -125,7 +133,9 @@ export default function TripHubScreen() {
   if (loading) {
     return (
       <View style={styles.center}>
-        <AppHeader left="back" showAvatar={false} />
+        <Pressable onPress={() => router.back()} style={styles.loadingBack}>
+          <MaterialIcons name="arrow-back" size={24} color={ViaColors.navy} />
+        </Pressable>
         <ActivityIndicator size="large" color={ViaColors.coral} />
         <Text style={styles.muted}>Carregando viagem…</Text>
       </View>
@@ -135,7 +145,9 @@ export default function TripHubScreen() {
   if (err && err instanceof ApiException) {
     return (
       <View style={styles.center}>
-        <AppHeader left="back" showAvatar={false} />
+        <Pressable onPress={() => router.back()} style={styles.loadingBack}>
+          <MaterialIcons name="arrow-back" size={24} color={ViaColors.navy} />
+        </Pressable>
         <MaterialIcons name="error-outline" size={48} color="#ba1a1a" />
         <Text style={styles.err}>{err.message}</Text>
         <Text style={styles.muted}>
@@ -158,7 +170,6 @@ export default function TripHubScreen() {
 
   return (
     <View style={styles.root}>
-      <AppHeader left="back" showAvatar={false} title="ViaWay" />
       <ScrollView
         contentContainerStyle={[
           styles.scroll,
@@ -175,15 +186,15 @@ export default function TripHubScreen() {
         <View style={styles.heroWrap}>
           <Image source={{ uri: capa }} style={styles.heroImg} contentFit="cover" />
           <View style={styles.heroGrad} />
+          <View style={[styles.heroTopBar, { paddingTop: insets.top + 10 }]}>
+            <Pressable onPress={() => router.back()} style={styles.heroIconBtn} hitSlop={12}>
+              <MaterialIcons name="arrow-back" size={22} color="#fff" />
+            </Pressable>
+          </View>
           <View style={styles.heroText}>
-            <Text style={styles.badge}>Sua viagem</Text>
             <Text style={styles.h1}>{v.nome}</Text>
             <View style={styles.rowDate}>
-              <MaterialIcons
-                name="calendar-month"
-                size={16}
-                color="rgba(255,255,255,0.95)"
-              />
+              <MaterialIcons name="calendar-today" size={18} color="rgba(255,255,255,0.95)" />
               <Text style={styles.date}>{range}</Text>
             </View>
             <Text style={styles.subDest}>{v.destinoPrincipal}</Text>
@@ -192,11 +203,18 @@ export default function TripHubScreen() {
 
         <View style={styles.padded}>
           <View style={styles.card}>
-            <View style={styles.cardHead}>
-              <View>
-                <Text style={styles.kicker}>Próxima atividade</Text>
-                {nextAtividade ? (
-                  <>
+            <View style={styles.nextActRow}>
+              {nextAtividade ? (
+                <>
+                  <View style={styles.nextActIconRing}>
+                    <MaterialIcons
+                      name={atividadeTipoIcon(nextAtividade.tipo)}
+                      size={22}
+                      color={ViaColors.coral}
+                    />
+                  </View>
+                  <View style={styles.nextActBody}>
+                    <Text style={styles.kicker}>Próxima atividade</Text>
                     <Text style={styles.h3}>{nextAtividade.nome}</Text>
                     <View style={styles.metaRow}>
                       {nextAtividade.horarioInicio != null && (
@@ -210,16 +228,14 @@ export default function TripHubScreen() {
                         </View>
                       )}
                     </View>
-                  </>
-                ) : (
+                  </View>
+                </>
+              ) : (
+                <View style={styles.nextActBody}>
+                  <Text style={styles.kicker}>Próxima atividade</Text>
                   <Text style={styles.mutedB}>Nada no itinerário ainda. Adicione um dia e atividades.</Text>
-                )}
-              </View>
-              <MaterialIcons
-                name="event"
-                size={28}
-                color={ViaColors.coral}
-              />
+                </View>
+              )}
             </View>
           </View>
 
@@ -289,10 +305,10 @@ export default function TripHubScreen() {
               </Pressable>
               <Pressable
                 style={({ pressed }) => [styles.tileSmall, pressed && { opacity: 0.95 }]}
-                onPress={() => router.push({ pathname: '/trip/[id]/cotacoes', params: { id } })}>
-                <MaterialIcons name="receipt-long" size={24} color={ViaColors.secondary} />
-                <Text style={styles.tileHSm}>Cotações</Text>
-                <Text style={styles.tileMeta}>{cotN} cotações</Text>
+                onPress={() => router.push('/cambio')}>
+                <MaterialIcons name="currency-exchange" size={24} color={ViaColors.secondary} />
+                <Text style={styles.tileHSm}>Câmbio</Text>
+                <Text style={styles.tileMeta}>Calculadora e taxas</Text>
               </Pressable>
             </View>
 
@@ -320,6 +336,7 @@ export default function TripHubScreen() {
 }
 
 const styles = StyleSheet.create({
+  loadingBack: { position: 'absolute', top: 48, left: 16, zIndex: 2, padding: 8 },
   center: { flex: 1, backgroundColor: ViaColors.background, justifyContent: 'center', alignItems: 'center', padding: ViaSpacing.margin, gap: ViaSpacing.md },
   muted: { fontFamily: ViaFonts.body, fontSize: 14, color: ViaColors.onSurfaceVariant, textAlign: 'center' },
   mutedB: { ...textBody, fontSize: 14, color: ViaColors.onSurfaceVariant, marginTop: ViaSpacing.md },
@@ -329,7 +346,7 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: ViaColors.background },
   scroll: { paddingBottom: ViaSpacing.lg },
   heroWrap: {
-    height: 256,
+    height: 300,
     width: '100%',
     borderBottomLeftRadius: ViaRadius.lg,
     borderBottomRightRadius: ViaRadius.lg,
@@ -337,10 +354,32 @@ const styles = StyleSheet.create({
     ...ViaShadows.level1,
   },
   heroImg: { ...StyleSheet.absoluteFillObject },
-  heroGrad: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(15,23,42,0.4)' },
-  heroText: { position: 'absolute', left: 0, right: 0, bottom: 0, padding: ViaSpacing.margin },
-  badge: { ...textLabel, color: 'rgba(255,255,255,0.85)', marginBottom: ViaSpacing.xs },
-  h1: { ...textH1, color: ViaColors.onPrimary, marginBottom: ViaSpacing.xs },
+  heroGrad: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(15,23,42,0.45)' },
+  heroTopBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingHorizontal: ViaSpacing.margin,
+    paddingBottom: 8,
+    zIndex: 2,
+  },
+  heroIconBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(0,0,0,0.25)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  heroText: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    padding: ViaSpacing.margin,
+    paddingTop: 56,
+  },
+  h1: { ...textH1, color: ViaColors.onPrimary, marginBottom: ViaSpacing.sm },
   subDest: { fontFamily: textBody.fontFamily, fontSize: 14, color: 'rgba(255,255,255,0.9)', marginTop: 4 },
   rowDate: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   date: { fontFamily: textBody.fontFamily, fontSize: 16, lineHeight: 24, color: 'rgba(255,255,255,0.9)' },
@@ -351,7 +390,20 @@ const styles = StyleSheet.create({
     padding: ViaSpacing.md,
     ...ViaShadows.level1,
   },
-  cardHead: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: ViaSpacing.sm },
+  nextActRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: ViaSpacing.md,
+  },
+  nextActIconRing: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(244,113,82,0.14)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  nextActBody: { flex: 1, minWidth: 0 },
   kicker: { ...textLabel, color: ViaColors.outline, marginBottom: 4 },
   h3: { ...textH3, color: ViaColors.onSurface },
   metaRow: { flexDirection: 'row', flexWrap: 'wrap', gap: ViaSpacing.lg, marginTop: 4 },

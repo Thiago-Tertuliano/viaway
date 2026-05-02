@@ -44,7 +44,7 @@ const MENU_ROWS: Array<{
   {
     icon: 'notifications-none',
     label: 'Notificações',
-    subtitle: 'Alertas e lembretes (em breve)',
+    subtitle: 'Lembretes de viagem, checklist e novidades',
     action: 'notifications',
   },
   {
@@ -191,7 +191,7 @@ export default function PerfilScreen() {
 
   function onMenuRow(action: (typeof MENU_ROWS)[number]['action']) {
     if (action === 'notifications') {
-      Alert.alert('Em breve', 'Preferências de notificação serão configuradas aqui.');
+      router.push('/notifications-settings');
       return;
     }
     if (action === 'subscription') {
@@ -227,12 +227,14 @@ export default function PerfilScreen() {
       const dataUrl = await pickProfilePhotoDataUrl();
       if (!dataUrl) return;
       const updated = await updateMe({ fotoUrl: dataUrl });
+      const prevU = await getUserData();
       await saveUserData({
         id: updated.id,
         nome: updated.nome,
         email: updated.email,
         plano: updated.plano,
         fotoUrl: updated.fotoUrl,
+        telefone: updated.telefone ?? prevU?.telefone ?? null,
       });
       setUserApi({
         id: updated.id,
@@ -240,6 +242,7 @@ export default function PerfilScreen() {
         email: updated.email,
         plano: updated.plano,
         fotoUrl: updated.fotoUrl,
+        telefone: updated.telefone ?? prevU?.telefone ?? null,
       });
     } catch (e) {
       Alert.alert(
@@ -256,12 +259,14 @@ export default function PerfilScreen() {
     setPhotoBusy(true);
     try {
       const updated = await updateMe({ fotoUrl: null });
+      const prevU = await getUserData();
       await saveUserData({
         id: updated.id,
         nome: updated.nome,
         email: updated.email,
         plano: updated.plano,
         fotoUrl: updated.fotoUrl ?? null,
+        telefone: updated.telefone ?? prevU?.telefone ?? null,
       });
       setUserApi({
         id: updated.id,
@@ -269,6 +274,7 @@ export default function PerfilScreen() {
         email: updated.email,
         plano: updated.plano,
         fotoUrl: updated.fotoUrl ?? null,
+        telefone: updated.telefone ?? prevU?.telefone ?? null,
       });
     } catch (e) {
       Alert.alert(
@@ -306,7 +312,7 @@ export default function PerfilScreen() {
         contentContainerStyle={[styles.scroll, { paddingBottom: 100 + insets.bottom }]}>
         <View style={[styles.simpleHeader, { paddingTop: insets.top + 12 }]}>
           <Text style={styles.headerTitle}>Perfil</Text>
-          <Text style={styles.headerSub}>Conta e preferências de viagem</Text>
+          <Text style={styles.headerSub}>Sua conta ViaWay</Text>
         </View>
         <HeaderWave />
 
@@ -355,14 +361,14 @@ export default function PerfilScreen() {
                     <MaterialIcons name="luggage" size={22} color={ViaColors.navy} />
                     <View style={{ flex: 1 }}>
                       <Text style={styles.cardTitle}>Perfil de viagem</Text>
-                      <Text style={styles.cardSub}>Usado para sugestões e roteiros</Text>
+                      <Text style={styles.cardSub}>Como você definiu no cadastro neste aparelho</Text>
+                      <Pressable
+                        onPress={() => router.push('/account-settings')}
+                        style={({ pressed }) => [styles.editPill, styles.editPillSingle, pressed && { opacity: 0.88 }]}>
+                        <MaterialIcons name="manage-accounts" size={16} color={ViaColors.coral} />
+                        <Text style={styles.editPillTxt}>Conta e segurança</Text>
+                      </Pressable>
                     </View>
-                    <Pressable
-                      onPress={() => router.push('/register-intent')}
-                      style={({ pressed }) => [styles.editPill, pressed && { opacity: 0.88 }]}>
-                      <MaterialIcons name="edit" size={16} color={ViaColors.coral} />
-                      <Text style={styles.editPillTxt}>Atualizar</Text>
-                    </Pressable>
                   </View>
 
                   <View style={styles.locationBanner}>
@@ -395,16 +401,17 @@ export default function PerfilScreen() {
               ) : (
                 <SectionCard>
                   <View style={styles.emptyProfile}>
-                    <MaterialIcons name="person-add-alt-1" size={40} color={ViaColors.outline} />
-                    <Text style={styles.emptyTitle}>Complete seu perfil de viagem</Text>
+                    <MaterialIcons name="badge" size={36} color={ViaColors.navy} />
+                    <Text style={styles.emptyTitle}>Conta ativa</Text>
                     <Text style={styles.emptySub}>
-                      Responda algumas perguntas para personalizar itinerários e dicas.
+                      Os dados do assistente de viagem ficam salvos neste aparelho quando você usa o cadastro
+                      completo. Para nome, e-mail, telefone e senha, use Conta e segurança.
                     </Text>
                     <Pressable
-                      onPress={() => router.push('/register-intent')}
+                      onPress={() => router.push('/account-settings')}
                       style={({ pressed }) => [styles.primaryBtn, pressed && { opacity: 0.9 }]}>
-                      <Text style={styles.primaryBtnTxt}>Configurar agora</Text>
-                      <MaterialIcons name="arrow-forward" size={18} color="#fff" />
+                      <MaterialIcons name="manage-accounts" size={18} color="#fff" />
+                      <Text style={styles.primaryBtnTxt}>Conta e segurança</Text>
                     </Pressable>
                   </View>
                 </SectionCard>
@@ -524,7 +531,7 @@ const styles = StyleSheet.create({
   planChipTxt: { fontFamily: ViaFonts.bodySemi, fontSize: 12, color: ViaColors.onPrimary },
   cardHead: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: 12,
     marginBottom: ViaSpacing.md,
   },
@@ -541,6 +548,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(244,113,82,0.45)',
     backgroundColor: '#FFF7ED',
   },
+  editPillSingle: { marginTop: 10, alignSelf: 'flex-start' },
   editPillTxt: { fontFamily: ViaFonts.bodySemi, fontSize: 12, color: ViaColors.coral },
   locationBanner: {
     flexDirection: 'row',

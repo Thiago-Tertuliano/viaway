@@ -16,7 +16,7 @@ import Svg, { Defs, LinearGradient as SvgGrad, Path, Rect, Stop } from 'react-na
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ViaColors, ViaFonts, ViaSpacing } from '@/constants/viaway-theme';
-import { getProfile, saveTokens, saveUserData, setAuthDone } from '@/lib/session';
+import { saveTokens, saveUserData, setAuthDone } from '@/lib/session';
 import { login } from '@/lib/viaway-api';
 
 const { height: SCREEN_H } = Dimensions.get('window');
@@ -55,11 +55,13 @@ export default function AuthScreen() {
 
       // Salvar tokens e dados do usuário
       await saveTokens(result.accessToken, result.refreshToken);
-      await saveUserData(result.usuario);
+      await saveUserData({
+        ...result.usuario,
+        telefone: result.usuario.telefone ?? null,
+      });
       await setAuthDone();
 
-      const perfilLocal = await getProfile();
-      router.replace(perfilLocal ? '/(tabs)' : '/register-intent');
+      router.replace('/(tabs)');
     } catch (err: any) {
       const message = err?.message || 'Erro ao fazer login. Tente novamente.';
       setError(message);

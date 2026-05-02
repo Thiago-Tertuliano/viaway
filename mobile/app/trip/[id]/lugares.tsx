@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AppHeader } from '@/components/viaway/AppHeader';
+import { TripScreenHeader } from '@/components/viaway/TripScreenHeader';
 import { ScreenState } from '@/components/viaway/ScreenState';
 import { SectionCard } from '@/components/viaway/SectionCard';
 import { ViaColors, ViaFonts, ViaRadius, ViaShadows, ViaSpacing, textBody, textBodySm, textH3 } from '@/constants/viaway-theme';
@@ -39,7 +39,7 @@ export default function LugaresViagemScreen() {
 
   return (
     <View style={styles.root}>
-      <AppHeader left="back" showAvatar={false} title="Lugares" />
+      <TripScreenHeader title="Lugares" />
       {q.isLoading ? (
         <ScreenState kind="loading" title="Carregando lugares..." />
       ) : (

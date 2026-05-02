@@ -63,6 +63,7 @@ const authRoutes: FastifyPluginAsync = async (app) => {
           id: usuario.id,
           nome: usuario.nome,
           email: usuario.email,
+          telefone: usuario.telefone,
           plano: usuario.plano,
           fotoUrl: usuario.fotoUrl,
         },
@@ -101,6 +102,7 @@ const authRoutes: FastifyPluginAsync = async (app) => {
         id: usuario.id,
         nome: usuario.nome,
         email: usuario.email,
+        telefone: usuario.telefone,
         plano: usuario.plano,
         fotoUrl: usuario.fotoUrl,
       },
@@ -149,6 +151,7 @@ const authRoutes: FastifyPluginAsync = async (app) => {
         id: true,
         nome: true,
         email: true,
+        telefone: true,
         fotoUrl: true,
         plano: true,
         proExpiraEm: true,
@@ -174,11 +177,27 @@ const authRoutes: FastifyPluginAsync = async (app) => {
       .object({
         nome: z.string().min(2).max(200).optional(),
         fotoUrl: z.union([z.string(), z.null()]).optional(),
+        telefone: z.union([z.string().max(32), z.literal(""), z.null()]).optional(),
+        email: z.string().email("Email inválido").optional(),
+        senhaAtual: z.string().optional(),
       })
       .safeParse(request.body);
 
     if (!body.success) {
       return sendError(reply, 400, "validation_error", "Dados inválidos.", body.error.flatten());
+    }
+
+    const atual = await prisma.usuario.findUnique({
+      where: { id: usuarioId },
+      select: {
+        id: true,
+        email: true,
+        tokenVersao: true,
+        senhaHash: true,
+      },
+    });
+    if (!atual) {
+      return sendError(reply, 404, "not_found", "Usuário não encontrado.");
     }
 
     let fotoUrl: string | null | undefined;
@@ -207,9 +226,65 @@ const authRoutes: FastifyPluginAsync = async (app) => {
       fotoUrl = normalized;
     }
 
-    const patch: { nome?: string; fotoUrl?: string | null } = {};
+    let novoEmail: string | undefined;
+    if (body.data.email !== undefined) {
+      novoEmail = body.data.email.trim().toLowerCase();
+      if (novoEmail !== atual.email.toLowerCase()) {
+        if (!body.data.senhaAtual?.length) {
+          return sendError(
+            reply,
+            400,
+            "password_required",
+            "Informe a senha atual para alterar o e-mail.",
+          );
+        }
+        if (!atual.senhaHash) {
+          return sendError(reply, 400, "no_password", "Conta sem senha definida.");
+        }
+        const ok = await bcrypt.compare(body.data.senhaAtual, atual.senhaHash);
+        if (!ok) {
+          return sendError(reply, 401, "invalid_password", "Senha atual incorreta.");
+        }
+        const taken = await prisma.usuario.findUnique({
+          where: { email: novoEmail },
+          select: { id: true },
+        });
+        if (taken) {
+          return sendError(reply, 409, "email_already_exists", "Este e-mail já está em uso.");
+        }
+      } else {
+        novoEmail = undefined;
+      }
+    }
+
+    const patch: {
+      nome?: string;
+      fotoUrl?: string | null;
+      telefone?: string | null;
+      email?: string;
+    } = {};
     if (body.data.nome !== undefined) patch.nome = body.data.nome;
     if (fotoUrl !== undefined) patch.fotoUrl = fotoUrl;
+    if (body.data.telefone !== undefined) {
+      const t = body.data.telefone;
+      patch.telefone = t === null || t === "" ? null : t.trim();
+    }
+    if (novoEmail !== undefined) patch.email = novoEmail;
+
+    if (Object.keys(patch).length === 0) {
+      const usuario = await prisma.usuario.findUnique({
+        where: { id: usuarioId },
+        select: {
+          id: true,
+          nome: true,
+          email: true,
+          telefone: true,
+          fotoUrl: true,
+          plano: true,
+        },
+      });
+      return sendData(reply, usuario!);
+    }
 
     const usuario = await prisma.usuario.update({
       where: { id: usuarioId },
@@ -218,12 +293,30 @@ const authRoutes: FastifyPluginAsync = async (app) => {
         id: true,
         nome: true,
         email: true,
+        telefone: true,
         fotoUrl: true,
         plano: true,
+        tokenVersao: true,
       },
     });
 
-    return sendData(reply, usuario);
+    let accessToken: string | undefined;
+    let refreshToken: string | undefined;
+    if (novoEmail !== undefined) {
+      const pair = issueTokenPair(
+        usuario.id,
+        usuario.email,
+        usuario.tokenVersao,
+      );
+      accessToken = pair.accessToken;
+      refreshToken = pair.refreshToken;
+    }
+
+    const { tokenVersao: _tv, ...rest } = usuario;
+    return sendData(reply, {
+      ...rest,
+      ...(accessToken && refreshToken ? { accessToken, refreshToken } : {}),
+    });
   });
 
   // ─── Alterar Senha ─────────────────────────────────────────────────────────
