@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   Animated,
   Dimensions,
   Easing,
@@ -25,7 +26,15 @@ import { SectionCard } from '@/components/viaway/SectionCard';
 import { ViaColors, ViaFonts, ViaSpacing, textBody, textH2 } from '@/constants/viaway-theme';
 import { brazilCityFlagUrls, brazilStateFlagUrl } from '@/lib/brasil-bandeiras';
 import { formatCep, lookupCep } from '@/lib/brasil-cep';
-import { saveLocalPassword, saveProfile, setAuthDone, type ViawayProfile } from '@/lib/session';
+import {
+  saveLocalPassword,
+  saveProfile,
+  saveTokens,
+  saveUserData,
+  setAuthDone,
+  type ViawayProfile,
+} from '@/lib/session';
+import { cadastro } from '@/lib/viaway-api';
 
 type Opt<T extends string> = { id: T; label: string };
 
@@ -356,6 +365,7 @@ export default function RegisterIntentScreen() {
   const [step, setStep] = useState(0);
   const [finishing, setFinishing] = useState(false);
   const [firstName, setFirstName] = useState('');
+  const [submittingRegister, setSubmittingRegister] = useState(false);
 
   // ── Finish animation refs ────────────────────────────────────────────────
   const progressBarRef = useRef<View>(null);
@@ -433,7 +443,10 @@ export default function RegisterIntentScreen() {
     }
   }
 
-  async function saveData() {
+  async function persistRegistration(): Promise<void> {
+    const result = await cadastro(nome.trim(), email.trim(), senha);
+    await saveTokens(result.accessToken, result.refreshToken);
+    await saveUserData(result.usuario);
     await saveLocalPassword(senha);
     await saveProfile({
       nome: nome.trim(), email: email.trim(), telefone: telefone.trim(),
@@ -445,10 +458,22 @@ export default function RegisterIntentScreen() {
     await setAuthDone();
   }
 
-  function handleFinish() {
-    if (!canNext) return;
+  async function handleFinish() {
+    if (!canNext || submittingRegister) return;
     setFirstName(nome.trim().split(' ')[0] ?? nome.trim());
     Keyboard.dismiss();
+
+    setSubmittingRegister(true);
+    try {
+      await persistRegistration();
+    } catch (err: unknown) {
+      const msg =
+        err instanceof Error ? err.message : 'Não foi possível criar a conta. Tente novamente.';
+      Alert.alert('Cadastro', msg);
+      setSubmittingRegister(false);
+      return;
+    }
+    setSubmittingRegister(false);
 
     progressBarRef.current?.measure((_fx, _fy, trackWidth, _h, pageX, pageY) => {
       // Posição inicial = avião no canto direito da barra (progresso 100%)
@@ -469,7 +494,6 @@ export default function RegisterIntentScreen() {
       successFade.setValue(0);
 
       setFinishing(true);
-      saveData(); // salva em background imediatamente
 
       const ND = false; // tudo sem native driver (position absoluta)
       Animated.sequence([
@@ -780,9 +804,10 @@ export default function RegisterIntentScreen() {
         ) : (
           <View style={styles.ctaWrap}>
             <PrimaryCtaButton
-              label="Finalizar e entrar"
+              label={submittingRegister ? 'Criando conta…' : 'Finalizar e entrar'}
               icon={null}
-              onPress={handleFinish}
+              onPress={() => void handleFinish()}
+              disabled={submittingRegister}
             />
           </View>
         )}

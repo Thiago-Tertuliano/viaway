@@ -65,8 +65,8 @@ export function MenuDrawer() {
             ))}
           </View>
           <Text style={styles.footer}>
-            O backend precisa de `DISABLE_AUTH=true` em dev ou Clerk configurado para a API
-            exigir JWT.
+            Em dev a API pode usar `DISABLE_AUTH=true`; em produção configure JWT (access + refresh)
+            no backend.
           </Text>
         </View>
       </View>

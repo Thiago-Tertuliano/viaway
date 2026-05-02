@@ -7,6 +7,72 @@ import {
   apiPut,
 } from './api-client';
 
+// --- Auth ---
+
+export type AuthResponse = {
+  usuario: {
+    id: string;
+    nome: string;
+    email: string;
+    plano: string;
+    fotoUrl?: string | null;
+  };
+  accessToken: string;
+  refreshToken: string;
+};
+
+export type UsuarioResponse = {
+  id: string;
+  nome: string;
+  email: string;
+  fotoUrl?: string | null;
+  plano: string;
+  proExpiraEm?: string | null;
+  criadoEm: string;
+};
+
+export async function cadastro(nome: string, email: string, senha: string) {
+  const r = await apiPost<{ nome: string; email: string; senha: string }, { data: AuthResponse }>(
+    '/auth/cadastro',
+    { nome, email, senha },
+  );
+  return r.data;
+}
+
+export async function login(email: string, senha: string) {
+  const r = await apiPost<{ email: string; senha: string }, { data: AuthResponse }>(
+    '/auth/login',
+    { email, senha },
+  );
+  return r.data;
+}
+
+export async function refreshAccessToken(refreshToken: string) {
+  const r = await apiPost<{ refreshToken: string }, { data: { accessToken: string; refreshToken: string } }>(
+    '/auth/refresh',
+    { refreshToken },
+  );
+  return r.data;
+}
+
+export async function getMe() {
+  const r = await apiGet<{ data: UsuarioResponse }>('/auth/me');
+  return r.data;
+}
+
+export async function updateMe(body: { nome?: string; fotoUrl?: string | null }) {
+  const r = await apiPut<typeof body, { data: UsuarioResponse }>('/auth/me', body);
+  return r.data;
+}
+
+export async function changePassword(senhaAtual: string, novaSenha: string) {
+  const r = await apiPut<
+    { senhaAtual: string; novaSenha: string },
+    { data: { message: string; accessToken?: string; refreshToken?: string } }
+  >('/auth/senha', { senhaAtual, novaSenha });
+  return r.data;
+}
+
 // --- Viagens ---
 
 export type CategoriaPlanejamentoGasto =

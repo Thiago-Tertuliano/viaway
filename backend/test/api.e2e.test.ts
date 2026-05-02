@@ -22,9 +22,8 @@ let checklistId = "";
 before(async () => {
   const { buildServer } = await import("../src/app.js");
   const usuario = await prisma.usuario.upsert({
-    where: { clerkId: process.env.DEV_CLERK_ID ?? "user_dev_1" },
+    where: { email: process.env.DEV_USER_EMAIL ?? "dev@viaway.local" },
     create: {
-      clerkId: process.env.DEV_CLERK_ID ?? "user_dev_1",
       email: process.env.DEV_USER_EMAIL ?? "dev@viaway.local",
       nome: process.env.DEV_USER_NOME ?? "Dev Local",
       plano: "pro",

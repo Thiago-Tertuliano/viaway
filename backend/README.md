@@ -29,6 +29,8 @@ DISABLE_AUTH=true
 NODE_ENV=development
 ```
 
+Com autenticação JWT ligada (`DISABLE_AUTH` ausente ou `false`), defina pelo menos `JWT_SECRET` e, em produção, `JWT_REFRESH_SECRET` (sempre diferente do access). Veja `.env.example`.
+
 3. Instale dependências:
 
 ```bash
@@ -70,4 +72,4 @@ npm run build
 npm start
 ```
 
-Use `CLERK_SECRET_KEY` e `CLERK_PUBLISHABLE_KEY`; **não** use `DISABLE_AUTH`.
+Defina `JWT_SECRET` (access) e `JWT_REFRESH_SECRET` (refresh, segredo distinto). **Não** use `DISABLE_AUTH` em produção.

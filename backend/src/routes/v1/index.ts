@@ -1,5 +1,6 @@
 import type { FastifyPluginAsync } from "fastify";
 import healthRoutes from "./health.js";
+import authRoutes from "./auth.js";
 import viagensRoutes from "./viagens.js";
 import itinerarioRoutes from "./itinerario.js";
 import lugaresRoutes from "./lugares.js";
@@ -9,6 +10,7 @@ import checklistsRoutes from "./checklists.js";
 
 const v1: FastifyPluginAsync = async (app) => {
   await app.register(healthRoutes);
+  await app.register(authRoutes, { prefix: "/auth" });
   await app.register(viagensRoutes, { prefix: "/viagens" });
   await app.register(itinerarioRoutes, { prefix: "/itinerario" });
   await app.register(lugaresRoutes, { prefix: "/lugares" });

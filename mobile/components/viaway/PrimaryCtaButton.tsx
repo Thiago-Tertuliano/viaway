@@ -6,16 +6,19 @@ type PrimaryCtaButtonProps = {
   label: string;
   icon?: keyof typeof MaterialIcons.glyphMap | null;
   onPress: () => void;
+  disabled?: boolean;
 };
 
-export function PrimaryCtaButton({ label, icon = 'add', onPress }: PrimaryCtaButtonProps) {
+export function PrimaryCtaButton({ label, icon = 'add', onPress, disabled }: PrimaryCtaButtonProps) {
   return (
     <Pressable
       onPress={onPress}
+      disabled={disabled}
       style={({ pressed }) => [
         styles.btn,
         ViaShadows.level1,
-        pressed && { opacity: 0.92, transform: [{ scale: 0.99 }] },
+        disabled && { opacity: 0.55 },
+        pressed && !disabled && { opacity: 0.92, transform: [{ scale: 0.99 }] },
       ]}>
       {icon != null ? (
         <View style={styles.row}>

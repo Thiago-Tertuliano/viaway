@@ -3,7 +3,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const K_ONBOARDING_DONE = 'viaway:onboarding:done';
 const K_AUTH_DONE = 'viaway:auth:done';
 const K_PROFILE = 'viaway:profile';
-/** Senha em texto (apenas para fluxo local/demo; produção usar backend + token). */
+const K_ACCESS_TOKEN = 'viaway:access_token';
+const K_REFRESH_TOKEN = 'viaway:refresh_token';
+const K_USER_DATA = 'viaway:user_data';
 const K_LOCAL_PASSWORD = 'viaway:local_password';
 const memoryStore = new Map<string, string>();
 
@@ -35,6 +37,14 @@ async function storageSet(key: string, value: string): Promise<void> {
       );
     }
     memoryStore.set(key, value);
+  }
+}
+
+async function storageRemove(key: string): Promise<void> {
+  try {
+    await AsyncStorage.removeItem(key);
+  } catch {
+    memoryStore.delete(key);
   }
 }
 
@@ -77,6 +87,59 @@ export function setOnboardingDone() {
 
 export function setAuthDone() {
   return storageSet(K_AUTH_DONE, '1');
+}
+
+// --- Token Management ---
+
+export async function getAccessToken(): Promise<string | null> {
+  return storageGet(K_ACCESS_TOKEN);
+}
+
+export async function getRefreshToken(): Promise<string | null> {
+  return storageGet(K_REFRESH_TOKEN);
+}
+
+export async function saveTokens(accessToken: string, refreshToken: string): Promise<void> {
+  await Promise.all([
+    storageSet(K_ACCESS_TOKEN, accessToken),
+    storageSet(K_REFRESH_TOKEN, refreshToken),
+  ]);
+}
+
+export async function clearTokens(): Promise<void> {
+  await Promise.all([
+    storageRemove(K_ACCESS_TOKEN),
+    storageRemove(K_REFRESH_TOKEN),
+    storageRemove(K_USER_DATA),
+  ]);
+}
+
+/** Encerra sessão da API e o flag local de autenticação (mantém onboarding e perfil de viagem). */
+export async function logoutSession(): Promise<void> {
+  await clearTokens();
+  await storageRemove(K_AUTH_DONE);
+}
+
+export type UserData = {
+  id: string;
+  nome: string;
+  email: string;
+  plano: string;
+  fotoUrl?: string | null;
+};
+
+export async function getUserData(): Promise<UserData | null> {
+  const raw = await storageGet(K_USER_DATA);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as UserData;
+  } catch {
+    return null;
+  }
+}
+
+export async function saveUserData(user: UserData): Promise<void> {
+  return storageSet(K_USER_DATA, JSON.stringify(user));
 }
 
 export function saveProfile(profile: ViawayProfile) {
